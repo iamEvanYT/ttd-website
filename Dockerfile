@@ -57,7 +57,7 @@ COPY --from=builder /app/public ./public
 RUN mkdir .next && chown nextjs:nodejs .next
 
 # Leverage Next.js output tracing to reduce image size by copying only necessary files
-COPY --from=builder --chown=nextjs:nodejs /app/.next/ ./.next/
+COPY --from=builder --chown=nextjs:nodejs /app .
 
 # Switch to the non-root user
 USER nextjs
@@ -70,4 +70,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Define the command to start the application using Node.js
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
