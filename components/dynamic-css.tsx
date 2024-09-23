@@ -26,5 +26,11 @@ export const DynamicCSS: React.FC<DynamicCSSProps> = ({ hrefs }) => {
     };
   }, [hrefs]);
 
-  return null; // This component doesn't render anything
+  return (
+    <noscript>
+      {Object.entries(hrefs).map(([_, href]) => (
+        <link key={href} rel="stylesheet" href={href} />
+      ))}
+    </noscript>
+  )
 };
