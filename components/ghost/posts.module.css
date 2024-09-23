@@ -1,0 +1,7 @@
+.post {
+    transition: all 0.3s ease;
+}
+
+.post:hover {
+    transform: translateY(-5px);
+}
