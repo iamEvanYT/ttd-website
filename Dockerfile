@@ -1,69 +1,73 @@
-FROM node:18-alpine AS base
+# Stage 1: Install Dependencies with Bun
+FROM oven/bun:latest AS deps
 
-# Install dependencies only when needed
-FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+# Set working directory
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  else npm install; \
-  fi
+# Copy dependency manifests
+COPY package.json bun.lockb ./
 
+# Install dependencies using Bun
+RUN bun install --frozen-lockfile
 
-# Rebuild the source code only when needed
-FROM base AS builder
+# Stage 2: Build the Application with Node.js
+FROM oven/bun:latest AS builder
+
+# Set working directory
 WORKDIR /app
+
+# Copy installed dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
+
+# Copy the rest of the application source code
 COPY . .
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
+# Optionally disable Next.js telemetry (uncomment if desired)
 # ENV NEXT_TELEMETRY_DISABLED=1
 
+# Build the application using Node.js based on the detected package manager
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  elif [ -f pnpm-lock.yaml ]; then pnpm run build; \
+  elif [ -f bun.lockb ]; then bun run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Production image, copy all the files and run next
-FROM base AS runner
+# Stage 3: Create Production Image with Node.js
+FROM node:18-alpine AS runner
+
+# Set working directory
 WORKDIR /app
 
+# Set environment to production
 ENV NODE_ENV=production
-# Uncomment the following line in case you want to disable telemetry during runtime.
+
+# Optionally disable Next.js telemetry during runtime (uncomment if desired)
 # ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Create a non-root user and group for running the application
+RUN addgroup --system --gid 1001 nodejs \
+    && adduser --system --uid 1001 nextjs
 
+# Copy public assets from the builder stage
 COPY --from=builder /app/public ./public
 
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+# Create and set permissions for the prerender cache directory
+RUN mkdir .next && chown nextjs:nodejs .next
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Leverage Next.js output tracing to reduce image size by copying only necessary files
+COPY --from=builder --chown=nextjs:nodejs /app/.next/ ./.next/
 
+# Switch to the non-root user
 USER nextjs
 
+# Expose the application port
 EXPOSE 3000
 
+# Set environment variables for the application
 ENV PORT=3000
-
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
-ENV PORT="3000"
+
+# Define the command to start the application using Node.js
 CMD ["node", "server.js"]
