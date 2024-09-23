@@ -2,6 +2,7 @@ import { getPosts, getSinglePost } from '@/lib/ghost-cms';
 import { PostOrPage } from '@tryghost/content-api';
 import { DynamicCSS } from '@/components/dynamic-css';
 import { GhostBlogPost } from '@/components/ghost/post';
+import { OPENGRAPH_SITE_NAME } from '@/configuration';
 
 type URLParams = {
   slug: string
@@ -39,9 +40,10 @@ export async function generateMetadata({ params } : { params: URLParams }) {
     openGraph: {
       title,
       description,
+      siteName: OPENGRAPH_SITE_NAME,
       type: 'article',
       publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: `${baseUrl}/post/${post.slug}`,
       images: [
         {
           url: feature_image,

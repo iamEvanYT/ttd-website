@@ -1,0 +1,1 @@
+export const OPENGRAPH_SITE_NAME = "Toilet Tower Defense"

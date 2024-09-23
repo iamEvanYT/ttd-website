@@ -3,10 +3,14 @@ import "./globals.css";
 import { Topbar } from "@/components/topbar";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { OPENGRAPH_SITE_NAME } from "@/configuration";
 
 export const metadata: Metadata = {
-  title: "Toilet Tower Defense",
+  title: "Home",
   description: "Website for Toilet Tower Defense!",
+  openGraph: {
+    siteName: OPENGRAPH_SITE_NAME
+  }
 };
 
 export default function RootLayout({

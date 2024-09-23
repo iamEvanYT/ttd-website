@@ -1,4 +1,14 @@
 import { Posts } from "@/components/ghost/posts";
+import { OPENGRAPH_SITE_NAME } from "@/configuration";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Dev Blog",
+    description: "Update blogs, notices, and more!",
+    openGraph: {
+        siteName: OPENGRAPH_SITE_NAME
+    }
+};
 
 export const revalidate = 60;
 

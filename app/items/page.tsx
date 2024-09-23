@@ -9,8 +9,18 @@ import {
 } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { Search } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+    title: "Item Index",
+    description: "Coming Soon!",
+    openGraph: {
+        siteName: OPENGRAPH_SITE_NAME
+    }
+};
 
 const DEBUG = false;
 
