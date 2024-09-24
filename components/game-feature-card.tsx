@@ -11,7 +11,7 @@ export function GameFeatureCard({
     children: React.ReactNode
 }) {
     return (
-        <Card className="card-hover">
+        <Card className="card-hover size-auto">
             <CardHeader>
                 {children}
                 <CardTitle>{title}</CardTitle>
