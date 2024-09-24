@@ -11,8 +11,7 @@ export default function Footer() {
 
         {/* Social Icons Section */}
         <ul className="flex space-x-4 text-neutral-600 dark:text-neutral-300">
-          {/* GitHub will be enabled when this site goes open source */}
-          {false && <li className="list-none">
+          <li className="list-none">
             <a
               className="flex items-center transition-colors text-neutral-50 hover:text-neutral-300"
               rel="noopener noreferrer"
@@ -22,7 +21,7 @@ export default function Footer() {
             >
               <SiGithub size={24} />
             </a>
-          </li>}
+          </li>
           <li className="list-none">
             <a
               className="flex items-center transition-colors text-neutral-50 hover:text-neutral-300"
