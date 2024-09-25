@@ -1,3 +1,4 @@
+import { DatabaseTopbar } from "@/components/database/topbar";
 import {
     Card,
     CardContent,
@@ -17,8 +18,9 @@ export const metadata: Metadata = {
     }
 };
 
-export default function ItemsPage() {
+export default function DatabaseHomePage() {
     return <>
+        <DatabaseTopbar />
         <div className="py-10">
             <h1 className="text-3xl font-bold tracking-tighter text-black lg:text-6xl/none text-center dark:text-white">
                 Database
