@@ -18,7 +18,7 @@ const faqData: FAQItem[] = [
   {
     question: "What do I do if I got hacked?",
     answer: `
-If someone random gain access to your Roblox Account, don't worry.
+If someone random gained access to your Roblox Account, don't worry.
 
 Here's a guide on how to stop the hackers from further accessing your account:
 

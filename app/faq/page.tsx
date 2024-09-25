@@ -10,11 +10,6 @@ export const metadata: Metadata = {
     }
 };
 
-interface FAQItem {
-    question: string;
-    answer: string;
-}
-
 export default function FAQPage() {
     return (
         <div className="flex flex-col min-h-screen text-white">
