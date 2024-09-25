@@ -11,8 +11,8 @@ const navItems = {
     name: 'Home',
     newTab: false,
   },
-  '/items': {
-    name: 'Items',
+  '/database': {
+    name: 'Database',
     newTab: false,
   },
   '/blog': {
@@ -22,6 +22,10 @@ const navItems = {
   '/game': {
     name: "Game",
     newTab: true,
+  },
+  '/faq': {
+    name: "FAQ",
+    newTab: false,
   },
   '/status': {
     name: "Status",
