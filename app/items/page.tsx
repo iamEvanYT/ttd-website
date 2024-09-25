@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     }
 };
 
-const DEBUG = false;
+const DEBUG = process.env.NODE_ENV === "development";
 
 const itemTypeOptions = [
     {

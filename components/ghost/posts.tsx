@@ -1,8 +1,13 @@
+import PostsCSS from "./posts.module.css";
 import { formatISODate, getPosts } from "@/lib/ghost-cms";
-import { PostOrPage } from "@tryghost/content-api";
+
 import Image from "next/image";
 import Link from "next/link";
-import PostsCSS from "./posts.module.css";
+
+import { Button } from "@/components/ui/button";
+
+import type { PostOrPage } from "@tryghost/content-api";
+
 
 function GiantPostCard({ post }: { post: PostOrPage }) {
   const postUrl = `/post/${post.slug}`;
@@ -27,12 +32,11 @@ function GiantPostCard({ post }: { post: PostOrPage }) {
                 {formatISODate(post.published_at ?? "")} · {post.reading_time} min read
               </p>
             </div>
-            <a
-              href={postUrl}
-              className="absolute text-blue-600 hover:text-blue-800 text-2xl font-semibold bottom-0 px-4 py-2 right-0"
+            <Button
+              className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4"
             >
-              {"> Read more"}
-            </a>
+              Read More
+            </Button>
           </div>
         </div>
       </div>
