@@ -9,18 +9,23 @@ import { ThemeToggle } from './ui/theme-toggle';
 const navItems = {
   '/': {
     name: 'Home',
+    newTab: false,
   },
   '/items': {
     name: 'Items',
+    newTab: false,
   },
   '/blog': {
     name: 'Blog',
+    newTab: false,
   },
   '/game': {
-    name: "Game"
+    name: "Game",
+    newTab: true,
   },
   '/status': {
-    name: "Status"
+    name: "Status",
+    newTab: false,
   }
 };
 
@@ -37,11 +42,12 @@ export function Topbar() {
           <span className="topbar-title font-bold text-white">Toilet Tower Defense</span>
         </Link>
         <nav className="ml-auto hidden sm:flex gap-4 sm:gap-6">
-          {Object.entries(navItems).map(([path, { name }]) => (
+          {Object.entries(navItems).map(([path, { name, newTab }]) => (
             <Link
               className="text-white font-medium hover:underline underline-offset-4"
               key={path}
               href={path}
+              target={newTab ? '_blank' : undefined}
             >
               {name}
             </Link>
