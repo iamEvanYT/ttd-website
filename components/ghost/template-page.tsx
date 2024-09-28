@@ -22,9 +22,10 @@ export function GhostTemplatePage({ page }: { page: PostOrPage }) {
                 '/ghost/css/screen.css',
                 '/ghost/css/cards.css'
             ]} />
-            <div className="gh-outer-canvas">
-                <div className="gh-canvas relative mx-auto py-10 px-5">
-                    <h1>{page.title}</h1>
+            
+            <div className="relative mx-auto py-10 px-5 site-content gh-canvas">
+                <header className="article-header">
+                    <h1 className="article-title pb-10">{page.title}</h1>
                     {page.primary_author && (
                         <>
                             <UserProfileCard
@@ -44,9 +45,10 @@ export function GhostTemplatePage({ page }: { page: PostOrPage }) {
                             className="pb-10"
                         />
                     )}
-                    <br />
-                    <div>{parse(page.html || "")}</div>
-                </div>
+                </header>
+                <section className="gh-content">
+                    {parse(page.html || "")}
+                </section>
             </div>
         </InnerDOM>
     );
