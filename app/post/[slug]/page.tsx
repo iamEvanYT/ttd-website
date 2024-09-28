@@ -69,11 +69,6 @@ export default async function BlogPostPage({
   params: URLParams
 }) {
   return <>
-    <DynamicCSS hrefs={[
-      '/ghost/css/global.css',
-      '/ghost/css/screen.css',
-      '/ghost/css/cards.css'
-    ]} />
     <GhostBlogPost slug={slug} />
   </>
 }
