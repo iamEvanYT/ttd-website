@@ -1,4 +1,5 @@
 const oldPostSlugs = [
+    "drill-event-update",
     "rewards-update",
     "pencil-event-update",
     "gadget-crate-update",
