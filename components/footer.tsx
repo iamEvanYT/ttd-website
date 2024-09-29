@@ -27,7 +27,7 @@ export default function Footer() {
               className="flex items-center transition-colors text-neutral-50 hover:text-neutral-300"
               rel="noopener noreferrer"
               target="_blank"
-              href="https://discord.com/invite/SrnQt2yDeZ"
+              href="/discord"
               aria-label="Discord"
             >
               <SiDiscord size={24} />
