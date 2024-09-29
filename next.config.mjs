@@ -26,7 +26,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'toilettowerdefense.com',
+                hostname: 'blog.toilettowerdefense.com',
                 port: '',
                 pathname: '/content/images/**',
             },
