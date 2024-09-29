@@ -30,7 +30,8 @@ export function GameFeatureCard({
                 transition={{
                     type: "spring",
                     stiffness: 150,
-                    damping: 20
+                    damping: 20,
+                    delay: 0.05
                 }}
             >
                 <CardHeader>
