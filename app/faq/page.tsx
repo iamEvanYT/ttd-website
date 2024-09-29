@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { OPENGRAPH_SITE_NAME } from '@/configuration'
-import { QuestionListItem, QuestionsList } from '@/components/questions-list'
+import { QuestionListItem, QuestionsList } from '@/components/utility/questions-list'
 
 export const metadata: Metadata = {
     title: "Fequently Asked Questions",

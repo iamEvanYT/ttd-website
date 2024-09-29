@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ToiletIcon } from './icons';
+import { ToiletIcon } from '@/components/custom/icons';
 import { HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons';
-import { ThemeToggle } from './ui/theme-toggle';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const navItems = {
   '/': {

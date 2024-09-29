@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PostsCSS from "./posts.module.css";
 
-function GiantPostCard({ post }: { post: PostOrPage }) {
+export function GiantPostCard({ post }: { post: PostOrPage }) {
   const postUrl = `/post/${post.slug}`;
 
   return (
@@ -29,9 +29,9 @@ function GiantPostCard({ post }: { post: PostOrPage }) {
             </div>
             <a
               href={postUrl}
-              className="absolute text-blue-600 hover:text-blue-800 text-2xl font-semibold bottom-0 px-4 py-2 right-0"
+              className="absolute text-blue-600 hover:text-blue-800 text-3xl font-semibold pr-4 pb-2 right-0 bottom-0"
             >
-              {"> Read more"}
+              Read Post
             </a>
           </div>
         </div>
@@ -40,7 +40,7 @@ function GiantPostCard({ post }: { post: PostOrPage }) {
   );
 }
 
-function PostCard({ post }: { post: PostOrPage }) {
+export function PostCard({ post }: { post: PostOrPage }) {
   const postUrl = `/post/${post.slug}`;
 
   return (
@@ -63,7 +63,7 @@ function PostCard({ post }: { post: PostOrPage }) {
               href={postUrl}
               className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-semibold"
             >
-              Read more
+              Read Post
             </a>
           </div>
         </div>

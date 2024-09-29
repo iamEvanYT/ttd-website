@@ -1,6 +1,6 @@
 import { getPosts, getSinglePost } from '@/lib/ghost-cms';
 import { PostOrPage } from '@tryghost/content-api';
-import { DynamicCSS } from '@/components/dynamic-css';
+import { DynamicCSS } from '@/components/utility/dynamic-css';
 import { GhostBlogPost } from '@/components/ghost/post';
 import { OPENGRAPH_SITE_NAME } from '@/configuration';
 

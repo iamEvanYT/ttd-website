@@ -4,8 +4,8 @@ import Image from "next/image";
 import parse from "html-react-parser";
 import UserProfileCard from "@/components/ghost/user-profile-card";
 import { formatISODate } from "@/lib/ghost-cms";
-import { InnerDOM } from "@/components/inner-dom";
-import { DynamicCSS } from "@/components/dynamic-css";
+import { InnerDOM } from "@/components/utility/inner-dom";
+import { DynamicCSS } from "@/components/utility/dynamic-css";
 
 export function GhostTemplatePage({ page }: { page: PostOrPage }) {
     if (!page) {
