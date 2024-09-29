@@ -5,6 +5,8 @@ import { BANNER_IMAGE } from "@/configuration"
 import { Shield, Trophy, Sparkles, Castle, Handshake, Gamepad2Icon } from "lucide-react"
 import Link from "next/link"
 
+export const revalidate = 60;
+
 function GameFeaturesSection() {
   return (
     <section id="features" className="w-full pb-6 md:pb-12 lg:pb-16">
