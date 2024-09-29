@@ -16,6 +16,10 @@ const pages = [
         lastModified: new Date("2024-09-00:00:10.000Z"),
     },
     {
+        url: '/faq',
+        lastModified: new Date("2024-09-29T14:30:38.968Z"),
+    },
+    {
         url: '/status',
         lastModified: new Date("2024-09-00:00:10.000Z"),
     },
