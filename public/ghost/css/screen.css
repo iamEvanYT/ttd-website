@@ -1,3 +1,5 @@
+/* https://github.com/TryGhost/Casper/blob/main/assets/css/screen.css */
+
 /* Table of Contents
 /* ------------------------------------------------------------
 
@@ -27,6 +29,8 @@ production stylesheet in assets/built/screen.css
 /* ---------------------------------------------------------- */
 
 /* Import CSS reset and base styles */
+@import "global.css";
+
 :root {
 
     /* Colours */
@@ -2132,203 +2136,195 @@ iframe.instagram-media + script + :not([id]) {
 /* 11. Dark Mode
 /* ---------------------------------------------------------- */
 
-html.dark body {
+html.dark-mode body {
     color: rgba(255, 255, 255, 0.75);
     background: var(--color-darkmode);
 }
 
-html.dark img {
+html.dark-mode img {
     opacity: 0.9;
 }
 
-html.dark kbd {
+html.dark-mode kbd {
     background: color-mod(var(--color-darkmode) l(+5%));
 }
 
-html.dark figcaption a {
+html.dark-mode figcaption a {
     color: #fff;
 }
 
-html.dark body:not(.has-cover) .gh-head {
+html.dark-mode body:not(.has-cover) .gh-head {
     background: var(--color-darkmode);
     color: #fff;
 }
 
-html.dark .gh-burger::before,
-html.dark .gh-burger::after {
+html.dark-mode .gh-burger::before,
+html.dark-mode .gh-burger::after {
     background-color: #fff;
 }
 
-html.dark .site-header-content {
+html.dark-mode .site-header-content {
     color: #fff;
 }
 
-html.dark .site-header-cover {
+html.dark-mode .site-header-cover {
     opacity: 1;
 }
 
-html.dark .post-card-image {
+html.dark-mode .post-card-image {
     background: var(--color-darkmode);
 }
 
-html.dark :is(.post-card-tags, .post-card-meta, .article-tag a, .byline-meta-content, .pagination .page-number) {
+html.dark-mode :is(.post-card-tags, .post-card-meta, .article-tag a, .byline-meta-content, .pagination .page-number) {
     color: color-mod(var(--color-secondary-text) l(-22%));
 }
 
-html.dark .post-card-featured {
+html.dark-mode .post-card-featured {
     color: #fff;
 }
 
-html.dark .post-card-title {
+html.dark-mode .post-card-title {
     color: #fff;
 }
 
-html.dark .post-card-excerpt {
+html.dark-mode .post-card-excerpt {
     color: var(--color-secondary-text);
 }
 
-html.dark .pagination a {
+html.dark-mode .pagination a {
     color: #fff;
 }
 
-html.dark .author-profile-location {
+html.dark-mode .author-profile-location {
     color: #fff;
 }
 
-html.dark .author-profile-social-link:hover {
+html.dark-mode .author-profile-social-link:hover {
     color: #fff;
 }
 
-html.dark .article-title {
+html.dark-mode .article-title {
     color: #fff;
 }
 
-html.dark .article-excerpt {
+html.dark-mode .article-excerpt {
     color: var(--color-secondary-text);
 }
 
-html.dark .post-full-image {
+html.dark-mode .post-full-image {
     background-color: color-mod(var(--color-darkmode) l(+8%));
 }
 
-html.dark .author-avatar {
+html.dark-mode .author-avatar {
     border-color: var(--color-darkmode);
     background-color: color-mod(var(--color-darkmode) l(+8%));
 }
 
-html.dark .author-profile-image {
+html.dark-mode .author-profile-image {
     opacity: 1;
 }
 
-html.dark .author-profile-image path {
+html.dark-mode .author-profile-image path {
     fill: var(--color-darkmode);
 }
 
-html.dark .article-byline-meta .author-name a {
+html.dark-mode .article-byline-meta .author-name a {
     color: #fff;
 }
 
-html.dark .no-image .author-social-link a {
+html.dark-mode .no-image .author-social-link a {
     color: rgba(255, 255, 255, 0.75);
 }
 
-html.dark .gh-content > [id] {
+html.dark-mode .gh-content > [id] {
     color: rgba(255, 255, 255, 0.9);
 }
 
-html.dark .gh-content pre {
+html.dark-mode .gh-content pre {
     background: color-mod(var(--color-darkgrey) l(-8%));
 }
 
-html.dark .gh-content :not(pre) > code {
+html.dark-mode .gh-content :not(pre) > code {
     background: color-mod(var(--color-darkgrey) l(+6%));
     border-color: color-mod(var(--color-darkmode) l(+8%));
     color: var(--color-wash);
 }
 
-:where(html.dark) .gh-content a {
+:where(html.dark-mode) .gh-content a {
     color: #fff;
 }
 
-html.dark .gh-content strong {
-    color: #fff;
-}
-
-html.dark .gh-content em {
-    color: #fff;
-}
-
-html.dark .gh-content code {
+html.dark-mode .gh-content code {
     color: #fff;
     background: #000;
 }
 
-html.dark hr {
+html.dark-mode hr {
     border-top-color: color-mod(var(--color-darkmode) l(+8%));
 }
 
-html.dark .gh-content hr:after {
+html.dark-mode .gh-content hr:after {
     background: color-mod(var(--color-darkmode) l(+8%));
     box-shadow: var(--color-darkmode) 0 0 0 5px;
 }
 
-html.dark figcaption {
+html.dark-mode figcaption {
     color: rgba(255, 255, 255, 0.6);
 }
 
-html.dark .gh-content table:not(.gist table) td:first-child {
+html.dark-mode .gh-content table:not(.gist table) td:first-child {
     background-image: linear-gradient(to right, var(--color-darkmode) 50%, color-mod(var(--color-darkmode) a(0%)) 100%);
 }
 
-html.dark .gh-content table:not(.gist table) td:last-child {
+html.dark-mode .gh-content table:not(.gist table) td:last-child {
     background-image: linear-gradient(to left, var(--color-darkmode) 50%, color-mod(var(--color-darkmode) a(0%)) 100%);
 }
 
-html.dark .gh-content table:not(.gist table) th {
+html.dark-mode .gh-content table:not(.gist table) th {
     color: rgba(255, 255, 255, 0.85);
     background-color: color-mod(var(--color-darkmode) l(+8%));
 }
 
-html.dark .gh-content table:not(.gist table) th,
-html.dark .gh-content table:not(.gist table) td {
+html.dark-mode .gh-content table:not(.gist table) th,
+html.dark-mode .gh-content table:not(.gist table) td {
     border: color-mod(var(--color-darkmode) l(+8%)) 1px solid;
 }
 
-html.dark .gh-content :is(input, textarea) {
+html.dark-mode .gh-content :is(input, textarea) {
     color: color-mod(var(--color-midgrey) l(-30%));
 }
 
-html.dark .site-archive-header .no-image {
+html.dark-mode .site-archive-header .no-image {
     color: rgba(255, 255, 255, 0.9);
     background: var(--color-darkmode);
 }
 
-html.dark .kg-header-card.kg-style-dark {
+html.dark-mode .kg-header-card.kg-style-dark {
     background: color-mod(var(--color-darkgrey) l(-5%));
 }
 
-html.dark .kg-header-card.kg-style-light {
+html.dark-mode .kg-header-card.kg-style-light {
     background: color-mod(var(--color-darkgrey) l(+5%));
 }
 
-html.dark .kg-header-card h2.kg-header-card-header,
-html.dark .kg-header-card h3.kg-header-card-subheader {
+html.dark-mode .kg-header-card h2.kg-header-card-header,
+html.dark-mode .kg-header-card h3.kg-header-card-subheader {
     color: #fff;
 }
 
-html.dark .kg-bookmark-card a.kg-bookmark-container,
-html.dark .kg-bookmark-card a.kg-bookmark-container:hover {
+html.dark-mode .kg-bookmark-card a.kg-bookmark-container,
+html.dark-mode .kg-bookmark-card a.kg-bookmark-container:hover {
     background: var(--color-darkmode) !important;
     color: #fff !important;
 }
 
-html.dark .footer-cta-title {
+html.dark-mode .footer-cta-title {
     color: #fff;
 }
 
 @media (max-width: 767px) {
-    html.dark .gh-head-open:not(.has-cover) #gh-head,
-    html.dark .gh-head-open:not(.has-cover) #gh-head .gh-head-actions {
+    html.dark-mode .gh-head-open:not(.has-cover) #gh-head,
+    html.dark-mode .gh-head-open:not(.has-cover) #gh-head .gh-head-actions {
         background: var(--color-darkmode);
     }
 }
@@ -2449,14 +2445,6 @@ html.dark .footer-cta-title {
     }
 
     :where(html.auto-color) .gh-content a {
-        color: #fff;
-    }
-
-    html.auto-color .gh-content strong {
-        color: #fff;
-    }
-
-    html.auto-color .gh-content em {
         color: #fff;
     }
 

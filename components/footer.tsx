@@ -2,7 +2,7 @@ import { SiDiscord, SiGithub, SiRoblox } from "@icons-pack/react-simple-icons";
 
 export default function Footer() {
   return (
-    <div className="bg-ghost-accent-color text-white">
+    <div className="mt-auto bg-ghost-accent-color text-white">
       <footer className="flex flex-col sm:flex-row justify-between items-center gap-4 py-6 w-full px-4 md:px-6">
         {/* Copyright Section */}
         <p className="text-base text-white">
@@ -27,7 +27,7 @@ export default function Footer() {
               className="flex items-center transition-colors text-neutral-50 hover:text-neutral-300"
               rel="noopener noreferrer"
               target="_blank"
-              href="https://discord.com/invite/SrnQt2yDeZ"
+              href="/discord"
               aria-label="Discord"
             >
               <SiDiscord size={24} />

@@ -1,5 +1,6 @@
 import { GameFeatureCard } from "@/components/game-feature-card"
 import { Button } from "@/components/ui/button"
+import { BANNER_IMAGE } from "@/configuration"
 import { Shield, Trophy, Sparkles, Castle, Handshake, Gamepad2Icon } from "lucide-react"
 import Link from "next/link"
 
@@ -7,8 +8,14 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-screen text-gray-900">
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-ghost-accent-color">
-          <div className="container mx-auto px-4 md:px-6">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative bg-ghost-accent-color">
+          <div
+            className="absolute inset-0 bg-cover bg-top z-0"
+            style={{ backgroundImage: `url('${BANNER_IMAGE}')` }}
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
+
+          <div className="container mx-auto px-4 md:px-6 relative z-20">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-6xl/none">
@@ -42,7 +49,7 @@ export default async function Home() {
               <GameFeatureCard title="Trading" description="Trade to get unobtainable units from other players!">
                 <Handshake className="w-8 h-8 mb-2 text-blue-600 dark:text-blue-400" />
               </GameFeatureCard>
-              
+
               <GameFeatureCard title="Clans" description="Create or join a clan and climb up the Clan Leaderboard with friends!">
                 <Shield className="w-8 h-8 mb-2 text-blue-600 dark:text-blue-400" />
               </GameFeatureCard>
@@ -56,6 +63,6 @@ export default async function Home() {
           </div>
         </section>
       </main>
-    </div>
+    </div >
   )
 }
