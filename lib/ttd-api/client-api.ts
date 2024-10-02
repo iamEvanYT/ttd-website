@@ -3,40 +3,74 @@
 // Basically, despite the naming, it works on the server, and should be the only api exposed to the client.
 
 import { getCrateDatas, getTroopDatas } from "@/lib/ttd-api/api"
-import type { FetchOptions, ItemTypes } from "./types";
+import type { ExtendedItemData, FetchOptions, ItemTypes } from "./types";
+import { DATABASE_PAGE_SIZE } from "@/configuration";
 
-export async function getTroops(start: number, count: number, options: FetchOptions) {
+function filterResults<ItemDataType>(results: (ItemDataType & ExtendedItemData)[], options: FetchOptions) {
+    if (options.name && typeof options.name === "string") {
+        const loweredQuery = options.name.toLowerCase();
+        results = results.filter((result) => result.display.toLowerCase().includes(loweredQuery));
+    }
+
+    return results
+}
+
+function paginateResults(results: any[], page: number) {
+    // Ensure the page number is at least 1
+    const currentPage = Math.max(1, page);
+
+    // Calculate the starting index
+    const start = (currentPage - 1) * DATABASE_PAGE_SIZE;
+
+    // Calculate the ending index
+    const end = start + DATABASE_PAGE_SIZE;
+
+    // Slice the data to get items for the current page
+    const items = results.slice(start, end);
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(results.length / DATABASE_PAGE_SIZE);
+
+    // Optionally, ensure the current page does not exceed totalPages
+    const validatedPage = Math.min(currentPage, totalPages);
+
+    return {
+        items,
+        page: validatedPage,
+        totalPages
+    };
+}
+
+export async function getTroopsPage(page: number, options: FetchOptions) {
     let troopDatas = await getTroopDatas();
     if (!troopDatas) {
-        return []
+        return paginateResults([], 1);
     }
 
-    if (options.name) {
-        troopDatas = troopDatas.filter((troop) => troop.display.toLowerCase().includes(options.name!)); // simple function for now, if needed make it more complex in the future
-    }
-
-    return troopDatas.slice(start, start + count);
+    troopDatas = filterResults(troopDatas, options);
+    return paginateResults(troopDatas, page);
 }
 
-export async function getCrates(start: number, count: number, options: FetchOptions) {
+export async function getCratesPage(page: number, options: FetchOptions) {
     let crateDatas = await getCrateDatas();
     if (!crateDatas) {
-        return []
+        return paginateResults([], 1);
     }
 
-    if (options.name) {
-        crateDatas = crateDatas.filter((crate) => crate.display.toLowerCase().includes(options.name!));
-    }
-
-    return crateDatas.slice(start, start + count);
+    crateDatas = filterResults(crateDatas, options);
+    return paginateResults(crateDatas, page);
 }
 
-export async function getItems(type: ItemTypes, start: number, count: number, options: FetchOptions) {
+export async function getItemsPage(type: ItemTypes, page: number, options: FetchOptions) {
     if (type == "Troops") {
-        return await getTroops(start, count, options)
+        return await getTroopsPage(page, options)
     } else if (type == "Crates") {
-        return await getCrates(start, count, options)
+        return await getCratesPage(page, options)
     } else {
-        return []
+        return {
+            items: [],
+            page: 0,
+            totalPages: 0
+        }
     }
 }

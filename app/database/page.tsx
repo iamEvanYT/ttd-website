@@ -58,7 +58,7 @@ export default function DatabaseHomePage() {
     return <>
         <DatabaseTopbar />
 
-        <div className="pt-10 pb-2">
+        <div className="pt-10 pb-2 px-5">
             <h1 className="text-3xl font-bold tracking-tighter text-black lg:text-6xl/none text-center dark:text-white">
                 Database
             </h1>
