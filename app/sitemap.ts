@@ -23,6 +23,20 @@ const pages = [
         url: '/status',
         lastModified: new Date("2024-09-00:00:10.000Z"),
     },
+
+    // Database
+    {
+        url: '/database',
+        lastModified: new Date("2024-10-02T19:15:00.967Z"),
+    },
+    {
+        url: '/database/units',
+        lastModified: new Date("2024-10-02T19:15:00.967Z"),
+    },
+    {
+        url: '/database/crates',
+        lastModified: new Date("2024-10-02T19:15:00.967Z"),
+    },
 ]
 
 export default async function sitemap({
