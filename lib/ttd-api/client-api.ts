@@ -15,12 +15,12 @@ export async function getTroops(start: number, count: number) {
 }
 
 export async function getCrates(start: number, count: number) {
-    const troopDatas = await getCrateDatas();
-    if (!troopDatas) {
+    const crateDatas = await getCrateDatas();
+    if (!crateDatas) {
         return []
     }
 
-    return troopDatas.slice(start, start + count);
+    return crateDatas.slice(start, start + count);
 }
 
 export async function getItems(type: ItemTypes, start: number, count: number) {

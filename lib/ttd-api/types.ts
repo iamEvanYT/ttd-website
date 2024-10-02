@@ -25,14 +25,16 @@ export type ExtendedItemData = {
  * Represents the data structure for a crate.
  */
 export type CrateData = {
-    contents?: CrateContent[];
+    items?: CrateContent[];
 } & ItemData;
 
-export type ExtendedCrateData = CrateData & ExtendedItemData;
+export type ExtendedCrateData = CrateData & ExtendedItemData & {
+    inferredExists?: number | null
+};
 
 export interface CrateContent {
-    itemID: string;
-    quantity: number;
+    ItemId: string;
+    Chance: number;
 }
 
 // Troops

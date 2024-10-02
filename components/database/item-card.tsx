@@ -10,7 +10,8 @@ interface ItemProps {
   display: string
   imageURL: string
   rarity: string
-  exists: number
+  exists: number,
+  inferredExists?: number | null
 }
 
 const abbreviateNumber = Intl.NumberFormat('en-US', {
@@ -18,7 +19,7 @@ const abbreviateNumber = Intl.NumberFormat('en-US', {
   maximumFractionDigits: 1
 }).format;
 
-export function ItemCard({ display: displayName, imageURL, rarity, exists }: ItemProps) {
+export function ItemCard({ display: displayName, imageURL, rarity, exists, inferredExists }: ItemProps) {
   return (
     <Card className="w-full h-full flex flex-col">
       <CardHeader className="flex-grow p-4 pb-0">
@@ -37,8 +38,14 @@ export function ItemCard({ display: displayName, imageURL, rarity, exists }: Ite
         <div className="grid grid-cols-2 gap-x-2 text-md">
           <span className="font-semibold">Rarity:</span>
           <span className="text-right">{rarity}</span>
-          <span className="font-semibold">Exists:</span>
+
+          <span className="font-semibold">{inferredExists && "Ever Existed:" || "Exists:"}</span>
           <span className="text-right">{abbreviateNumber(exists)}</span>
+
+          {inferredExists && <>
+            <span className="font-semibold">Exists (Estimated):</span>
+            <span className="text-right">{inferredExists >= 0 && abbreviateNumber(inferredExists) || "???"}</span>
+          </>}
         </div>
       </CardContent>
     </Card>

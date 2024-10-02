@@ -44,9 +44,7 @@ export async function refreshExistCount() {
         existCounts = newExistCounts
 
         return true
-    }).catch((err) => {
-        return false
-    });
+    }).catch(() => false);
 }
 
 async function refreshTroops() {
@@ -121,10 +119,29 @@ async function refreshCrates() {
                     return type === "Crates" && id === crateData.id
                 }));
 
+                const exists = (existsData?.count || 0);
+
+                let inferredExists = null;
+                if (crateData.items) {
+                    let itemsExists = 0;
+
+                    crateData.items.forEach(({ ItemId, Chance }) => {
+                        const troopData = troopDatas?.find(({ id }) => id === ItemId);
+                        if (!troopData) {
+                            return;
+                        }
+
+                        itemsExists += troopData.exists
+                    })
+
+                    inferredExists = (exists - itemsExists);
+                }
+
                 const extendedTroopData: ExtendedCrateData = {
                     ...crateData,
                     type: "Crates",
-                    exists: existsData?.count || 0,
+                    exists,
+                    inferredExists,
                     imageURL: `https://api.toilettowerdefense.com/image/${crateData.image || 123456789}`
                 }
 
@@ -169,15 +186,14 @@ export function refreshCache() {
             return false
         }
 
-        const refreshPromises: Promise<boolean>[] = [
-            refreshTroops(),
-            refreshCrates(),
-        ];
+        const refreshedTroops = await refreshTroops();
+        if (!refreshedTroops) {
+            return false
+        }
 
-        const results = await Promise.all(refreshPromises)
-        const refreshCache = results.every((result) => result);
-        if (!refreshCache) {
-            return false;
+        const refreshedCrates = await refreshCrates();
+        if (!refreshedCrates) {
+            return false
         }
 
         refreshPromise = null

@@ -16,6 +16,24 @@ const BASE_URL = "https://api.toilettowerdefense.com";
  * @returns The parsed JSON response or null in case of failure.
  */
 async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
+    // Retrieve the API key from environment variables
+    const apiKey = process.env.TTD_API_KEY;
+    if (apiKey) {
+        // Initialize headers, preserving any existing headers
+        const headers = new Headers(options?.headers || {});
+
+        // Set the authorization header with the API key
+        headers.set('authorization', apiKey);
+
+        // Merge the new headers back into the options
+        const updatedOptions: RequestInit = {
+            ...options,
+            headers,
+        };
+
+        options = updatedOptions
+    }
+
     try {
         const response = await fetch(`${BASE_URL}${endpoint}`, options);
         if (!response.ok) {
