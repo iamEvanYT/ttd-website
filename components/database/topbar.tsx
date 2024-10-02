@@ -63,8 +63,8 @@ export function DatabaseTopbar() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
-            <div className="bg-ghost-accent-color h-full w-64 p-4">
+          <div className="relative inset-0 bg-black bg-opacity-50 z-50">
+            <div className="bg-ghost-accent-color h-full w-full p-4">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-white font-bold">Menu</span>
                 <button

@@ -30,7 +30,7 @@ export function ItemCard({ display: displayName, imageURL, rarity, exists, infer
             alt={displayName}
             width={200}
             height={200}
-            className="w-64 h-fill aspect-square object-contain drop-shadow-lg"
+            className="w-64 h-fill aspect-square object-contain"
           />
         </div>
       </CardHeader>
