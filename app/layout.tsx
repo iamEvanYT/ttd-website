@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Topbar } from "@/components/topbar";
-import Footer from "@/components/footer";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Topbar } from "@/components/custom/topbar";
+import Footer from "@/components/custom/footer";
+import { ThemeProvider } from "@/components/utility/theme-provider";
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
 
 export const metadata: Metadata = {

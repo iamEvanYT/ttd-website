@@ -1,4 +1,5 @@
 const oldPostSlugs = [
+    "drill-event-update",
     "rewards-update",
     "pencil-event-update",
     "gadget-crate-update",
@@ -25,7 +26,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'toilettowerdefense.com',
+                hostname: 'blog.toilettowerdefense.com',
                 port: '',
                 pathname: '/content/images/**',
             },

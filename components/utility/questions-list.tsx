@@ -5,35 +5,16 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Components } from 'react-markdown'
 
-interface FAQItem {
+export interface QuestionListItem {
   question: string;
   answer: string;
 }
 
-const faqData: FAQItem[] = [
-  {
-    question: "I purchased something for Robux but I didn't get anything. What do I do?",
-    answer: "Join a new server, and you should be granted your purchase. If it's not, contact Roblox Support: [roblox.com/support](https://roblox.com/support)",
-  },
-  {
-    question: "What do I do if I got hacked?",
-    answer: `
-If someone random gain access to your Roblox Account, don't worry.
-
-Here's a guide on how to stop the hackers from further accessing your account:
-
-1. Go to Roblox Settings - [roblox.com/my/account](https://www.roblox.com/my/account)
-2. Change your password.
-3. Go to the "Security" tab.
-4. Scroll down and click "Logout of All Other Sessions".
-5. Your account is now safe again!
-
-**You need to do this _as soon as possible_, as the hacker can change your password and lock you out of your own account.**
-        `,
-  },
-]
-
-export function QuestionsList() {
+export function QuestionsList({
+  items
+}: {
+  items: QuestionListItem[];
+}) {
   const [openQuestion, setOpenQuestion] = useState<number | null>(null)
 
   const toggleQuestion = (index: number) => {
@@ -74,7 +55,7 @@ export function QuestionsList() {
     <section className="w-full pt-7 pb-12">
       <div className="container mx-auto px-4 md:px-6">
         <div className="space-y-4">
-          {faqData.map((item, index) => (
+          {items.map((item, index) => (
             <div key={index} className="border-b border-gray-200 pb-4">
               <button
                 className="flex justify-between items-center w-full text-left focus:outline-none"

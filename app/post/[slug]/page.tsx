@@ -1,6 +1,6 @@
 import { getPosts, getSinglePost } from '@/lib/ghost-cms';
 import { PostOrPage } from '@tryghost/content-api';
-import { DynamicCSS } from '@/components/dynamic-css';
+import { DynamicCSS } from '@/components/utility/dynamic-css';
 import { GhostBlogPost } from '@/components/ghost/post';
 import { OPENGRAPH_SITE_NAME } from '@/configuration';
 
@@ -69,11 +69,6 @@ export default async function BlogPostPage({
   params: URLParams
 }) {
   return <>
-    <DynamicCSS hrefs={[
-      '/ghost/css/global.css',
-      '/ghost/css/screen.css',
-      '/ghost/css/cards.css'
-    ]} />
     <GhostBlogPost slug={slug} />
   </>
 }
