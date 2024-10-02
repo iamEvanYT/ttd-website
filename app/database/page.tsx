@@ -40,13 +40,15 @@ function PromoCard({
                         </Link>}
                     </div>
                 </div>
-                {image && <Image
-                    src={image}
-                    alt="Database"
-                    className="object-contain h-[100%] w-fit right-0"
-                    height={250}
-                    width={250}
-                />}
+                <div className="aspect-[1/3]">
+                    {image && <Image
+                        src={image}
+                        alt="Database"
+                        className="object-contain h-[100%] w-fit right-0"
+                        height={250}
+                        width={250}
+                    />}
+                </div>
             </div>
         </div>
     )

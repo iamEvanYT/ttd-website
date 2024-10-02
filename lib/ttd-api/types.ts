@@ -12,6 +12,13 @@ export interface ItemData {
 }
 
 /**
+ * Represents what can be filtered/sorted on fetch requests.
+ */
+export interface FetchOptions {
+    name?: string,
+}
+
+/**
  * Extend the data structure to include useful data for an item in the game.
  */
 export type ExtendedItemData = {
