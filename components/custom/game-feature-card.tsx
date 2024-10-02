@@ -20,7 +20,7 @@ export function GameFeatureCard({
     const cardInitialState = { x: 30, opacity: 0 }
     const cardAnimateState = { x: 0, opacity: 1 }
 
-    const isJavaScriptEnabled = typeof window!== "undefined";
+    const isJavaScriptEnabled = typeof window !== "undefined";
 
     return (
         <Card ref={ref} className="card-hover size-auto">
@@ -30,7 +30,8 @@ export function GameFeatureCard({
                 transition={{
                     type: "spring",
                     stiffness: 150,
-                    damping: 20
+                    damping: 20,
+                    delay: 0.05
                 }}
             >
                 <CardHeader>
