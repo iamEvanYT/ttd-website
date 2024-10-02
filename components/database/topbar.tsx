@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Cross1Icon } from '@radix-ui/react-icons';
-import { Ghost, Home } from 'lucide-react';
+import { Ghost, Home, Package } from 'lucide-react';
 
 const navItems = {
   '/database': {
@@ -16,6 +16,11 @@ const navItems = {
     icon: <Ghost />,
     newTab: false,
   },
+  '/database/crates': {
+    name: 'Crates',
+    icon: <Package />,
+    newTab: false,
+  },
 };
 
 export function DatabaseTopbar() {
@@ -25,7 +30,7 @@ export function DatabaseTopbar() {
 
   return (
     <div className="pt-2 px-5">
-      <div className="sticky top-0 z-50 rounded-3xl bg-gradient-to-b from-green-700 to-green-500 text-gray-900 dark:text-gray-100">
+      <div className="sticky top-0 rounded-3xl bg-gradient-to-b from-green-700 to-green-500 text-gray-900 dark:text-gray-100">
         <header className="px-4 lg:px-6 h-14 flex items-center justify-center relative">
           {/* Hamburger Menu Button */}
           <button
