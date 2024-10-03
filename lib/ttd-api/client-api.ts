@@ -29,9 +29,11 @@ function paginateResults(results: any[], page: number) {
     const items = results.slice(start, end);
 
     // Calculate the total number of pages
-    const totalPages = Math.ceil(results.length / DATABASE_PAGE_SIZE);
+    // Ensure that totalPages is at least 1
+    const calculatedTotalPages = Math.ceil(results.length / DATABASE_PAGE_SIZE);
+    const totalPages = Math.max(1, calculatedTotalPages);
 
-    // Optionally, ensure the current page does not exceed totalPages
+    // Ensure the current page does not exceed totalPages
     const validatedPage = Math.min(currentPage, totalPages);
 
     return {

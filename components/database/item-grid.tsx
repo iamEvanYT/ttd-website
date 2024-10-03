@@ -19,7 +19,12 @@ export function ItemGrid({
 }) {
     const [items, setItems] = useState<ExtendedItemData[]>([]);
 
-    const loadingIdRef = useRef<string | null>(null);
+    let [loadingId, reactSetLoadingId] = useState<string | null>(null);
+    function setLoadingId(id: typeof loadingId): void {
+        reactSetLoadingId(id);
+        loadingId = id;
+    }
+
     const loadCooldownRef = useRef(false);
     const prevSearchQuery = useRef<string | null>(null);
 
@@ -28,6 +33,15 @@ export function ItemGrid({
 
     const searchParams = useSearchParams();
     const searchQuery = searchParams.get("q");
+
+    function setFallbackStates() {
+        setPage(1);
+        setMaxPages(1);
+        setItems([]);
+
+        setLoadingId(null);
+        loadCooldownRef.current = false;
+    }
 
     useEffect(() => {
         if (searchQuery !== prevSearchQuery.current) {
@@ -46,14 +60,14 @@ export function ItemGrid({
             };
 
             const thisLoadId = crypto.randomUUID();
-            loadingIdRef.current = thisLoadId;
+            setLoadingId(thisLoadId);
 
             getItemsPage(type, page, options).then((pageData) => {
                 if (!pageData) {
-                    return;
+                    return setFallbackStates();
                 }
-                if (loadingIdRef.current !== thisLoadId) {
-                    return;
+                if (loadingId !== thisLoadId) {
+                    return setFallbackStates();
                 }
 
                 const {
@@ -66,12 +80,12 @@ export function ItemGrid({
                 setMaxPages(totalPages);
 
                 setItems(newItems);
-                loadingIdRef.current = null;
+                setLoadingId(null);
 
                 setTimeout(() => {
                     loadCooldownRef.current = false;
                 }, DATABASE_LOAD_COOLDOWN);
-            });
+            }).catch(setFallbackStates);
         }
     }, [page, maxPages, searchQuery]);
 
@@ -79,18 +93,22 @@ export function ItemGrid({
         <div className="container mx-auto p-4">
             <ItemSearchBar type={type} className="mb-4" />
 
-            {loadingIdRef.current && <div className="align-baseline flex justify-center py-10">
+            {loadingId && <div className="align-baseline flex justify-center py-10">
                 <LoadingSpinner />
             </div>}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-5">
                 {items.map((item, index) => (
-                    <ItemCard key={index} {...item} />
+                    <ItemCard key={item.id || index} {...item} />
                 ))}
             </div>
 
-            {(loadingIdRef.current && items.length > 0) && <div className="align-baseline flex justify-center py-10">
+            {(loadingId && items.length > 0) && <div className="align-baseline flex justify-center py-10">
                 <LoadingSpinner />
+            </div>}
+
+            {(!loadingId && items.length < 1) && <div className="align-baseline flex justify-center py-10">
+                No items found.
             </div>}
 
             <PaginationComponent page={page} maxPages={maxPages} onPageChange={(page) => setPage(page)} />
