@@ -64,5 +64,5 @@ export default async function ItemPage({
 }: {
     params: URLParams
 }) {
-    return <DatabaseItemPage type="Troops" id={item} />
+    return <DatabaseItemPage type="Crates" id={item} />
 }

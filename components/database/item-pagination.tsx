@@ -72,6 +72,7 @@ export const PaginationComponent: React.FC<PaginationComponentProps> = ({ page, 
                 {/* Previous Button */}
                 <PaginationItem>
                     <PaginationPrevious
+                        textDisabled
                         href="#"
                         onClick={(e) => {
                             e.preventDefault();
@@ -112,6 +113,7 @@ export const PaginationComponent: React.FC<PaginationComponentProps> = ({ page, 
                 {/* Next Button */}
                 <PaginationItem>
                     <PaginationNext
+                        textDisabled
                         href="#"
                         onClick={(e) => {
                             e.preventDefault();
