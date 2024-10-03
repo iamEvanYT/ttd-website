@@ -1,6 +1,6 @@
 import { SiDiscord, SiGithub, SiRoblox } from "@icons-pack/react-simple-icons";
 
-export default function Footer() {
+export function Footer() {
   return (
     <div className="mt-auto bg-ghost-accent-color text-white">
       <footer className="flex flex-col sm:flex-row justify-between items-center gap-4 py-6 w-full px-4 md:px-6">

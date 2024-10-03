@@ -6,6 +6,7 @@ import { getCrateDatas, getTroopDatas } from "@/lib/ttd-api/api"
 import type { ExtendedItemData, FetchOptions, ItemTypes } from "./types";
 import { DATABASE_PAGE_SIZE } from "@/configuration";
 
+// Pages
 function filterResults<ItemDataType>(results: (ItemDataType & ExtendedItemData)[], options: FetchOptions) {
     if (options.name && typeof options.name === "string") {
         const loweredQuery = options.name.toLowerCase();
@@ -74,5 +75,33 @@ export async function getItemsPage(type: ItemTypes, page: number, options: Fetch
             page: 0,
             totalPages: 0
         }
+    }
+}
+
+// Datas
+export async function getTroopData(id: string) {
+    const troopDatas = await getTroopDatas();
+    if (!troopDatas) {
+        return null
+    }
+
+    return troopDatas.find((troopData) => troopData.id.toLowerCase() == id.toLowerCase());
+}
+export async function getCrateData(id: string) {
+    const crateDatas = await getCrateDatas();
+    if (!crateDatas) {
+        return null
+    }
+
+    return crateDatas.find((crateData) => crateData.id.toLowerCase() == id.toLowerCase());
+}
+
+export async function getItemData(type: ItemTypes, id: string) {
+    if (type == "Troops") {
+        return await getTroopData(id)
+    } else if (type == "Crates") {
+        return await getCrateData(id)
+    } else {
+        return null
     }
 }

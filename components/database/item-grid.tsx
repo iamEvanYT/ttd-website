@@ -11,6 +11,12 @@ import { useEffect, useRef, useState } from "react";
 import ItemSearchBar from "./item-search-bar";
 import { PaginationComponent } from "./item-pagination";
 import { LoadingSpinner } from "../ui/loading";
+import Link from "next/link";
+
+const databaseItemTypes = {
+    "Troops": "units",
+    "Crates": "crates",
+}
 
 export function ItemGrid({
     type
@@ -19,7 +25,8 @@ export function ItemGrid({
 }) {
     const [items, setItems] = useState<ExtendedItemData[]>([]);
 
-    let [loadingId, reactSetLoadingId] = useState<string | null>(null);
+    // it is set to initial so that 'No items found' text does not appear
+    let [loadingId, reactSetLoadingId] = useState<string | null>("initial");
     function setLoadingId(id: typeof loadingId): void {
         reactSetLoadingId(id);
         loadingId = id;
@@ -99,7 +106,9 @@ export function ItemGrid({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-5">
                 {items.map((item, index) => (
-                    <ItemCard key={item.id || index} {...item} />
+                    <Link href={`/database/${databaseItemTypes[type]}/${item.id}`} key={item.id || index}>
+                        <ItemCard {...item} />
+                    </Link>
                 ))}
             </div>
 

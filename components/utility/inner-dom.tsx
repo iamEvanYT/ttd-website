@@ -4,7 +4,6 @@ import React, {
   useRef,
   useEffect,
   useState,
-  ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -13,7 +12,8 @@ interface InnerDOMProps
   /**
    * The content to be rendered inside the iframe.
    */
-  children: ReactNode;
+  children: any;
+  // above type bugged, should be `ReactNode` when fixed
 
   /**
    * The title attribute for the iframe, important for accessibility.
