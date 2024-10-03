@@ -1,4 +1,4 @@
-import { DatabaseItemPage } from "@/components/database/item-page"
+import { DatabaseItemPage } from "@/components/database/item-page/item-page"
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { getTroopDatas } from "@/lib/ttd-api/api";
 import { getTroopData } from "@/lib/ttd-api/client-api";

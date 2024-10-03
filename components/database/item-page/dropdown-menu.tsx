@@ -1,12 +1,5 @@
 "use client"
 
-import { getItemData } from "@/lib/ttd-api/client-api";
-import type { ExtendedItemData, ExtendedTroopData, ItemTypes } from "@/lib/ttd-api/types";
-import Image from "next/image";
-import { MoreHorizontal } from "lucide-react"
-import { Button } from "@/components/ui/button";
-import { toast } from 'sonner';
-
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,13 +8,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useEffect, useState } from "react";
-import { LoadingSpinner } from "../ui/loading";
-import { DatabaseTopbar } from "./topbar";
-
-function numberWithCommas(x: number) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+import { ExtendedItemData, ExtendedTroopData } from "@/lib/ttd-api/types";
+import { toast } from 'sonner';
+import { MoreHorizontal } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import dynamic from 'next/dynamic'
 
 function downloadFile(file: File) {
     // Create a link and set the URL using `createObjectURL`
@@ -42,11 +34,13 @@ function downloadFile(file: File) {
     }, 100);
 }
 
-function ItemDropdownMenu({
+function RawItemDropdownMenu({
     itemData
 }: {
     itemData: ExtendedTroopData | ExtendedItemData
 }) {
+    const router = useRouter();
+
     async function copyItemDisplay() {
         const promise = (async () => {
             navigator.clipboard.writeText(itemData.display)
@@ -58,6 +52,21 @@ function ItemDropdownMenu({
                 loading: 'Copying...',
                 success: (() => "Copied item name!"),
                 error: (() => "Could not copy."),
+            }
+        )
+    }
+
+    async function copyItemExists() {
+        const promise = (async () => {
+            navigator.clipboard.writeText(itemData.exists.toString())
+        })()
+
+        toast.promise(
+            promise,
+            {
+                loading: 'Copying...',
+                success: (() => "Copied item exists count!"),
+                error: (() => "Could not copy exists."),
             }
         )
     }
@@ -105,7 +114,7 @@ function ItemDropdownMenu({
     }
 
     function refreshPage() {
-        window.location.reload();
+        router.refresh();
     }
 
     return (
@@ -121,6 +130,9 @@ function ItemDropdownMenu({
                 <DropdownMenuItem onClick={copyItemDisplay}>
                     Copy Item Name
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={copyItemExists}>
+                    Copy Item Exists
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={downloadItemImage}>Save Item Image</DropdownMenuItem>
                 <DropdownMenuItem onClick={copyItemImage}>Copy Item Image</DropdownMenuItem>
@@ -132,77 +144,7 @@ function ItemDropdownMenu({
     )
 }
 
-export function DatabaseItemDetails({
-    type,
-    id
-}: {
-    type: ItemTypes,
-    id: string,
-}) {
-    const [loading, setLoading] = useState(true);
-    const [itemData, setItemData] = useState<ExtendedItemData | null | undefined>(null);
-
-    useEffect(() => {
-        setLoading(true);
-        getItemData(type, id).then((newItemData) => {
-            setItemData(newItemData);
-            setLoading(false);
-        }).catch(() => {
-            setLoading(false);
-        })
-    }, []);
-    if (!itemData) {
-        return (
-            <div className="align-baseline flex justify-center py-10">
-                {!loading && "Item not found."}
-                {loading && <LoadingSpinner />}
-            </div>
-        )
-    }
-
-    const {
-        display: displayName,
-        exists,
-        imageURL
-    } = itemData;
-
-    return <>
-        <title>{`${displayName} - Database`}</title>
-        <div className="flex justify-center m-5">
-            <div className="flex w-[95%] h-full p-5 border rounded-xl shadow-lg">
-                <div className="flex flex-row w-[95%] h-full">
-                    <Image
-                        src={imageURL}
-                        alt={displayName}
-                        width={200}
-                        height={200}
-                        className="h-32 w-fit aspect-square object-contain"
-                        id="item-image"
-                    />
-                    <div id="basic-info" className="flex flex-col ml-3">
-                        <h1 className="text-2xl font-bold">{displayName}</h1>
-                        Rarity: {itemData.rarity}
-                        <br />
-                        Exists: {numberWithCommas(exists)}
-                    </div>
-                </div>
-                <div className="ml-auto">
-                    <ItemDropdownMenu itemData={itemData} />
-                </div>
-            </div>
-        </div>
-    </>
-}
-
-export function DatabaseItemPage({
-    type,
-    id
-}: {
-    type: ItemTypes,
-    id: string,
-}) {
-    return <>
-        <DatabaseTopbar />
-        <DatabaseItemDetails type={type} id={id} />
-    </>
-};
+// Only render this menu if JavaScript is enabled, don't render it on server.
+export const ItemDropdownMenu = dynamic(async () => RawItemDropdownMenu, {
+    ssr: false,
+})
