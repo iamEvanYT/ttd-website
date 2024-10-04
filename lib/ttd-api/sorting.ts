@@ -7,7 +7,7 @@ export default async function Sort(results: (ItemData & ExtendedItemData)[], sor
       case SortingOptions.name:
          return SortByName(results, sortingOrder);
 
-      case SortingOptions.existing_count:
+      case SortingOptions.exist_count:
          return SortByNumber(results, sortingOrder, "exists");
 
       case SortingOptions.rarity:
@@ -20,9 +20,9 @@ export default async function Sort(results: (ItemData & ExtendedItemData)[], sor
 
 function SortByName(results: (ItemData & ExtendedItemData)[], sortingOrder: SortingOrder) {
    if (sortingOrder === SortingOrder.ascending) {
-      return results.sort((a, b) => (a.display || "").localeCompare(b.display || ""));
-   } else {
       return results.sort((a, b) => (b.display || "").localeCompare(a.display || ""));
+   } else {
+      return results.sort((a, b) => (a.display || "").localeCompare(b.display || ""));
    }
 }
 
@@ -37,11 +37,11 @@ function SortByNumber(results: (ItemData & ExtendedItemData)[], sortingOrder: So
 function SortByRarity(results: (ItemData & ExtendedItemData)[], sortingOrder: SortingOrder) {
    if (sortingOrder === SortingOrder.ascending) {
       return results.sort((a, b) => 
-        (Rarity[a.rarity as keyof typeof Rarity] || 0) - (Rarity[b.rarity as keyof typeof Rarity] || 0)
-      );
+         (Rarity[b.rarity as keyof typeof Rarity] || 0) - (Rarity[a.rarity as keyof typeof Rarity] || 0)
+       );
    } else {
       return results.sort((a, b) => 
-        (Rarity[b.rarity as keyof typeof Rarity] || 0) - (Rarity[a.rarity as keyof typeof Rarity] || 0)
-      );
+         (Rarity[a.rarity as keyof typeof Rarity] || 0) - (Rarity[b.rarity as keyof typeof Rarity] || 0)
+       );
    }
 }

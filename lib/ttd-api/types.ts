@@ -45,7 +45,7 @@ export enum SortingOrder {
 export enum SortingOptions {
     "name",
     "rarity",
-    "existing_count",
+    "exist_count",
 }
 
 // Crates

@@ -40,7 +40,7 @@ export function ItemGrid({
     const [page, setPage] = useState(1);
     const [maxPages, setMaxPages] = useState(1);
 
-    const [sortingOrder, setSortingOrder] = useState<SortingOrder>(SortingOrder.ascending);
+    const [sortingOrder, setSortingOrder] = useState<SortingOrder>(SortingOrder.descending);
     const [sortingOption, setSortingOption] = useState<SortingOptions>(SortingOptions.rarity);
 
     const searchParams = useSearchParams();

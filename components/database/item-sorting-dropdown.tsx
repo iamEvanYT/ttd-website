@@ -33,9 +33,10 @@ export default function ItemSortingDropdown({
    const sortingOrderArrow = sortingOrder === SortingOrder.ascending ? "↑" : "↓";
 
    const onSelect = (key: string) => {
-      if (key === SortingOptions[sortingOption]) 
+      if (key === SortingOptions[sortingOption]) {
          // if the user selected the current sorting option, switch the sortingOrder
-         return setSortingOrder(sortingOrder === SortingOrder.ascending ? SortingOrder.descending : SortingOrder.ascending); 
+         return setSortingOrder(sortingOrder === SortingOrder.ascending ? SortingOrder.descending : SortingOrder.ascending);
+      }
       
       return setSortingOption(SortingOptions[key as keyof typeof SortingOptions]);
    };
@@ -50,7 +51,7 @@ export default function ItemSortingDropdown({
             <DropdownMenuSeparator />
 
             {Object.keys(SortingOptions).filter((v) => isNaN(Number(v))).map((key) => (
-               <DropdownMenuItem key={key} onSelect={() => onSelect(key)} className={cn(SortingOptions[sortingOption] === key ? "bg-zinc-800" : "")}>
+               <DropdownMenuItem key={key} onSelect={() => onSelect(key)} className={cn(SortingOptions[sortingOption] === key ? "bg-gray-200 dark:bg-zinc-800" : "")}>
                   {sortingOrderArrow} {key
                      .replace("_", " ")
                      .split(" ")
