@@ -60,27 +60,26 @@ export default function ItemSearchBar({
   };
 
   return (
-<div className={cn("flex flex-row h-10", className)}>
-  <Input
-    className="p-5 px-4 h-full"
-    placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
-    value={query}
-    onChange={handleChange}
-  />
+    <div className={cn("flex flex-row h-10", className)}>
+      <Input
+        className="p-5 px-4 h-full"
+        placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
+        value={query}
+        onChange={handleChange}
+      />
 
-  <div className="ml-2">
-    <ItemSortingDropdown SortingOptionsState={SortingOptionsState} SortingOrderState={SortingOrderState}>
-      <Button
-        variant="outline"
-        size="icon"
-        className="h-10 w-10"
-        aria-label="Filter"
-      >
-        <FilterIcon className="h-4 w-4" />
-      </Button>
-    </ItemSortingDropdown>
-  </div>
-</div>
-
+      <div className="ml-2">
+        <ItemSortingDropdown SortingOptionsState={SortingOptionsState} SortingOrderState={SortingOrderState}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-10 w-10"
+            aria-label="Filter"
+          >
+            <FilterIcon className="h-4 w-4" />
+          </Button>
+        </ItemSortingDropdown>
+      </div>
+    </div>
   );
 }
