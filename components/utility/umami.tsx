@@ -14,7 +14,6 @@ function RawUmami() {
     </>
 }
 
-
 export const Umami = dynamic(async () => RawUmami, {
     ssr: false,
 })

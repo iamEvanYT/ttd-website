@@ -214,8 +214,6 @@ export function refreshCache() {
 if (!ttdAPIData.refreshIntervalID) {
     refreshCache()
     ttdAPIData.refreshIntervalID = setInterval(refreshCache, REFRESH_INTERVAL);
-
-    console.log("TTD API Service Started!")
 }
 
 // Grabber //
