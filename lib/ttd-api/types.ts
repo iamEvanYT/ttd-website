@@ -3,7 +3,7 @@ export type ItemTypes = "Troops" | "Crates"
 
 /**
  * Represents the data structure for an item in the game.
- */
+*/
 export interface ItemData {
     id: string;
     display: string;
@@ -12,6 +12,16 @@ export interface ItemData {
 }
 
 /**
+ * Extend the data structure to include useful data for an item in the game.
+*/
+export type ExtendedItemData = {
+    type: ItemTypes,
+    exists: number,
+    imageURL: string,
+} & ItemData;
+
+// Sorting / Filtering
+/**
  * Represents what can be filtered/sorted on fetch requests.
  */
 export interface FetchOptions {
@@ -19,13 +29,21 @@ export interface FetchOptions {
 }
 
 /**
- * Extend the data structure to include useful data for an item in the game.
+ * An enum that represents the roder of which units/crates can be sorted.
  */
-export type ExtendedItemData = {
-    type: ItemTypes,
-    exists: number,
-    imageURL: string,
-} & ItemData;
+export enum SortingOrder {
+    "ascending",
+    "descending"
+}
+
+/**
+ * An enum that represents how units/crates can be sorted.
+ */
+export enum SortingOptions {
+    "name",
+    "rarity",
+    "existing_count",
+}
 
 // Crates
 /**

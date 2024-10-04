@@ -4,6 +4,9 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Button } from "../ui/button";
+import { FilterIcon } from "lucide-react";
+import ItemSortingDropdown from "./item-sorting-dropdown";
 
 type ItemSearchBarProps = {
   type: string;
@@ -47,11 +50,25 @@ export default function ItemSearchBar({
   };
 
   return (
-    <Input
-      className={cn("p-5 px-4", className)}
-      placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
-      value={query}
-      onChange={handleChange}
-    />
+    <div className="flex flex-row">
+      <Input
+        className={cn("p-5 px-4", className)}
+        placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
+        value={query}
+        onChange={handleChange}
+      />
+      <div className="flex ml-2">
+        <ItemSortingDropdown>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-10 w-10"
+            aria-label="Filter"
+          >
+            <FilterIcon className="h-4 w-4" />
+          </Button>
+        </ItemSortingDropdown>
+      </div>
+    </div>
   );
 }
