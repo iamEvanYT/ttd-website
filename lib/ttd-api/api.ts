@@ -1,15 +1,39 @@
-import { getCrateData, getCrateDisplays, getExistCount, getTroopData, getTroopDisplays } from "@/lib/ttd-api/raw-api";
-import { ExtendedCrateData, ExtendedTroopData, Rarity, StructuredExistCount } from "./types";
+import { getCrateData, getCrateDisplays, getExistCount, getSummonBanners, getTroopData, getTroopDisplays } from "@/lib/ttd-api/raw-api";
+import { ExtendedCrateData, ExtendedSummonItem, ExtendedTroopData, Rarity, StructuredExistCount, SummonBannerData } from "./types";
 
 const REFRESH_INTERVAL = (5 * 60 * 1000)
 
 const rarities = Object.values(Rarity);
+
+const AvalibleSummonBanners = [
+    {
+        id: "BasicCrate",
+        display: "Basic Crate",
+        displayPrice: "100 Coins",
+    },
+    {
+        id: "MythicCrate",
+        display: "Mythic Crate",
+        displayPrice: "1200 Coins",
+    },
+    {
+        id: "NoobToiletCrate",
+        display: "[Event] Noob Toilet Crate",
+        displayPrice: "250 Coins",
+    },
+    {
+        id: "AdvancedToiletCrate",
+        display: "[Event] Advanced Toilet Crate",
+        displayPrice: "500 Coins",
+    },
+]
 
 // Cache //
 type ttdAPIData = {
     existCounts: StructuredExistCount[] | null;
     troopDatas: ExtendedTroopData[] | null;
     crateDatas: ExtendedCrateData[] | null;
+    summonDatas: SummonBannerData[] | null;
 
     refreshIntervalID: any | null;
 }
@@ -22,6 +46,7 @@ const ttdAPIData: ttdAPIData = global.ttdAPIData || {
     existCounts: null,
     troopDatas: null,
     crateDatas: null,
+    summonDatas: null,
 
     refreshIntervalID: null,
 }
@@ -182,6 +207,51 @@ async function refreshCrates() {
     }).catch(() => false);
 }
 
+async function refreshSummons() {
+    return await getSummonBanners().then(async (rawBannerData) => {
+        if (!rawBannerData) {
+            return false
+        }
+
+        const newSummonDatas: SummonBannerData[] = []
+
+        AvalibleSummonBanners.forEach((bannerData) => {
+            const bannerItems = rawBannerData[bannerData.id];
+
+            const extendedBannerItems: ExtendedSummonItem[] = bannerItems?.map(({ id, chance }) => {
+                const itemData = ttdAPIData.troopDatas?.find((item) => {
+                    if (item.id === id) {
+                        return true
+                    }
+                });
+
+                if (itemData) {
+                    return {
+                        ...itemData,
+                        chance
+                    }
+                } else {
+                    return {
+                        chance
+                    }
+                }
+            });
+
+            extendedBannerItems.sort((a, b) => {
+                return a?.chance - b?.chance
+            })
+
+            newSummonDatas.push({
+                ...bannerData,
+                items: extendedBannerItems
+            })
+        })
+
+        ttdAPIData.summonDatas = newSummonDatas;
+        return true
+    }).catch(() => false);
+}
+
 let refreshPromise: Promise<boolean> | null = null;
 export function refreshCache() {
     if (refreshPromise) {
@@ -201,6 +271,11 @@ export function refreshCache() {
 
         const refreshedCrates = await refreshCrates();
         if (!refreshedCrates) {
+            return false
+        }
+
+        const refreshedSummons = await refreshSummons();
+        if (!refreshedSummons) {
             return false
         }
 
@@ -236,4 +311,11 @@ export async function getCrateDatas() {
         await refreshCache();
     }
     return ttdAPIData.crateDatas
+}
+
+export async function getSummonDatas() {
+    if (!ttdAPIData.summonDatas) {
+        await refreshCache();
+    }
+    return ttdAPIData.summonDatas
 }

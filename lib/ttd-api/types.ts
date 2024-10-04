@@ -97,10 +97,8 @@ export interface ExistCount {
 /**
  * Represents the summon banners data.
  */
-export interface SummonBanners {
-    JesterCrate: SummonItem[];
-    MythicCrate: SummonItem[];
-    BasicCrate: SummonItem[];
+export type SummonBanners = {
+    [bannerId: string]: SummonItem[];
 }
 
 export interface SummonItem {
@@ -108,6 +106,16 @@ export interface SummonItem {
     chance: number;
 }
 
+export type ExtendedSummonItem = (ExtendedItemData | {}) & {
+    chance: number
+}
+
+export type SummonBannerData = {
+    id: string;
+    display: string;
+    displayPrice: string;
+    items?: ExtendedSummonItem[];
+}
 
 // Rarity
 /**

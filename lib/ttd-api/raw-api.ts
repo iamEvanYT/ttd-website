@@ -29,6 +29,7 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T |
         const updatedOptions: RequestInit = {
             ...options,
             headers,
+            cache: 'no-cache',
         };
 
         options = updatedOptions

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Cross1Icon } from '@radix-ui/react-icons';
-import { Ghost, Home, Package } from 'lucide-react';
+import { Ghost, Home, Package, Sparkle } from 'lucide-react';
 
 const navItems = {
   '/database': {
@@ -19,6 +19,11 @@ const navItems = {
   '/database/crates': {
     name: 'Crates',
     icon: <Package />,
+    newTab: false,
+  },
+  '/database/summons': {
+    name: 'Summons',
+    icon: <Sparkle />,
     newTab: false,
   },
 };
@@ -51,13 +56,12 @@ export function DatabaseTopbar() {
                 rel={newTab ? 'noopener noreferrer' : undefined}
                 className="text-white font-medium hover:underline underline-offset-4 flex gap-1.5"
               >
-                {icon && icon}
+                {icon}
                 {name}
               </Link>
             ))}
           </nav>
 
-          {/* Optional: Add a placeholder for right side if needed */}
           <div className="hidden sm:block w-6" /> {/* Adjust width as needed */}
         </header>
 
@@ -76,15 +80,16 @@ export function DatabaseTopbar() {
                 </button>
               </div>
               <nav className="flex flex-col gap-4">
-                {Object.entries(navItems).map(([path, { name, newTab }]) => (
+                {Object.entries(navItems).map(([path, { name, icon, newTab }]) => (
                   <Link
                     key={path}
                     href={path}
                     target={newTab ? '_blank' : undefined}
                     rel={newTab ? 'noopener noreferrer' : undefined}
                     onClick={toggleMenu}
-                    className="text-white font-medium hover:underline underline-offset-4"
+                    className="text-white font-medium hover:underline underline-offset-4 flex flex-row gap-2"
                   >
+                    {icon}
                     {name}
                   </Link>
                 ))}

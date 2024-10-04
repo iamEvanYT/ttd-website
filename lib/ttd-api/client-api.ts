@@ -2,7 +2,7 @@
 
 // Basically, despite the naming, it works on the server, and should be the only api exposed to the client.
 
-import { getCrateDatas, getTroopDatas } from "@/lib/ttd-api/api"
+import { getCrateDatas, getSummonDatas, getTroopDatas } from "@/lib/ttd-api/api"
 import type { ExtendedItemData, ExtendedTroopData, FetchOptions, ItemTypes } from "./types";
 import { DATABASE_PAGE_SIZE } from "@/configuration";
 import Sort from "./sorting";
@@ -105,4 +105,9 @@ export async function getItemData(type: ItemTypes, id: string) {
     } else {
         return null
     }
+}
+
+// Summons
+export async function getSummons() {
+    return await getSummonDatas()
 }

@@ -22,7 +22,7 @@ interface PromoCardProps {
 }
 function PromoCard({ title, description, image, link }: PromoCardProps) {
     return (
-        <div className="w-full my-4 sm:my-5 p-5">
+        <div className="w-full my-4 sm:my-5 px-5">
             <div className="border w-full rounded-xl shadow-lg p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-center">
                 <div className="flex-1 flex flex-col gap-2 text-center sm:text-left mb-4 sm:mb-0">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{title}</h1>
@@ -80,6 +80,13 @@ export default function DatabaseHomePage() {
             description="Discover all crates here!"
             image="/images/database/crate-card.png"
             link="/database/crates"
+        />
+
+        <PromoCard
+            title="Summons Database"
+            description="Explore the currently avalible summons here!"
+            image="/images/database/summon-card.png"
+            link="/database/summons"
         />
 
         <div className="pb-5" />

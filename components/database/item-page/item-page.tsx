@@ -1,7 +1,15 @@
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 import { getItemData } from "@/lib/ttd-api/client-api";
 import Image from "next/image";
 import { DatabaseTopbar } from "@/components/database/topbar";
-import type { ExtendedTroopData, ItemTypes } from "@/lib/ttd-api/types";
+import type { ExtendedCrateData, ExtendedTroopData, ItemTypes } from "@/lib/ttd-api/types";
 import { ItemDropdownMenu } from "./dropdown-menu";
 import { Badge } from "@/components/ui/badge"
 import { notFound } from "next/navigation";
@@ -10,7 +18,7 @@ function numberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function ShowingTags({ itemData }: { itemData: ExtendedTroopData | any }) {
+function ShowingTags({ itemData }: { itemData: ExtendedTroopData }) {
     if (itemData.tags?.length === 0 || !itemData.tags) {
         return null;
     }
@@ -42,8 +50,10 @@ export async function DatabaseItemDetails({
     const {
         display: displayName,
         exists,
-        imageURL
+        imageURL,
     } = itemData;
+
+    const inferredExists = (itemData as ExtendedCrateData).inferredExists
 
     return <>
         <div className="flex flex-col justify-center m-5 gap-3">
@@ -61,16 +71,20 @@ export async function DatabaseItemDetails({
                         <h1 className="text-2xl font-bold">{displayName}</h1>
                         Rarity: {itemData.rarity}
                         <br />
-                        Exists: {numberWithCommas(exists)}
-                        <ShowingTags itemData={itemData} />
+                        {!inferredExists && "Exists:" || "Ever Existed:"} {numberWithCommas(exists)}
+                        {inferredExists && <>
+                            <br />
+                            Exists (Estimated): {inferredExists >= 0 && numberWithCommas(inferredExists) || "???"}
+                        </>}
+                        <ShowingTags itemData={(itemData as ExtendedTroopData)} />
                     </div>
                 </div>
                 <div className="ml-auto">
                     <ItemDropdownMenu itemData={itemData} />
                 </div>
             </div>
-            <div className="flex w-[95%] h-full p-5 border rounded-xl shadow-lg">
-
+            <div className="w-[95%] h-full p-5 border rounded-xl shadow-lg text-center font-bold text-xl">
+                🚧 In Construction 🚧
             </div>
         </div>
     </>
