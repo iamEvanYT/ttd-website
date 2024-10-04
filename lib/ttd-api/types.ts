@@ -115,13 +115,13 @@ export interface SummonItem {
  * Make sure to have it always be sorted in a descending rarity scale
  */
 export enum Rarity {
-    "Utlimate", 
-    "Exclusive", 
-    "Godly", 
+    "Ultimate",
+    "Exclusive",
+    "Godly",
     "Mythic",
-    "Legendary", 
-    "Epic", 
-    "Rare", 
-    "Uncommon", 
+    "Legendary",
+    "Epic",
+    "Rare",
+    "Uncommon",
     "Basic"
 }

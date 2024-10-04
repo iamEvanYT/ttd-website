@@ -1,19 +1,9 @@
 import { getCrateData, getCrateDisplays, getExistCount, getTroopData, getTroopDisplays } from "@/lib/ttd-api/raw-api";
-import { ExtendedCrateData, ExtendedTroopData, StructuredExistCount } from "./types";
+import { ExtendedCrateData, ExtendedTroopData, Rarity, StructuredExistCount } from "./types";
 
 const REFRESH_INTERVAL = (5 * 60 * 1000)
 
-const rarities = [
-    "Ultimate",
-    "Exclusive",
-    "Godly",
-    "Mythic",
-    "Legendary",
-    "Epic",
-    "Rare",
-    "Uncommon",
-    "Basic"
-]
+const rarities = Object.values(Rarity);
 
 // Cache //
 let existCounts: StructuredExistCount[] | null = null;
