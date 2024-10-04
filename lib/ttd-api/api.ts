@@ -6,9 +6,27 @@ const REFRESH_INTERVAL = (5 * 60 * 1000)
 const rarities = Object.values(Rarity);
 
 // Cache //
-let existCounts: StructuredExistCount[] | null = null;
-let troopDatas: ExtendedTroopData[] | null = null;
-let crateDatas: ExtendedCrateData[] | null = null;
+type ttdAPIData = {
+    existCounts: StructuredExistCount[] | null;
+    troopDatas: ExtendedTroopData[] | null;
+    crateDatas: ExtendedCrateData[] | null;
+
+    refreshIntervalID: any | null;
+}
+
+declare namespace global {
+    var ttdAPIData: ttdAPIData
+}
+
+const ttdAPIData: ttdAPIData = global.ttdAPIData || {
+    existCounts: null,
+    troopDatas: null,
+    crateDatas: null,
+
+    refreshIntervalID: null,
+}
+
+global.ttdAPIData = ttdAPIData
 
 export async function refreshExistCount() {
     return await getExistCount().then((rawExistCounts) => {
@@ -31,7 +49,7 @@ export async function refreshExistCount() {
             }
         }).filter((existCount) => (existCount !== null));
 
-        existCounts = newExistCounts
+        ttdAPIData.existCounts = newExistCounts
 
         return true
     }).catch(() => false);
@@ -51,7 +69,7 @@ async function refreshTroops() {
                     return
                 }
 
-                const existsData = (existCounts && existCounts.find(({ type, id }) => {
+                const existsData = (ttdAPIData.existCounts && ttdAPIData.existCounts.find(({ type, id }) => {
                     return type === "Troops" && id === troopData.id
                 }));
 
@@ -86,7 +104,7 @@ async function refreshTroops() {
             return a.display.localeCompare(b.display);
         });
 
-        troopDatas = newTroopDatas;
+        ttdAPIData.troopDatas = newTroopDatas;
         return true
     }).catch(() => false);
 }
@@ -105,7 +123,7 @@ async function refreshCrates() {
                     return
                 }
 
-                const existsData = (existCounts && existCounts.find(({ type, id }) => {
+                const existsData = (ttdAPIData.existCounts && ttdAPIData.existCounts.find(({ type, id }) => {
                     return type === "Crates" && id === crateData.id
                 }));
 
@@ -116,7 +134,7 @@ async function refreshCrates() {
                     let itemsExists = 0;
 
                     crateData.items.forEach(({ ItemId, Chance }) => {
-                        const troopData = troopDatas?.find(({ id }) => id === ItemId);
+                        const troopData = ttdAPIData.troopDatas?.find(({ id }) => id === ItemId);
                         if (!troopData) {
                             return;
                         }
@@ -159,7 +177,7 @@ async function refreshCrates() {
             return a.display.localeCompare(b.display);
         });
 
-        crateDatas = newCrateDatas;
+        ttdAPIData.crateDatas = newCrateDatas;
         return true
     }).catch(() => false);
 }
@@ -193,27 +211,31 @@ export function refreshCache() {
     return refreshPromise
 }
 
-refreshCache()
-setInterval(refreshCache, REFRESH_INTERVAL);
+if (!ttdAPIData.refreshIntervalID) {
+    refreshCache()
+    ttdAPIData.refreshIntervalID = setInterval(refreshCache, REFRESH_INTERVAL);
+
+    console.log("TTD API Service Started!")
+}
 
 // Grabber //
 export async function getExistCounts() {
-    if (!existCounts) {
+    if (!ttdAPIData.existCounts) {
         await refreshCache();
     }
-    return existCounts
+    return ttdAPIData.existCounts
 }
 
 export async function getTroopDatas() {
-    if (!troopDatas) {
+    if (!ttdAPIData.troopDatas) {
         await refreshCache();
     }
-    return troopDatas
+    return ttdAPIData.troopDatas
 }
 
 export async function getCrateDatas() {
-    if (!crateDatas) {
+    if (!ttdAPIData.crateDatas) {
         await refreshCache();
     }
-    return crateDatas
+    return ttdAPIData.crateDatas
 }
