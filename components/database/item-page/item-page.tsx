@@ -4,6 +4,7 @@ import { DatabaseTopbar } from "@/components/database/topbar";
 import type { ExtendedTroopData, ItemTypes } from "@/lib/ttd-api/types";
 import { ItemDropdownMenu } from "./dropdown-menu";
 import { Badge } from "@/components/ui/badge"
+import { notFound } from "next/navigation";
 
 function numberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -35,11 +36,7 @@ export async function DatabaseItemDetails({
     const itemData = await getItemData(type, id);
 
     if (!itemData) {
-        return (
-            <div className="align-baseline flex justify-center py-10">
-                Item not found.
-            </div>
-        )
+        return notFound();
     }
 
     const {
