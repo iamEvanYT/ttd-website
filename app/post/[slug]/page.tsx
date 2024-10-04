@@ -1,6 +1,5 @@
 import { getPosts, getSinglePost } from '@/lib/ghost-cms';
 import { PostOrPage } from '@tryghost/content-api';
-import { DynamicCSS } from '@/components/utility/dynamic-css';
 import { GhostBlogPost } from '@/components/ghost/post';
 import { OPENGRAPH_SITE_NAME } from '@/configuration';
 
@@ -27,7 +26,7 @@ export async function generateMetadata({ params } : { params: URLParams }) {
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 
-  let {
+  const {
     title,
     meta_description: description,
     published_at: publishedTime,

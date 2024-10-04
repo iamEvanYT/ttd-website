@@ -11,8 +11,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import dynamic from "next/dynamic"
 
-export function ThemeToggle() {
+function RawThemeToggle() {
   const { setTheme } = useTheme()
 
   return (
@@ -38,3 +39,7 @@ export function ThemeToggle() {
     </DropdownMenu>
   )
 }
+
+export const ThemeToggle = dynamic(async () => RawThemeToggle, {
+  ssr: false,
+})
