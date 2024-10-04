@@ -7,10 +7,15 @@ import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { FilterIcon } from "lucide-react";
 import ItemSortingDropdown from "./item-sorting-dropdown";
+import { SortingOptions, SortingOrder } from "@/lib/ttd-api/types";
+
 
 type ItemSearchBarProps = {
   type: string;
   className?: string;
+
+  SortingOrderState: [SortingOrder, React.Dispatch<React.SetStateAction<SortingOrder>>]
+  SortingOptionsState: [SortingOptions, React.Dispatch<React.SetStateAction<SortingOptions>>]
 };
 
 const typeDisplays: { [key: string]: string } = {
@@ -22,9 +27,14 @@ const fallbackTypeDisplay = "an item"
 export default function ItemSearchBar({
   type,
   className,
+
+  SortingOptionsState,
+  SortingOrderState
 }: ItemSearchBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  
 
   const [query, setQuery] = useState(searchParams.get("q") || "");
 
@@ -50,25 +60,27 @@ export default function ItemSearchBar({
   };
 
   return (
-    <div className="flex flex-row">
-      <Input
-        className={cn("p-5 px-4", className)}
-        placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
-        value={query}
-        onChange={handleChange}
-      />
-      <div className="flex ml-2">
-        <ItemSortingDropdown>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-10 w-10"
-            aria-label="Filter"
-          >
-            <FilterIcon className="h-4 w-4" />
-          </Button>
-        </ItemSortingDropdown>
-      </div>
-    </div>
+<div className={cn("flex flex-row h-10", className)}>
+  <Input
+    className="p-5 px-4 h-full"
+    placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
+    value={query}
+    onChange={handleChange}
+  />
+
+  <div className="ml-2">
+    <ItemSortingDropdown SortingOptionsState={SortingOptionsState} SortingOrderState={SortingOrderState}>
+      <Button
+        variant="outline"
+        size="icon"
+        className="h-10 w-10"
+        aria-label="Filter"
+      >
+        <FilterIcon className="h-4 w-4" />
+      </Button>
+    </ItemSortingDropdown>
+  </div>
+</div>
+
   );
 }

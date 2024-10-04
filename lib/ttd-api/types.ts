@@ -7,7 +7,7 @@ export type ItemTypes = "Troops" | "Crates"
 export interface ItemData {
     id: string;
     display: string;
-    rarity: string;
+    rarity: keyof typeof Rarity;
     image: number;
 }
 
@@ -25,6 +25,9 @@ export type ExtendedItemData = {
  * Represents what can be filtered/sorted on fetch requests.
  */
 export interface FetchOptions {
+    SortingOrder: SortingOrder,
+    SortBy: SortingOptions,
+
     name?: string,
 }
 
@@ -103,4 +106,22 @@ export interface SummonBanners {
 export interface SummonItem {
     id: string;
     chance: number;
+}
+
+
+// Rarity
+/**
+ * Represents all of the possible rarities a troop/crate can have
+ * Make sure to have it always be sorted in a descending rarity scale
+ */
+export enum Rarity {
+    "Utlimate", 
+    "Exclusive", 
+    "Godly", 
+    "Mythic",
+    "Legendary", 
+    "Epic", 
+    "Rare", 
+    "Uncommon", 
+    "Basic"
 }
