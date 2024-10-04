@@ -4,7 +4,7 @@ import { ItemCard } from "@/components/database/item-card";
 import { DATABASE_LOAD_COOLDOWN } from "@/configuration";
 import { getItemsPage } from "@/lib/ttd-api/client-api";
 
-import type { ExtendedItemData, FetchOptions, ItemTypes } from "@/lib/ttd-api/types";
+import { SortingOptions, SortingOrder, type ExtendedItemData, type FetchOptions, type ItemTypes } from "@/lib/ttd-api/types";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -34,9 +34,14 @@ export function ItemGrid({
 
     const loadCooldownRef = useRef(false);
     const prevSearchQuery = useRef<string | null>(null);
+    const prevSortOrder = useRef<SortingOrder | null>(null);
+    const prevSortOption = useRef<SortingOptions | null>(null);
 
     const [page, setPage] = useState(1);
     const [maxPages, setMaxPages] = useState(1);
+
+    const [sortingOrder, setSortingOrder] = useState<SortingOrder>(SortingOrder.descending);
+    const [sortingOption, setSortingOption] = useState<SortingOptions>(SortingOptions.rarity);
 
     const searchParams = useSearchParams();
     const searchQuery = searchParams.get("q");
@@ -51,9 +56,12 @@ export function ItemGrid({
     }
 
     useEffect(() => {
-        if (searchQuery !== prevSearchQuery.current) {
+        if (searchQuery !== prevSearchQuery.current || prevSortOption.current !== sortingOption || prevSortOrder.current !== sortingOrder) {
             loadCooldownRef.current = false;
             prevSearchQuery.current = searchQuery;
+            
+            prevSortOption.current = sortingOption;
+            prevSortOrder.current = sortingOrder;
 
             setPage(1);
             setMaxPages(1);
@@ -63,6 +71,9 @@ export function ItemGrid({
             loadCooldownRef.current = true;
 
             const options: FetchOptions = {
+                SortBy: sortingOption,
+                SortingOrder: sortingOrder,
+
                 name: searchQuery || undefined,
             };
 
@@ -94,11 +105,15 @@ export function ItemGrid({
                 }, DATABASE_LOAD_COOLDOWN);
             }).catch(setFallbackStates);
         }
-    }, [page, maxPages, searchQuery]);
+    }, [page, maxPages, searchQuery, sortingOption, sortingOrder]);
 
     return (
         <div className="container mx-auto p-4">
-            <ItemSearchBar type={type} className="mb-4" />
+            <ItemSearchBar 
+                SortingOptionsState={[sortingOption, setSortingOption]} 
+                SortingOrderState={[sortingOrder, setSortingOrder]} 
+                type={type} className="mb-4" 
+            />
 
             {loadingId && <div className="align-baseline flex justify-center py-10">
                 <LoadingSpinner />

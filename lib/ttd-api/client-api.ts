@@ -3,8 +3,9 @@
 // Basically, despite the naming, it works on the server, and should be the only api exposed to the client.
 
 import { getCrateDatas, getTroopDatas } from "@/lib/ttd-api/api"
-import type { ExtendedItemData, FetchOptions, ItemTypes } from "./types";
+import type { ExtendedItemData, ExtendedTroopData, FetchOptions, ItemTypes } from "./types";
 import { DATABASE_PAGE_SIZE } from "@/configuration";
+import Sort from "./sorting";
 
 // Pages
 function filterResults<ItemDataType>(results: (ItemDataType & ExtendedItemData)[], options: FetchOptions) {
@@ -46,21 +47,21 @@ function paginateResults(results: any[], page: number) {
 
 export async function getTroopsPage(page: number, options: FetchOptions) {
     let troopDatas = await getTroopDatas();
-    if (!troopDatas) {
-        return paginateResults([], 1);
-    }
+    if (!troopDatas) return paginateResults([], 1);
 
     troopDatas = filterResults(troopDatas, options);
-    return paginateResults(troopDatas, page);
+    troopDatas = await Sort(troopDatas, options.SortingOrder, options.SortBy) as any;
+
+    return paginateResults(troopDatas!, page);
 }
 
 export async function getCratesPage(page: number, options: FetchOptions) {
     let crateDatas = await getCrateDatas();
-    if (!crateDatas) {
-        return paginateResults([], 1);
-    }
+    if (!crateDatas) return paginateResults([], 1);
 
     crateDatas = filterResults(crateDatas, options);
+    crateDatas = await Sort(crateDatas, options.SortingOrder, options.SortBy);
+
     return paginateResults(crateDatas, page);
 }
 

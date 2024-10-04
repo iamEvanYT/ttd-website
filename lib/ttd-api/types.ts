@@ -3,29 +3,50 @@ export type ItemTypes = "Troops" | "Crates"
 
 /**
  * Represents the data structure for an item in the game.
- */
+*/
 export interface ItemData {
     id: string;
     display: string;
-    rarity: string;
+    rarity: keyof typeof Rarity;
     image: number;
 }
 
 /**
- * Represents what can be filtered/sorted on fetch requests.
- */
-export interface FetchOptions {
-    name?: string,
-}
-
-/**
  * Extend the data structure to include useful data for an item in the game.
- */
+*/
 export type ExtendedItemData = {
     type: ItemTypes,
     exists: number,
     imageURL: string,
 } & ItemData;
+
+// Sorting / Filtering
+/**
+ * Represents what can be filtered/sorted on fetch requests.
+ */
+export interface FetchOptions {
+    SortingOrder: SortingOrder,
+    SortBy: SortingOptions,
+
+    name?: string,
+}
+
+/**
+ * An enum that represents the roder of which units/crates can be sorted.
+ */
+export enum SortingOrder {
+    "ascending",
+    "descending"
+}
+
+/**
+ * An enum that represents how units/crates can be sorted.
+ */
+export enum SortingOptions {
+    "name",
+    "rarity",
+    "exist_count",
+}
 
 // Crates
 /**
@@ -85,4 +106,22 @@ export interface SummonBanners {
 export interface SummonItem {
     id: string;
     chance: number;
+}
+
+
+// Rarity
+/**
+ * Represents all of the possible rarities a troop/crate can have
+ * Make sure to have it always be sorted in a descending rarity scale
+ */
+export enum Rarity {
+    "Ultimate",
+    "Exclusive",
+    "Godly",
+    "Mythic",
+    "Legendary",
+    "Epic",
+    "Rare",
+    "Uncommon",
+    "Basic"
 }
