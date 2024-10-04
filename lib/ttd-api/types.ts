@@ -70,7 +70,7 @@ export type TroopData = {
     levels: number;
     price?: number;
     display: string;
-    tags: string[];
+    tags?: string[];
 } & ItemData;
 
 export type ExtendedTroopData = TroopData & ExtendedItemData;

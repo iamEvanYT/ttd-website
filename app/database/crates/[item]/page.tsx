@@ -3,6 +3,8 @@ import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { getCrateDatas } from "@/lib/ttd-api/api";
 import { getCrateData } from "@/lib/ttd-api/client-api";
 
+export const revalidate = 60;
+
 type URLParams = {
     item: string
 }
@@ -64,5 +66,5 @@ export default async function ItemPage({
 }: {
     params: URLParams
 }) {
-    return <DatabaseItemPage type="Troops" id={item} />
+    return <DatabaseItemPage type="Crates" id={item} />
 }

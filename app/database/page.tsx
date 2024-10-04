@@ -14,41 +14,41 @@ export const metadata: Metadata = {
     }
 };
 
-function PromoCard({
-    title,
-    description,
-    image,
-    link
-}: {
-    title: string,
-    description: string,
-    image?: string,
+interface PromoCardProps {
+    title: string
+    description: string
+    image?: string
     link?: string
-}) {
+}
+function PromoCard({ title, description, image, link }: PromoCardProps) {
     return (
-        <div className="w-full aspect-[3/1] h-80 flex justify-center my-5">
-            <div className="border w-[90%] rounded-xl shadow-lg p-5 flex justify-between items-center">
-                <div className="flex-1 flex flex-col gap-2 pl-2">
-                    <h1 className="text-4xl font-bold">{title}</h1>
-                    <span className="text-xl">{description}</span>
-                    <div className="py-5">
-                        {link && <Link href={link} passHref>
-                            <Button className="group" variant="default" size="xl">
-                                Open
-                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={3} />
-                            </Button>
-                        </Link>}
+        <div className="w-full my-4 sm:my-5 p-5">
+            <div className="border w-full rounded-xl shadow-lg p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-center">
+                <div className="flex-1 flex flex-col gap-2 text-center sm:text-left mb-4 sm:mb-0">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{title}</h1>
+                    <span className="text-base sm:text-lg md:text-xl">{description}</span>
+                    {link && (
+                        <div className="py-3 sm:py-5">
+                            <Link href={link} passHref>
+                                <Button className="group w-full sm:w-auto" variant="default" size="lg">
+                                    Open
+                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={3} />
+                                </Button>
+                            </Link>
+                        </div>
+                    )}
+                </div>
+                {image && (
+                    <div className="w-full sm:w-auto">
+                        <Image
+                            src={image}
+                            alt="Promo Image"
+                            className="object-contain w-full h-auto sm:h-48 md:h-56 lg:h-64"
+                            width={250}
+                            height={250}
+                        />
                     </div>
-                </div>
-                <div className="aspect-[1/3]">
-                    {image && <Image
-                        src={image}
-                        alt="Database"
-                        className="object-contain h-[100%] w-fit right-0"
-                        height={250}
-                        width={250}
-                    />}
-                </div>
+                )}
             </div>
         </div>
     )
