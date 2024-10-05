@@ -15,17 +15,36 @@ export function GhostTemplatePage({ page }: { page: PostOrPage }) {
     return (
         <InnerDOM
             title={page.title ?? page.slug}
-            className="w-full h-screen border-none"
+            className="border-none"
         >
             <DynamicCSS hrefs={[
-                '/ghost/css/global.css',
-                '/ghost/css/screen.css',
-                '/ghost/css/cards.css'
+                '/ghost/css/main.css',
+                '/ghost/css/cards.css',
+
+                '/ghost/css/override.css',
             ]} />
-            
-            <div className="relative mx-auto py-10 px-5 site-content gh-canvas">
+
+            <div className="site-content gh-canvas" style={{
+                // tailwind "relative"
+                position: "relative",
+
+                // tailwind "mx-auto"
+                marginLeft: "auto",
+                marginRight: "auto",
+
+                // tailwind "py-10"
+                paddingTop: "2.5rem",
+                paddingBottom: "2.5rem",
+
+                // tailwind "px-5"
+                paddingLeft: "1.25rem",
+                paddingRight: "1.25rem",
+            }}>
                 <header className="article-header">
-                    <h1 className="article-title pb-10">{page.title}</h1>
+                    <h1 className="article-title" style={{
+                        // tailwind "pb-10"
+                        paddingBottom: "2.5rem",
+                    }}>{page.title}</h1>
                     {page.primary_author && (
                         <>
                             <UserProfileCard
@@ -33,7 +52,10 @@ export function GhostTemplatePage({ page }: { page: PostOrPage }) {
                                 avatarSrc={page.primary_author.profile_image ?? ""}
                                 bottomText={`${formatISODate(page.published_at ?? "")} · ${page.reading_time} min read`}
                             />
-                            <div className="pb-10" />
+                            <div style={{
+                                // tailwind "pb-10"
+                                paddingBottom: "2.5rem",
+                            }} />
                         </>
                     )}
                     {page.feature_image && (
@@ -42,7 +64,10 @@ export function GhostTemplatePage({ page }: { page: PostOrPage }) {
                             alt={page.feature_image_alt ?? ""}
                             width={1920}
                             height={1080}
-                            className="pb-10"
+                            style={{
+                                // tailwind "pb-10"
+                                paddingBottom: "2.5rem",
+                            }}
                         />
                     )}
                 </header>

@@ -51,31 +51,6 @@ export function InnerDOM({
 
       if (iframeDoc) {
         try {
-          // Copy styles from parent to iframe
-          Array.from(document.styleSheets)
-            .filter(
-              (styleSheet): styleSheet is CSSStyleSheet => {
-                try {
-                  // Attempt to access cssRules to filter out cross-origin stylesheets
-                  return styleSheet.cssRules !== null;
-                } catch (e) {
-                  // If accessing cssRules throws an error, it's likely a cross-origin stylesheet
-                  return false;
-                }
-              }
-            )
-            .forEach((styleSheet) => {
-              const newStyle = iframeDoc.createElement('style');
-
-              Array.from(styleSheet.cssRules).forEach((rule) => {
-                newStyle.appendChild(
-                  iframeDoc.createTextNode(rule.cssText)
-                );
-              });
-
-              iframeDoc.head.appendChild(newStyle);
-            });
-
           // Inject additional styles to reset margins, paddings, and prevent scrolling
           const resetStyle = iframeDoc.createElement('style');
           resetStyle.textContent = `
@@ -89,7 +64,7 @@ export function InnerDOM({
               width: 100%;
             }
             body {
-              overflow: hidden;
+              overflow: none;
             }
             #iframe-wrapper {
               width: 100%;
@@ -298,7 +273,7 @@ export function InnerDOM({
           border: 'none',
           width: '100%',
           height: 'auto', // Allow height to be set dynamically
-          overflow: 'hidden',
+          overflow: 'none',
         }}
         {...props}
       >
