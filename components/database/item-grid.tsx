@@ -31,7 +31,6 @@ export function ItemGrid({
         loadingId = id;
     }
 
-    const loadCooldownRef = useRef(false);
     const prevSearchQuery = useRef<string | null>(null);
     const prevSortOrder = useRef<SortingOrder | null>(null);
     const prevSortOption = useRef<SortingOptions | null>(null);
@@ -49,14 +48,10 @@ export function ItemGrid({
         setPage(1);
         setMaxPages(1);
         setItems([]);
-
-        setLoadingId(null);
-        loadCooldownRef.current = false;
     }
 
     useEffect(() => {
         if (searchQuery !== prevSearchQuery.current || prevSortOption.current !== sortingOption || prevSortOrder.current !== sortingOrder) {
-            loadCooldownRef.current = false;
             prevSearchQuery.current = searchQuery;
             
             prevSortOption.current = sortingOption;
@@ -66,45 +61,40 @@ export function ItemGrid({
             setMaxPages(1);
         }
 
-        if (!loadCooldownRef.current) {
-            loadCooldownRef.current = true;
+        const options: FetchOptions = {
+            SortBy: sortingOption,
+            SortingOrder: sortingOrder,
 
-            const options: FetchOptions = {
-                SortBy: sortingOption,
-                SortingOrder: sortingOrder,
+            name: searchQuery || undefined,
+        };
 
-                name: searchQuery || undefined,
-            };
+        const thisLoadId = crypto.randomUUID();
+        setLoadingId(thisLoadId);
 
-            const thisLoadId = crypto.randomUUID();
-            setLoadingId(thisLoadId);
+        getItemsPage(type, page, options).then((pageData) => {
+            console.log("pageData", pageData)
+            if (!pageData) {
+                return setFallbackStates();
+            }
+            if (loadingId !== thisLoadId) {
+                return setFallbackStates();
+            }
 
-            getItemsPage(type, page, options).then((pageData) => {
-                if (!pageData) {
-                    return setFallbackStates();
-                }
-                if (loadingId !== thisLoadId) {
-                    return setFallbackStates();
-                }
+            const {
+                totalPages,
+                page,
+                items: newItems
+            } = pageData;
 
-                const {
-                    totalPages,
-                    page,
-                    items: newItems
-                } = pageData;
-
+            if (page > totalPages) {
                 setPage(page);
-                setMaxPages(totalPages);
+            }
+            setMaxPages(totalPages);
 
-                setItems(newItems);
-                setLoadingId(null);
-
-                setTimeout(() => {
-                    loadCooldownRef.current = false;
-                }, DATABASE_LOAD_COOLDOWN);
-            }).catch(setFallbackStates);
-        }
-    }, [page, maxPages, searchQuery, sortingOption, sortingOrder]);
+            setItems(newItems);
+            setLoadingId(null);
+        }).catch(setFallbackStates);
+    }, [page, searchQuery, sortingOption, sortingOrder]);
 
     return (
         <div className="container mx-auto p-4">
@@ -115,8 +105,8 @@ export function ItemGrid({
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-5">
-                {loadingId && ((items.length > 0 && items) || new Array(DATABASE_PAGE_SIZE).fill("")).map(() => {
-                    return <SkeletonItemCard />
+                {loadingId && ((items.length > 0 && items) || new Array(DATABASE_PAGE_SIZE).fill("")).map((_, index) => {
+                    return <SkeletonItemCard key={`skeleton-${index}`} />
                 })}
                 {!loadingId && items.map((item, index) => (
                     <Link href={`/database/${databaseItemTypes[type]}/${item.id}`} key={item.id || index}>

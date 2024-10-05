@@ -13,9 +13,10 @@ interface PaginationComponentProps {
     page: number;
     maxPages: number;
     onPageChange?: (page: number) => void;
+    disabled?: boolean;
 }
 
-export const PaginationComponent: React.FC<PaginationComponentProps> = ({ page, maxPages, onPageChange }) => {
+export const PaginationComponent: React.FC<PaginationComponentProps> = ({ page, maxPages, onPageChange, disabled }) => {
     // Helper function to create an array of page numbers and ellipsis
     const getPageNumbers = (): (number | 'ellipsis')[] => {
         const pages: (number | 'ellipsis')[] = [];
@@ -57,14 +58,15 @@ export const PaginationComponent: React.FC<PaginationComponentProps> = ({ page, 
 
     const pageNumbers = getPageNumbers();
 
+    const previousDisabled = (disabled || page === 1);
+    const nextDisabled = (disabled || page === maxPages);
     const handlePageClick = (pageNumber: number) => {
+        if (disabled) return;
+
         if (pageNumber !== page && pageNumber >= 1 && pageNumber <= maxPages && onPageChange) {
             onPageChange(pageNumber);
         }
     };
-
-    const previousDisabled = (page === 1);
-    const nextDisabled = (page === maxPages);
 
     return (
         <Pagination>
@@ -78,6 +80,7 @@ export const PaginationComponent: React.FC<PaginationComponentProps> = ({ page, 
                             e.preventDefault();
                             if (page > 1) handlePageClick(page - 1);
                         }}
+
                         aria-disabled={previousDisabled}
                         tabIndex={previousDisabled ? -1 : undefined}
                         className={`${previousDisabled ? "cursor-not-allowed opacity-50" : ""}`}
@@ -103,6 +106,10 @@ export const PaginationComponent: React.FC<PaginationComponentProps> = ({ page, 
                                     e.preventDefault();
                                     handlePageClick(pageNumber as number);
                                 }}
+
+                                aria-disabled={disabled}
+                                tabIndex={disabled ? -1 : undefined}
+                                className={`${disabled ? "cursor-not-allowed opacity-50" : ""}`}
                             >
                                 {pageNumber}
                             </PaginationLink>
