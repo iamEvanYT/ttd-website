@@ -1,7 +1,7 @@
 "use client"
 
-import { ItemCard } from "@/components/database/item-card";
-import { DATABASE_LOAD_COOLDOWN } from "@/configuration";
+import { ItemCard, SkeletonItemCard } from "@/components/database/item-card";
+import { DATABASE_LOAD_COOLDOWN, DATABASE_PAGE_SIZE } from "@/configuration";
 import { getItemsPage } from "@/lib/ttd-api/client-api";
 
 import { SortingOptions, SortingOrder, type ExtendedItemData, type FetchOptions, type ItemTypes } from "@/lib/ttd-api/types";
@@ -10,7 +10,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ItemSearchBar from "./item-search-bar";
 import { PaginationComponent } from "./item-pagination";
-import { LoadingSpinner } from "../ui/loading";
 import Link from "next/link";
 
 const databaseItemTypes = {
@@ -115,21 +114,16 @@ export function ItemGrid({
                 type={type} className="mb-4" 
             />
 
-            {loadingId && <div className="align-baseline flex justify-center py-10">
-                <LoadingSpinner />
-            </div>}
-
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-5">
-                {items.map((item, index) => (
+                {loadingId && ((items.length > 0 && items) || new Array(DATABASE_PAGE_SIZE).fill("")).map(() => {
+                    return <SkeletonItemCard />
+                })}
+                {!loadingId && items.map((item, index) => (
                     <Link href={`/database/${databaseItemTypes[type]}/${item.id}`} key={item.id || index}>
                         <ItemCard {...item} />
                     </Link>
                 ))}
             </div>
-
-            {(loadingId && items.length > 0) && <div className="align-baseline flex justify-center py-10">
-                <LoadingSpinner />
-            </div>}
 
             {(!loadingId && items.length < 1) && <div className="align-baseline flex justify-center py-10">
                 No items found.

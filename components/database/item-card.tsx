@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { useRef } from "react"
 import { useInView } from "framer-motion"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface ItemProps {
   display: string
@@ -23,6 +24,24 @@ const abbreviateNumber = Intl.NumberFormat('en-US', {
   notation: "compact",
   maximumFractionDigits: 1
 }).format;
+
+export function SkeletonItemCard() {
+  return (
+    <Card className="w-full h-full flex flex-col">
+      <CardHeader className="flex-grow p-4 pb-0">
+        <CardTitle className="text-2xl font-bold text-center mb-2">
+          <Skeleton className="w-full h-fill text-transparent">text</Skeleton>
+        </CardTitle>
+        <div className="flex-grow flex items-center justify-center">
+          <Skeleton className="w-64 h-fill aspect-square object-contain" />
+        </div>
+      </CardHeader>
+      <CardContent className="p-4 mt-auto">
+        <Skeleton className="w-full h-fill h-10 text-transparent">text</Skeleton>
+      </CardContent>
+    </Card>
+  )
+}
 
 export function ItemCard({ display: displayName, imageURL, rarity, exists, inferredExists }: ItemProps) {
   const ref = useRef(null);
