@@ -56,7 +56,7 @@ export async function DatabaseItemDetails({
     const inferredExists = (itemData as ExtendedCrateData).inferredExists
 
     return <>
-        <div className="flex flex-col justify-center m-5 gap-3">
+        <div className="flex flex-col justify-center m-5 gap-3 items-center">
             <div className="flex w-[95%] h-full p-5 border rounded-xl shadow-lg">
                 <div className="flex flex-row w-[95%] h-full">
                     <Image
