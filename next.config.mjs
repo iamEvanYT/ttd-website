@@ -14,6 +14,11 @@ const oldPostSlugs = [
     "roblox-classic-update",
 ]
 
+const extraRedirects = {
+    '/game': "https://www.roblox.com/games/13775256536/",
+    '/discord': "https://discord.com/invite/SrnQt2yDeZ",
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
@@ -34,6 +39,7 @@ const nextConfig = {
     },
     async redirects() {
         const redirects = []
+
         oldPostSlugs.forEach((slug) => {
             redirects.push({
                 source: `/${slug}`,
@@ -41,6 +47,14 @@ const nextConfig = {
                 permanent: true,
             })
         })
+
+        Object.entries(extraRedirects).forEach(([source, destination]) => (
+            redirects.push({
+                source,
+                destination,
+                permanent: true
+            })
+        ))
 
         return redirects
     },
