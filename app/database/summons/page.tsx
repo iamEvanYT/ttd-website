@@ -1,10 +1,9 @@
-import { ItemGrid } from "@/components/database/item-grid";
 import { SummonsList } from "@/components/database/summons/summons-list";
 import { DatabaseTopbar } from "@/components/database/topbar";
-import { LoadingSpinner } from "@/components/ui/loading";
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { Metadata } from "next";
-import { Suspense } from "react";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
     title: "Summons Database",

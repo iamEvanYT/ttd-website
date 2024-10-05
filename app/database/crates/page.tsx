@@ -5,6 +5,8 @@ import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
     title: "Crates Database",
     description: "Explore all avalible Crates here!",
