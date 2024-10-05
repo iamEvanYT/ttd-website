@@ -15,8 +15,8 @@ const oldPostSlugs = [
 ]
 
 const extraRedirects = {
-    '/game': "https://www.roblox.com/games/13775256536/",
-    '/discord': "https://discord.com/invite/SrnQt2yDeZ",
+    // '/game': "https://www.roblox.com/games/13775256536/",
+    // '/discord': "https://discord.com/invite/SrnQt2yDeZ",
 }
 
 /** @type {import('next').NextConfig} */
