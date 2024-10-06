@@ -38,6 +38,10 @@ const pages = [
         url: '/database/crates',
         lastModified: new Date("2024-10-02T19:15:00.967Z"),
     },
+    {
+        url: '/database/summons',
+        lastModified: new Date("2024-10-02T19:15:00.967Z"),
+    },
 ]
 
 export default async function sitemap({

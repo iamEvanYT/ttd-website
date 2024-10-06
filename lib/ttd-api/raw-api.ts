@@ -9,13 +9,17 @@ import {
 
 const BASE_URL = "https://api.toilettowerdefense.com";
 
+type AdditionalFetchOptions = {
+    silent?: boolean
+};
+
 /**
  * Utility function to handle fetch requests.
  * @param endpoint - The API endpoint to call.
  * @param options - Fetch options.
  * @returns The parsed JSON response or null in case of failure.
  */
-async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
+async function fetchApi<T>(endpoint: string, options?: RequestInit, additionalOptions?: AdditionalFetchOptions): Promise<T | null> {
     // Retrieve the API key from environment variables
     const apiKey = process.env.TTD_API_KEY;
     if (apiKey) {
@@ -38,7 +42,9 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T |
     try {
         const response = await fetch(`${BASE_URL}${endpoint}`, options);
         if (!response.ok) {
-            console.error(`API request failed with status ${response.status}: ${response.statusText}`);
+            if (!additionalOptions?.silent) {
+                console.error(`API request failed with status ${response.status}: ${response.statusText}`);
+            }
             return null;
         }
         const data: T = await response.json();
@@ -96,8 +102,11 @@ async function fetchBlob(endpoint: string, options?: RequestInit): Promise<Blob 
  */
 export async function getCrateData(id: string): Promise<CrateData | null> {
     const params = new URLSearchParams({ id });
-    return await fetchApi<CrateData>(`/internal/get-crate-data?${params.toString()}`) ||
-           await fetchApi<CrateData>(`/getCrateData?${params.toString()}`);
+    return (
+        await fetchApi<CrateData>(`/internal/get-crate-data?${params.toString()}`, undefined, { silent: true })
+        ||
+        await fetchApi<CrateData>(`/getCrateData?${params.toString()}`)
+    );
 }
 
 /**
@@ -131,8 +140,11 @@ export async function getSummonBanners(): Promise<SummonBanners | null> {
  */
 export async function getTroopData(id: string): Promise<TroopData | null> {
     const params = new URLSearchParams({ id });
-    return await fetchApi<TroopData>(`/internal/get-troop-data?${params.toString()}`) ||
-           await fetchApi<TroopData>(`/getTroopData?${params.toString()}`);
+    return (
+        await fetchApi<TroopData>(`/internal/get-troop-data?${params.toString()}`, undefined, { silent: true })
+        ||
+        await fetchApi<TroopData>(`/getTroopData?${params.toString()}`)
+    );
 }
 
 /**

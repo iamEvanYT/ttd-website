@@ -1,7 +1,7 @@
 "use client"
 
 import { ItemCard, SkeletonItemCard } from "@/components/database/item-card";
-import { DATABASE_LOAD_COOLDOWN, DATABASE_PAGE_SIZE } from "@/configuration";
+import { DATABASE_PAGE_SIZE } from "@/configuration";
 import { getItemsPage } from "@/lib/ttd-api/client-api";
 
 import { SortingOptions, SortingOrder, type ExtendedItemData, type FetchOptions, type ItemTypes } from "@/lib/ttd-api/types";
@@ -11,6 +11,9 @@ import { useEffect, useRef, useState } from "react";
 import ItemSearchBar from "./item-search-bar";
 import { PaginationComponent } from "./item-pagination";
 import Link from "next/link";
+
+const defaultSortOrder = SortingOrder.descending;
+const defaultSortOption = SortingOptions.rarity;
 
 const databaseItemTypes = {
     "Troops": "units",
@@ -31,18 +34,18 @@ export function ItemGrid({
         loadingId = id;
     }
 
-    const prevSearchQuery = useRef<string | null>(null);
-    const prevSortOrder = useRef<SortingOrder | null>(null);
-    const prevSortOption = useRef<SortingOptions | null>(null);
-
     const [page, setPage] = useState(1);
     const [maxPages, setMaxPages] = useState(1);
 
-    const [sortingOrder, setSortingOrder] = useState<SortingOrder>(SortingOrder.descending);
-    const [sortingOption, setSortingOption] = useState<SortingOptions>(SortingOptions.rarity);
+    const [sortingOrder, setSortingOrder] = useState<SortingOrder>(defaultSortOrder);
+    const [sortingOption, setSortingOption] = useState<SortingOptions>(defaultSortOption);
 
     const searchParams = useSearchParams();
     const searchQuery = searchParams.get("q");
+
+    const prevSearchQuery = useRef<string | null>(null);
+    const prevSortOrder = useRef<SortingOrder | null>(defaultSortOrder);
+    const prevSortOption = useRef<SortingOptions | null>(defaultSortOption);
 
     function setFallbackStates() {
         setPage(1);

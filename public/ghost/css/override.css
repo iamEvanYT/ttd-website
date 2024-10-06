@@ -1,3 +1,12 @@
 .kg-gallery-image,.kg-image[width][height] {
     pointer-events: none !important;
 }
+
+.gh-canvas, .kg-width-full.kg-content-wide {
+    --gap: 20px !important;
+}
+
+.gh-content > *, .gh-content>blockquote+*, .gh-content>hr+* {
+    margin-top: 32px !important;
+    margin-bottom: 0px !important;
+}
