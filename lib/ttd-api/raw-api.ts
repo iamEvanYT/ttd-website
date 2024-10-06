@@ -23,7 +23,7 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T |
         const headers = new Headers(options?.headers || {});
 
         // Set the authorization header with the API key
-        headers.set('authorization', apiKey);
+        headers.set('Authorization', `Bearer ${apiKey}`);
 
         // Merge the new headers back into the options
         const updatedOptions: RequestInit = {
@@ -32,7 +32,7 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T |
             cache: 'no-cache',
         };
 
-        options = updatedOptions
+        options = updatedOptions;
     }
 
     try {
@@ -50,13 +50,54 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T |
 }
 
 /**
+ * Utility function to handle fetch requests for binary data.
+ * @param endpoint - The API endpoint to call.
+ * @param options - Fetch options.
+ * @returns The response as a Blob or null in case of failure.
+ */
+async function fetchBlob(endpoint: string, options?: RequestInit): Promise<Blob | null> {
+    // Retrieve the API key from environment variables
+    const apiKey = process.env.TTD_API_KEY;
+    if (apiKey) {
+        // Initialize headers, preserving any existing headers
+        const headers = new Headers(options?.headers || {});
+
+        // Set the authorization header with the API key
+        headers.set('Authorization', `Bearer ${apiKey}`);
+
+        // Merge the new headers back into the options
+        const updatedOptions: RequestInit = {
+            ...options,
+            headers,
+            cache: 'no-cache',
+        };
+
+        options = updatedOptions;
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}${endpoint}`, options);
+        if (!response.ok) {
+            console.error(`API request failed with status ${response.status}: ${response.statusText}`);
+            return null;
+        }
+        const blob = await response.blob();
+        return blob;
+    } catch (error) {
+        console.error(`Fetch error: ${(error as Error).message}`);
+        return null;
+    }
+}
+
+/**
  * Retrieves data for a specific crate by its ID.
- * @param id - The unique identifier for the crate.‚
+ * @param id - The unique identifier for the crate.
  * @returns The crate data or null if not found/error.
  */
 export async function getCrateData(id: string): Promise<CrateData | null> {
     const params = new URLSearchParams({ id });
-    return await fetchApi<CrateData>(`/getCrateData?${params.toString()}`);
+    return await fetchApi<CrateData>(`/internal/get-crate-data?${params.toString()}`) ||
+           await fetchApi<CrateData>(`/getCrateData?${params.toString()}`);
 }
 
 /**
@@ -90,7 +131,8 @@ export async function getSummonBanners(): Promise<SummonBanners | null> {
  */
 export async function getTroopData(id: string): Promise<TroopData | null> {
     const params = new URLSearchParams({ id });
-    return await fetchApi<TroopData>(`/getTroopData?${params.toString()}`);
+    return await fetchApi<TroopData>(`/internal/get-troop-data?${params.toString()}`) ||
+           await fetchApi<TroopData>(`/getTroopData?${params.toString()}`);
 }
 
 /**
@@ -107,18 +149,7 @@ export async function getTroopDisplays(): Promise<Record<string, string> | null>
  * @returns A Blob of the image or null if an error occurs.
  */
 export async function getImageThumbnail(assetId: string): Promise<Blob | null> {
-    try {
-        const response = await fetch(`${BASE_URL}/image-thumbnail/${assetId}`);
-        if (!response.ok) {
-            console.error(`Image request failed with status ${response.status}: ${response.statusText}`);
-            return null;
-        }
-        const blob = await response.blob();
-        return blob;
-    } catch (error) {
-        console.error(`Fetch error: ${(error as Error).message}`);
-        return null;
-    }
+    return await fetchBlob(`/image-thumbnail/${assetId}`, { method: 'GET' });
 }
 
 /**
@@ -127,16 +158,5 @@ export async function getImageThumbnail(assetId: string): Promise<Blob | null> {
  * @returns A Blob of the image or null if an error occurs.
  */
 export async function getImage(assetId: string): Promise<Blob | null> {
-    try {
-        const response = await fetch(`${BASE_URL}/image/${assetId}`);
-        if (!response.ok) {
-            console.error(`Image request failed with status ${response.status}: ${response.statusText}`);
-            return null;
-        }
-        const blob = await response.blob();
-        return blob;
-    } catch (error) {
-        console.error(`Fetch error: ${(error as Error).message}`);
-        return null;
-    }
+    return await fetchBlob(`/image/${assetId}`, { method: 'GET' });
 }
