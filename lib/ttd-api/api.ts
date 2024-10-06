@@ -2,6 +2,7 @@ import { getCrateData, getCrateDisplays, getExistCount, getSummonBanners, getTro
 import { ExtendedCrateData, ExtendedSummonItem, ExtendedTroopData, Rarity, StructuredExistCount, SummonBannerData } from "./types";
 
 const REFRESH_INTERVAL = (5 * 60 * 1000)
+const imageBasePath = "https://api.toilettowerdefense.com/image"
 
 const rarities = Object.values(Rarity);
 
@@ -102,7 +103,7 @@ async function refreshTroops() {
                     ...troopData,
                     type: "Troops",
                     exists: existsData?.count || 0,
-                    imageURL: `https://api.toilettowerdefense.com/image/${troopData.image || 123456789}`
+                    imageURL: `${imageBasePath}/${troopData.image || 123456789}`
                 }
 
                 newTroopDatas.push(extendedTroopData)
@@ -175,7 +176,7 @@ async function refreshCrates() {
                     type: "Crates",
                     exists,
                     inferredExists,
-                    imageURL: `https://api.toilettowerdefense.com/image/${crateData.image || 123456789}`
+                    imageURL: `${imageBasePath}/${crateData.image || 123456789}`
                 }
 
                 newCrateDatas.push(extendedTroopData)
