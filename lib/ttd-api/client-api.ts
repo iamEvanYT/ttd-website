@@ -3,9 +3,10 @@
 // Basically, despite the naming, it works on the server, and should be the only api exposed to the client.
 
 import { getCrateDatas, getSummonDatas, getTroopDatas } from "@/lib/ttd-api/api"
-import type { ExtendedItemData, ExtendedTroopData, FetchOptions, ItemTypes } from "./types";
+import type { ExtendedItemData, FetchOptions, ItemTypes, RetrievalMode } from "./types";
 import { DATABASE_PAGE_SIZE } from "@/configuration";
 import Sort from "./sorting";
+import { getExistCountHistory } from "./raw-api";
 
 // Pages
 function filterResults<ItemDataType>(results: (ItemDataType & ExtendedItemData)[], options: FetchOptions) {
@@ -110,4 +111,9 @@ export async function getItemData(type: ItemTypes, id: string) {
 // Summons
 export async function getSummons() {
     return await getSummonDatas()
+}
+
+// Exist History
+export async function getItemExistHistory(type: string, id: string, retrievalMode: RetrievalMode) {
+    return await getExistCountHistory(type, id, retrievalMode)
 }

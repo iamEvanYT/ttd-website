@@ -1,18 +1,11 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { getItemData } from "@/lib/ttd-api/client-api";
+import { getItemData, getItemExistHistory } from "@/lib/ttd-api/client-api";
 import Image from "next/image";
 import { DatabaseTopbar } from "@/components/database/topbar";
 import type { ExtendedCrateData, ExtendedTroopData, ItemTypes } from "@/lib/ttd-api/types";
 import { ItemDropdownMenu } from "./dropdown-menu";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
+import { ItemExistsCard } from "./exists-card";
 
 function numberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -83,6 +76,7 @@ export async function DatabaseItemDetails({
                     <ItemDropdownMenu itemData={itemData} />
                 </div>
             </div>
+            <ItemExistsCard type={type} id={id} />
             <div className="w-[95%] h-full p-5 border rounded-xl shadow-lg text-center font-bold text-xl">
                 🚧 In Construction 🚧
             </div>

@@ -133,3 +133,19 @@ export enum Rarity {
     "Uncommon",
     "Basic"
 }
+
+// Exist History
+export type RetrievalMode = 'lastDay' | 'lastWeek' | 'lastMonth' | 'lastYear';
+
+// Request payload for getExistCountHistory
+export interface GetExistCountHistoryRequest {
+    type: string;
+    id: string;
+    retrievalMode: RetrievalMode;
+}
+
+// Response item for getExistCountHistory
+export interface ExistCountHistoryItem {
+    recordedAt: string; // ISO date string
+    amount: number;
+}

@@ -4,10 +4,13 @@ import {
     ExistCount,
     SummonBanners,
     SummonItem,
-    TroopData
+    TroopData,
+    RetrievalMode,
+    ExistCountHistoryItem,
+    GetExistCountHistoryRequest
 } from "./types"
 
-const BASE_URL = "https://api.toilettowerdefense.com";
+const BASE_URL =  "https://api.toilettowerdefense.com";
 
 type AdditionalFetchOptions = {
     silent?: boolean
@@ -33,7 +36,9 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit, additionalOp
         const updatedOptions: RequestInit = {
             ...options,
             headers,
-            cache: 'no-cache',
+            next: {
+                revalidate: options?.next?.revalidate || 60 // Predefined or 60 seconds
+            },
         };
 
         options = updatedOptions;
@@ -171,4 +176,34 @@ export async function getImageThumbnail(assetId: string): Promise<Blob | null> {
  */
 export async function getImage(assetId: string): Promise<Blob | null> {
     return await fetchBlob(`/image/${assetId}`, { method: 'GET' });
+}
+
+/**
+ * Retrieves the existence count history based on type, id, and retrieval mode.
+ * @param type - The category type for which to retrieve history.
+ * @param id - The unique identifier for the item.
+ * @param retrievalMode - The mode of retrieval (e.g., daily, weekly, monthly).
+ * @returns An array of existence count history items or null if an error occurs.
+ */
+export async function getExistCountHistory(
+    type: string,
+    id: string,
+    retrievalMode: RetrievalMode
+): Promise<ExistCountHistoryItem[] | null> {
+    const requestBody: GetExistCountHistoryRequest = {
+        type,
+        id,
+        retrievalMode,
+    };
+
+    return await fetchApi<ExistCountHistoryItem[]>(
+        `/internal/get-exist-count-history`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        }
+    );
 }
