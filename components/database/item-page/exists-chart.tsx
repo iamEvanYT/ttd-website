@@ -110,8 +110,8 @@ function RawItemExistsChart({
     const existsDifference = (maxExists - minExists);
 
     if (minExists == maxExists) {
-        minExists -= 2;
-        maxExists += 2;
+        minExists -= 1;
+        maxExists += 1;
     }
 
     const existsLowerBound = Math.max(minExists - Math.floor(existsDifference * 0.1), 0)
@@ -160,7 +160,13 @@ function RawItemExistsChart({
                         existsLowerBound,
                         existsUpperBound
                     ]}
-                    tickFormatter={(value) => value.toLocaleString()}
+                    tickFormatter={(value) => {
+                        if (Math.floor(value) !== value) {
+                            // Don't show decimal values
+                            return ""
+                        }
+                        return value.toLocaleString()
+                    }}
                     scale="sequential"
                 />
                 <Area
