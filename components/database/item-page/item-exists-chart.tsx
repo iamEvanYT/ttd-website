@@ -13,6 +13,15 @@ import { getItemExistHistory } from "@/lib/ttd-api/client-api";
 import { LoadingSpinner } from "@/components/ui/loading";
 import React from "react";
 
+const abbreviateNumber = Intl.NumberFormat('en-US', {
+    notation: "compact",
+    maximumFractionDigits: 3
+}).format;
+const roundTimestamp = (timestamp: number): number => {
+    const fiveMinutesInMs = 5 * 60 * 1000;
+    return Math.round(timestamp / fiveMinutesInMs) * fiveMinutesInMs;
+};
+
 type ChartData = {
     date: number;
     exists: number;
@@ -93,12 +102,13 @@ function RawItemExistsChart({
     }
 
     const chartData: ChartData | undefined = data?.map(({ recordedAt, amount }) => {
+        const rawTime = new Date(recordedAt).getTime();
         return {
-            date: new Date(recordedAt).getTime(),
+            date: roundTimestamp(rawTime),
             exists: amount,
         };
     });
-    if (!chartData) {
+    if (!chartData || chartData?.length < 1 ) {
         return <FallbackElement>
             <div>No data avalible</div>
         </FallbackElement>
@@ -153,7 +163,7 @@ function RawItemExistsChart({
                         minTimestamp,
                         maxTimestamp
                     ]}
-                    scale="utc"
+                    scale="time"
                 />
                 <YAxis
                     domain={[
@@ -165,7 +175,7 @@ function RawItemExistsChart({
                             // Don't show decimal values
                             return ""
                         }
-                        return value.toLocaleString()
+                        return abbreviateNumber(value);
                     }}
                     scale="sequential"
                 />

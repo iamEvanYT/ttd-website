@@ -1,3 +1,5 @@
+import { ItemExistsCard } from "@/components/database/item-page/exists-card";
+import { TotalExistsChart } from "@/components/database/item-page/total-exists-chart";
 import { DatabaseTopbar } from "@/components/database/topbar";
 import { Button } from "@/components/ui/button";
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
@@ -88,6 +90,19 @@ export default function DatabaseHomePage() {
             image="/images/database/summon-card.png"
             link="/database/summons"
         />
+
+        <div className="w-full my-4 sm:my-5 px-5">
+            <ItemExistsCard
+                type="Special"
+                id="Special"
+
+                cardClassName="w-full"
+                cardTitle="Total Exists Chart"
+                cardDescription="Showing the exists history of all items."
+
+                Chart={TotalExistsChart}
+            />
+        </div>
 
         <div className="pb-5" />
     </>;

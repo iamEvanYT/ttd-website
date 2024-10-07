@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useState } from "react";
-import { ItemExistsChart } from "./exists-chart";
+import React, { useState } from "react";
+import { ItemExistsChart } from "./item-exists-chart";
 import { RetrievalMode } from "@/lib/ttd-api/types";
 
 const existDataModes = [
@@ -25,22 +25,40 @@ const existDataModes = [
     },
 ] as const;
 
+type ExistChartProps = {
+    type: string,
+    id: string,
+    retrievalMode: RetrievalMode
+}
+
 type ExistCardProps = {
     type: string,
     id: string,
+
+    cardClassName?: string,
+    cardTitle?: string,
+    cardDescription?: string,
+
+    Chart?: React.FC<ExistChartProps>,
 }
 export function ItemExistsCard({
     type,
-    id
+    id,
+
+    cardClassName,
+    cardTitle,
+    cardDescription,
+
+    Chart = ItemExistsChart
 }: ExistCardProps) {
     const [historyMode, setHistoryMode] = useState<RetrievalMode>(existDataModes[0].id)
 
     return (
-        <Card className="w-[95%] h-full p-5 border rounded-xl shadow-lg">
+        <Card className={`w-[95%] h-full p-5 border rounded-xl shadow-lg ${cardClassName}`}>
             <CardHeader className="p-2">
-                <CardTitle>Exists Chart</CardTitle>
+                <CardTitle>{cardTitle || "Exists Chart"}</CardTitle>
                 <CardDescription>
-                    Showing the exists history.
+                    {cardDescription || "Showing the exists history."}
                 </CardDescription>
 
                 <div className="flex justify-start items-center gap-2">
@@ -49,7 +67,7 @@ export function ItemExistsCard({
                             return (
                                 <Button
                                     key={mode.id}
-                                    variant={`${mode.id === historyMode? "default" : "outline"}`}
+                                    variant={`${mode.id === historyMode ? "default" : "outline"}`}
                                     onClick={() => {
                                         setHistoryMode(mode.id);
                                     }}
@@ -60,7 +78,7 @@ export function ItemExistsCard({
                 </div>
             </CardHeader>
             <CardContent className="p-2">
-                <ItemExistsChart type={type} id={id} retrievalMode={historyMode} />
+                <Chart type={type} id={id} retrievalMode={historyMode} />
             </CardContent>
         </Card>
     );

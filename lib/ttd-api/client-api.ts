@@ -117,3 +117,13 @@ export async function getSummons() {
 export async function getItemExistHistory(type: string, id: string, retrievalMode: RetrievalMode) {
     return await getExistCountHistory(type, id, retrievalMode)
 }
+
+export async function getTotalItemExistHistory(retrievalMode: RetrievalMode) {
+    const promises = [
+        getExistCountHistory("Special", "Total", retrievalMode),
+        getExistCountHistory("Special", "Troops", retrievalMode),
+        getExistCountHistory("Special", "Crates", retrievalMode)
+    ]
+
+    return await Promise.all(promises);
+}
