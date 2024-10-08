@@ -124,7 +124,7 @@ function RawItemExistsChart({
         maxExists += 1;
     }
 
-    const existsLowerBound = Math.max(minExists - Math.floor(existsDifference * 0.1), 0)
+    const existsLowerBound = Math.max(minExists - Math.ceil(existsDifference * 0.1), 0)
     const existsUpperBound = Math.max(maxExists + Math.ceil(existsDifference * 0.1), 0)
 
     const timestampValues = chartData.map(({ date }) => date);
