@@ -216,6 +216,7 @@ function RawTotalExistsChart({
                         minTimestamp,
                         maxTimestamp
                     ]}
+                    allowDataOverflow={true}
                     scale="time"
                 />
                 <YAxis

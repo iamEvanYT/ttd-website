@@ -163,6 +163,7 @@ function RawItemExistsChart({
                         minTimestamp,
                         maxTimestamp
                     ]}
+                    allowDataOverflow={true}
                     scale="time"
                 />
                 <YAxis
