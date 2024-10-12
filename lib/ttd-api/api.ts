@@ -39,11 +39,7 @@ type ttdAPIData = {
     refreshIntervalID: any | null;
 }
 
-declare namespace global {
-    var ttdAPIData: ttdAPIData
-}
-
-const ttdAPIData: ttdAPIData = global.ttdAPIData || {
+const ttdAPIData: ttdAPIData = {
     existCounts: null,
     troopDatas: null,
     crateDatas: null,
@@ -51,8 +47,6 @@ const ttdAPIData: ttdAPIData = global.ttdAPIData || {
 
     refreshIntervalID: null,
 }
-
-global.ttdAPIData = ttdAPIData
 
 export async function refreshExistCount() {
     return await getExistCount().then((rawExistCounts) => {

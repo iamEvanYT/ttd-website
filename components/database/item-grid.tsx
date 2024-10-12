@@ -106,7 +106,7 @@ function RawItemGrid({
             </div>}
 
             {(!isPending && error) && <div className="align-baseline flex justify-center py-10">
-                Errored occurred when fetching items.
+                Error occurred when fetching items.
             </div>}
 
             <PaginationComponent page={page} maxPages={maxPages} onPageChange={(page) => setPage(page)} />
