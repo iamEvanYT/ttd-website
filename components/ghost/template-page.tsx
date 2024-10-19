@@ -64,10 +64,6 @@ export function GhostTemplatePage({ page }: { page: PostOrPage }) {
                             alt={page.feature_image_alt ?? ""}
                             width={1920}
                             height={1080}
-                            style={{
-                                // tailwind "pb-10"
-                                paddingBottom: "2.5rem",
-                            }}
                         />
                     )}
                 </header>
