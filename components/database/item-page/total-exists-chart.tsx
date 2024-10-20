@@ -11,7 +11,7 @@ import {
 import { RetrievalMode } from "@/lib/ttd-api/types";
 import { getTotalItemExistHistory } from "@/lib/ttd-api/client-api";
 import { LoadingSpinner } from "@/components/ui/loading";
-import React from "react";
+import React, { useState } from "react";
 
 const abbreviateNumber = Intl.NumberFormat('en-US', {
     notation: "compact",
@@ -76,20 +76,36 @@ type ExistChartProps = {
 function RawTotalExistsChart({
     retrievalMode
 }: ExistChartProps) {
+    const [hiddenDataKeys, setHiddenDataKeys] = useState<string[]>([]);
+
     const chartConfig = {
         total: {
             label: "Total",
             color: "hsl(var(--chart-1))",
+            enabled: (hiddenDataKeys.includes("total") ? false : true),
         },
         troops: {
             label: "Troops",
             color: "hsl(var(--chart-2))",
+            enabled: (hiddenDataKeys.includes("troops") ? false : true),
         },
         crates: {
             label: "Crates",
             color: "hsl(var(--chart-3))",
+            enabled: (hiddenDataKeys.includes("crates") ? false : true),
         },
     } satisfies ChartConfig
+
+    function processLegendClick(dataKey: string) {
+        if (hiddenDataKeys.includes(dataKey)) {
+            const newDataKeys = [...hiddenDataKeys].filter(key => key !== dataKey);
+            setHiddenDataKeys(newDataKeys);
+        } else {
+            const newDataKeys = [...hiddenDataKeys];
+            newDataKeys.push(dataKey);
+            setHiddenDataKeys(newDataKeys);
+        }
+    }
 
     const { isPending, error, data } = useQuery({
         queryKey: ["getTotalItemExistHistory", retrievalMode],
@@ -133,13 +149,13 @@ function RawTotalExistsChart({
         };
 
         // Add each dataset to the map
-        if (totalData) {
+        if (totalData && chartConfig.total.enabled !== false) {
             addData(totalData, 'total');
         }
-        if (troopsData) {
+        if (troopsData && chartConfig.troops.enabled !== false) {
             addData(troopsData, 'troops');
         }
-        if (cratesData) {
+        if (cratesData && chartConfig.crates.enabled !== false) {
             addData(cratesData, 'crates');
         }
 
@@ -147,7 +163,7 @@ function RawTotalExistsChart({
         chartData = Array.from(chartDataMap.values());
     }
 
-    if (!chartData || chartData?.length < 1) {
+    if (!chartData) {
         return <FallbackElement>
             <div>No data avalible</div>
         </FallbackElement>
@@ -254,7 +270,11 @@ function RawTotalExistsChart({
                     fillOpacity={0.4}
                     stroke="var(--color-crates)"
                 />
-                <ChartLegend content={<ChartLegendContent />} />
+                <ChartLegend content={
+                    <ChartLegendContent
+                        onItemClick={(dataKey) => processLegendClick(dataKey)}
+                    />
+                } />
             </AreaChart>
         </ChartContainer>
     );

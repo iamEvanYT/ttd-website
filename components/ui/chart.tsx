@@ -20,7 +20,9 @@ export type ChartConfig = {
   } & (
     | { color?: string; theme?: never }
     | { color?: never; theme: Record<keyof typeof THEMES, string> }
-  )
+  ) & {
+    enabled?: boolean
+  }
 }
 
 type ChartContextProps = {
@@ -269,10 +271,11 @@ const ChartLegendContent = React.forwardRef<
     Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
       hideIcon?: boolean
       nameKey?: string
+      onItemClick?: (item: string) => void
     }
 >(
   (
-    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
+    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey, onItemClick },
     ref
   ) => {
     const { config } = useChart()
@@ -298,8 +301,11 @@ const ChartLegendContent = React.forwardRef<
             <div
               key={item.value}
               className={cn(
-                "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
+                "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground",
+                onItemClick && `cursor-pointer`,
+                (itemConfig?.enabled == false) && "opacity-50"
               )}
+              onClick={() => onItemClick?.(key)}
             >
               {itemConfig?.icon && !hideIcon ? (
                 <itemConfig.icon />
