@@ -18,8 +18,8 @@ const abbreviateNumber = Intl.NumberFormat('en-US', {
     maximumFractionDigits: 3
 }).format;
 const roundTimestamp = (timestamp: number): number => {
-    const fiveMinutesInMs = 5 * 60 * 1000;
-    return Math.round(timestamp / fiveMinutesInMs) * fiveMinutesInMs;
+    const roundTimeinMilliseconds = 30 * 60 * 1000;
+    return Math.round(timestamp / roundTimeinMilliseconds) * roundTimeinMilliseconds;
 };
 
 type ChartData = {
