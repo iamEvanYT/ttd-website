@@ -16,7 +16,7 @@ export function GiantPostCard({ post }: { post: PostOrPage }) {
             <Image
               src={post.feature_image ?? ""}
               alt={post.title ?? ""}
-              layout="fill"
+              fill={true}
               className="transition-opacity duration-300 ease-in-out group-hover:opacity-75 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-transparent dark:from-black" />

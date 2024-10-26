@@ -1,5 +1,5 @@
 .kg-gallery-image,.kg-image[width][height] {
-    pointer-events: none !important;
+    cursor: zoom-in !important;
 }
 
 .gh-canvas, .kg-width-full.kg-content-wide {
