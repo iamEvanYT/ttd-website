@@ -7,7 +7,8 @@ import {
     TroopData,
     RetrievalMode,
     ExistCountHistoryItem,
-    GetExistCountHistoryRequest
+    GetExistCountHistoryRequest,
+    VariantMode
 } from "./types"
 
 const BASE_URL =  "https://api.toilettowerdefense.com";
@@ -188,6 +189,7 @@ export async function getImage(assetId: string): Promise<Blob | null> {
 export async function getExistCountHistory(
     type: string,
     id: string,
+    variantMode: VariantMode,
     retrievalMode: RetrievalMode
 ): Promise<ExistCountHistoryItem[] | null> {
     const requestBody: GetExistCountHistoryRequest = {
@@ -195,6 +197,10 @@ export async function getExistCountHistory(
         id,
         retrievalMode,
     };
+
+    if (variantMode == "shiny") {
+        requestBody.id = `${id}-Shiny`
+    }
 
     return await fetchApi<ExistCountHistoryItem[]>(
         `/internal/get-exist-count-history`,

@@ -3,7 +3,7 @@
 // Basically, despite the naming, it works on the server, and should be the only api exposed to the client.
 
 import { getCrateDatas, getSummonDatas, getTroopDatas } from "@/lib/ttd-api/api"
-import type { ExtendedItemData, FetchOptions, ItemTypes, RetrievalMode } from "./types";
+import type { ExtendedItemData, FetchOptions, ItemTypes, RetrievalMode, VariantMode } from "./types";
 import { DATABASE_PAGE_SIZE } from "@/configuration";
 import Sort from "./sorting";
 import { getExistCountHistory } from "./raw-api";
@@ -114,15 +114,15 @@ export async function getSummons() {
 }
 
 // Exist History
-export async function getItemExistHistory(type: string, id: string, retrievalMode: RetrievalMode) {
-    return await getExistCountHistory(type, id, retrievalMode)
+export async function getItemExistHistory(type: string, id: string, variantMode: VariantMode, retrievalMode: RetrievalMode) {
+    return await getExistCountHistory(type, id, variantMode, retrievalMode)
 }
 
 export async function getTotalItemExistHistory(retrievalMode: RetrievalMode) {
     const promises = [
-        getExistCountHistory("Special", "Total", retrievalMode),
-        getExistCountHistory("Special", "Troops", retrievalMode),
-        getExistCountHistory("Special", "Crates", retrievalMode)
+        getExistCountHistory("Special", "Total", "normal", retrievalMode),
+        getExistCountHistory("Special", "Troops", "normal", retrievalMode),
+        getExistCountHistory("Special", "Crates", "normal", retrievalMode)
     ]
 
     return await Promise.all(promises);

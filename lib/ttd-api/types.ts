@@ -76,7 +76,9 @@ export type TroopData = {
     tags?: string[];
 } & ItemData;
 
-export type ExtendedTroopData = TroopData & ExtendedItemData;
+export type ExtendedTroopData = TroopData & ExtendedItemData & {
+    shinyExists: number,
+};
 
 // Exists
 export type StructuredExistCount = {
@@ -136,6 +138,7 @@ export enum Rarity {
 
 // Exist History
 export type RetrievalMode = 'lastDay' | 'lastWeek' | 'lastMonth' | 'lastYear';
+export type VariantMode = 'normal' | 'shiny';
 
 // Request payload for getExistCountHistory
 export interface GetExistCountHistoryRequest {

@@ -8,10 +8,11 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query'
-import { RetrievalMode } from "@/lib/ttd-api/types";
+import type { RetrievalMode, VariantMode } from "@/lib/ttd-api/types";
 import { getItemExistHistory } from "@/lib/ttd-api/client-api";
 import { LoadingSpinner } from "@/components/ui/loading";
-import React from "react";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const abbreviateNumber = Intl.NumberFormat('en-US', {
     notation: "compact",
@@ -21,6 +22,17 @@ const roundTimestamp = (timestamp: number): number => {
     const roundTimeinMilliseconds = 30 * 60 * 1000;
     return Math.round(timestamp / roundTimeinMilliseconds) * roundTimeinMilliseconds;
 };
+
+const variantModes = [
+    {
+        id: "normal",
+        name: "Normal"
+    },
+    {
+        id: "shiny",
+        name: "Shiny"
+    },
+] as const;
 
 type ChartData = {
     date: number;
@@ -82,10 +94,12 @@ function RawItemExistsChart({
         },
     } satisfies ChartConfig;
 
+    const [variantMode, setVariantMode] = useState<VariantMode>(variantModes[0].id)
+
     const { isPending, error, data } = useQuery({
-        queryKey: ["getItemExistHistory", type, id, retrievalMode],
+        queryKey: ["getItemExistHistory", type, id, variantMode, retrievalMode],
         queryFn: async () => {
-            return await getItemExistHistory(type, id, retrievalMode);
+            return await getItemExistHistory(type, id, variantMode, retrievalMode);
         },
     });
 
@@ -108,7 +122,7 @@ function RawItemExistsChart({
             exists: amount,
         };
     });
-    if (!chartData || chartData?.length < 1 ) {
+    if (!chartData || chartData?.length < 1) {
         return <FallbackElement>
             <div>No data avalible</div>
         </FallbackElement>
@@ -131,7 +145,23 @@ function RawItemExistsChart({
     const minTimestamp = Math.min(...timestampValues);
     const maxTimestamp = Math.max(...timestampValues);
 
-    return (
+    return <>
+        <div className="flex justify-start items-center gap-2 pb-5">
+            {
+                variantModes.map(mode => {
+                    return (
+                        <Button
+                            key={mode.id}
+                            variant={`${mode.id === variantMode ? "default" : "outline"}`}
+                            onClick={() => {
+                                setVariantMode(mode.id);
+                            }}
+                        >{mode.name}</Button>
+                    );
+                })
+            }
+        </div>
+
         <ChartContainer config={chartConfig}>
             <AreaChart
                 accessibilityLayer
@@ -189,7 +219,7 @@ function RawItemExistsChart({
                 />
             </AreaChart>
         </ChartContainer>
-    );
+    </>;
 }
 
 export function ItemExistsChart({

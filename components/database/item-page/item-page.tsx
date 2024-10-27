@@ -46,6 +46,10 @@ export async function DatabaseItemDetails({
         imageURL,
     } = itemData;
 
+    const {
+        shinyExists
+    } = (itemData as ExtendedTroopData)
+
     const inferredExists = (itemData as ExtendedCrateData).inferredExists
 
     return <>
@@ -68,6 +72,10 @@ export async function DatabaseItemDetails({
                         {inferredExists && <>
                             <br />
                             Exists (Estimated): {inferredExists >= 0 && numberWithCommas(inferredExists) || "???"}
+                        </>}
+                        {(shinyExists !== undefined) && <>
+                            <br />
+                            Exists (Shiny): {numberWithCommas(shinyExists)}
                         </>}
                         <ShowingTags itemData={(itemData as ExtendedTroopData)} />
                     </div>

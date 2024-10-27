@@ -17,6 +17,7 @@ interface ItemProps {
   imageURL: string
   rarity: string
   exists: number,
+  shinyExists?: number,
   inferredExists?: number | null
 }
 
@@ -43,7 +44,7 @@ export function SkeletonItemCard() {
   )
 }
 
-export function ItemCard({ display: displayName, imageURL, rarity, exists, inferredExists }: ItemProps) {
+export function ItemCard({ display: displayName, imageURL, rarity, exists, inferredExists, shinyExists }: ItemProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -88,6 +89,11 @@ export function ItemCard({ display: displayName, imageURL, rarity, exists, infer
             {inferredExists && <>
               <span className="font-semibold">Exists (Estimated):</span>
               <span className="text-right">{inferredExists >= 0 && abbreviateNumber(inferredExists) || "???"}</span>
+            </>}
+
+            {(shinyExists !== undefined) && <>
+              <span className="font-semibold">Exists (Shiny):</span>
+              <span className="text-right">{abbreviateNumber(shinyExists)}</span>
             </>}
           </div>
         </CardContent>

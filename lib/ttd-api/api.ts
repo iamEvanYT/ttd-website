@@ -93,10 +93,15 @@ async function refreshTroops() {
                     return type === "Troops" && id === troopData.id
                 }));
 
+                const shinyExistsData = (ttdAPIData.existCounts && ttdAPIData.existCounts.find(({ type, id }) => {
+                    return type === "Troops" && id === `${troopData.id}-Shiny`
+                }));
+
                 const extendedTroopData: ExtendedTroopData = {
                     ...troopData,
                     type: "Troops",
                     exists: existsData?.count || 0,
+                    shinyExists: shinyExistsData?.count || 0,
                     imageURL: `${imageBasePath}/${troopData.image || 123456789}`
                 }
 
@@ -165,7 +170,7 @@ async function refreshCrates() {
                     inferredExists = (exists - itemsExists);
                 }
 
-                const extendedTroopData: ExtendedCrateData = {
+                const extendedCrateData: ExtendedCrateData = {
                     ...crateData,
                     type: "Crates",
                     exists,
@@ -173,7 +178,7 @@ async function refreshCrates() {
                     imageURL: `${imageBasePath}/${crateData.image || 123456789}`
                 }
 
-                newCrateDatas.push(extendedTroopData)
+                newCrateDatas.push(extendedCrateData)
             }).catch(() => null);
         });
 
