@@ -122,6 +122,7 @@ export async function getTotalItemExistHistory(retrievalMode: RetrievalMode) {
     const promises = [
         getExistCountHistory("Special", "Total", "normal", retrievalMode),
         getExistCountHistory("Special", "Troops", "normal", retrievalMode),
+        getExistCountHistory("Special", "ShinyTroops", "normal", retrievalMode),
         getExistCountHistory("Special", "Crates", "normal", retrievalMode)
     ]
 

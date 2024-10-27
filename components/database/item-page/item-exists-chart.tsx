@@ -103,15 +103,39 @@ function RawItemExistsChart({
         },
     });
 
+    const variantSelector = (
+        <div className="flex justify-start items-center gap-2 pb-5">
+            {
+                variantModes.map(mode => {
+                    return (
+                        <Button
+                            key={mode.id}
+                            variant={`${mode.id === variantMode ? "default" : "outline"}`}
+                            onClick={() => {
+                                setVariantMode(mode.id);
+                            }}
+                        >{mode.name}</Button>
+                    );
+                })
+            }
+        </div>
+    )
+
     if (isPending || error) {
         if (isPending) {
-            return <FallbackElement>
-                <LoadingSpinner />
-            </FallbackElement>
+            return <>
+                {variantSelector}
+                <FallbackElement>
+                    <LoadingSpinner />
+                </FallbackElement>
+            </>
         } else if (error) {
-            return <FallbackElement>
-                <div>Error occurred</div>
-            </FallbackElement>
+            return <>
+                {variantSelector}
+                <FallbackElement>
+                    <div>Error occurred</div>
+                </FallbackElement>
+            </>
         }
     }
 
@@ -123,9 +147,12 @@ function RawItemExistsChart({
         };
     });
     if (!chartData || chartData?.length < 1) {
-        return <FallbackElement>
-            <div>No data avalible</div>
-        </FallbackElement>
+        return <>
+            {variantSelector}
+            <FallbackElement>
+                <div>No data avalible</div>
+            </FallbackElement>
+        </>
     }
 
     const existValues = chartData.map(({ exists }) => exists);
@@ -146,21 +173,7 @@ function RawItemExistsChart({
     const maxTimestamp = Math.max(...timestampValues);
 
     return <>
-        <div className="flex justify-start items-center gap-2 pb-5">
-            {
-                variantModes.map(mode => {
-                    return (
-                        <Button
-                            key={mode.id}
-                            variant={`${mode.id === variantMode ? "default" : "outline"}`}
-                            onClick={() => {
-                                setVariantMode(mode.id);
-                            }}
-                        >{mode.name}</Button>
-                    );
-                })
-            }
-        </div>
+        {variantSelector}
 
         <ChartContainer config={chartConfig}>
             <AreaChart

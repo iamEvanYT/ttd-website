@@ -27,6 +27,7 @@ type ChartDataItem = {
 
     total?: number;
     troops?: number;
+    shinyTroops?: number;
     crates?: number;
 }
 
@@ -89,9 +90,14 @@ function RawTotalExistsChart({
             color: "hsl(var(--chart-2))",
             enabled: (hiddenDataKeys.includes("troops") ? false : true),
         },
+        shinyTroops: {
+            label: "Shiny Troops",
+            color: "hsl(var(--chart-3))",
+            enabled: (hiddenDataKeys.includes("shinyTroops") ? false : true),
+        },
         crates: {
             label: "Crates",
-            color: "hsl(var(--chart-3))",
+            color: "hsl(var(--chart-4))",
             enabled: (hiddenDataKeys.includes("crates") ? false : true),
         },
     } satisfies ChartConfig
@@ -132,6 +138,7 @@ function RawTotalExistsChart({
         const [
             totalData,
             troopsData,
+            shinyTroopsData,
             cratesData
         ] = data;
         const chartDataMap = new Map<number, ChartDataItem>();
@@ -154,6 +161,9 @@ function RawTotalExistsChart({
         }
         if (troopsData && chartConfig.troops.enabled !== false) {
             addData(troopsData, 'troops');
+        }
+        if (shinyTroopsData && chartConfig.shinyTroops.enabled !== false) {
+            addData(shinyTroopsData, 'shinyTroops');
         }
         if (cratesData && chartConfig.crates.enabled !== false) {
             addData(cratesData, 'crates');
@@ -262,6 +272,13 @@ function RawTotalExistsChart({
                     fill="var(--color-troops)"
                     fillOpacity={0.4}
                     stroke="var(--color-troops)"
+                />
+                <Area
+                    dataKey="shinyTroops"
+                    type="basis"
+                    fill="var(--color-shinyTroops)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-shinyTroops)"
                 />
                 <Area
                     dataKey="crates"
