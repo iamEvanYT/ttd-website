@@ -103,7 +103,7 @@ function RawItemExistsChart({
         },
     });
 
-    const variantSelector = (
+    const variantSelector = (type == "Troops" &&
         <div className="flex justify-start items-center gap-2 pb-5">
             {
                 variantModes.map(mode => {
