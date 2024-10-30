@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Cross1Icon } from '@radix-ui/react-icons';
-import { Ghost, Home, Package, Sparkle } from 'lucide-react';
+import { Ghost, Home, Package, Shield, Sparkle } from 'lucide-react';
 
 const navItems = {
   '/database': {
@@ -26,6 +26,13 @@ const navItems = {
     icon: <Sparkle />,
     newTab: false,
   },
+  /*
+  '/database/clans': {
+    name: 'Clans',
+    icon: <Shield />,
+    newTab: false,
+  },
+  */
 };
 
 export function DatabaseTopbar() {
