@@ -6,6 +6,7 @@ import { ItemDropdownMenu } from "./dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import { ItemExistsCard } from "./exists-card";
+import { UnitStatsVisualiser } from "./units-stats-visualiser";
 
 function numberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -85,6 +86,7 @@ export async function DatabaseItemDetails({
                 </div>
             </div>
             <ItemExistsCard type={type} id={id} />
+            {type == "Troops" && <UnitStatsVisualiser unitId={id} itemData={(itemData as ExtendedTroopData)} />}
             <div className="w-[95%] h-full p-5 border rounded-xl shadow-lg text-center font-bold text-xl">
                 🚧 In Construction 🚧
             </div>

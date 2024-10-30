@@ -74,6 +74,10 @@ export type TroopData = {
     price?: number;
     display: string;
     tags?: string[];
+    upgradePrices?: number[];
+    abilities?: {
+        [key: string]: any;
+    }
 } & ItemData;
 
 export type ExtendedTroopData = TroopData & ExtendedItemData & {
