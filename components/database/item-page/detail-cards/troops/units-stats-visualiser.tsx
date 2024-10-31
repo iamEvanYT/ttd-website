@@ -29,13 +29,47 @@ const allowedStats = [
     "AttackRadius",
     "AttackCooldown",
     "AttackAngle",
+    "BlastRadius",
+
+    "PushStuds",
+
     "ExtraIncome",
+
+    "WalkRadius",
+    "WalkSpeed",
+
+    "DamageMultiBoost",
+    "RangeMultiBoost",
+    "CooldownMultiBoost",
 ];
 
 const customStatNames: {
     [key: string]: string
 } = {
-    // "damage": "Damage"
+    "AttackCooldown": "Cooldown",
+    "AttackRadius": "Range",
+
+    "PushStuds": "Push Distance",
+
+    "DamageMultiBoost": "Damage Boost",
+    "RangeMultiBoost": "Range Boost",
+    "CooldownMultiBoost": "Cooldown Boost",
+}
+
+function toPercentage(num: number) {
+    return `${Math.round((num * 100))}%`;
+}
+
+function transformStatValues(statName: string, statValue: any) {
+    switch (statName) {
+        case "DamageMultiBoost":
+            return toPercentage(statValue as number)
+        case "RangeMultiBoost":
+            return toPercentage(statValue as number)
+        case "CooldownMultiBoost":
+            return toPercentage(statValue as number)
+    }
+    return statValue
 }
 
 export function UnitStatsVisualiser({ unitId, itemData }: VisualiserProps) {
@@ -87,8 +121,10 @@ export function UnitStatsVisualiser({ unitId, itemData }: VisualiserProps) {
 
                         const formattedKey = customStatNames[key] || convertToDisplayName(key);
                         let showingValue = value
-                        if (typeof value == "number") {
-                            showingValue = numberWithCommas(value)
+
+                        showingValue = transformStatValues(key, value)
+                        if (typeof showingValue == "number") {
+                            showingValue = numberWithCommas(showingValue)
                         }
 
                         return `${formattedKey}: ${showingValue}`;

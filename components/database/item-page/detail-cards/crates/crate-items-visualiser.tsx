@@ -40,7 +40,7 @@ async function ItemsList({ crateItems }: { crateItems: CrateContent[] }) {
                         <Image 
                             src={itemData.imageURL} 
                             alt={itemDisplay} 
-                            className="w-8 h-8 ml-2"
+                            className="w-8 h-8 ml-2 object-contain"
                             width={100}
                             height={100}
                         />
