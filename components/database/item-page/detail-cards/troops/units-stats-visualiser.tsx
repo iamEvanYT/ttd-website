@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ExtendedTroopData } from "@/lib/ttd-api/types";
 import { QuestionListItem, QuestionsList } from "@/components/utility/questions-list";
+import { CardDescription, CardTitle } from "@/components/ui/card";
 
 function numberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -137,8 +138,13 @@ export function UnitStatsVisualiser({ unitId, itemData }: VisualiserProps) {
     )
 
     return <div className="w-[95%] h-full p-5 border rounded-xl shadow-lg text-center text-xl">
-        <div className="flex flex-row justify-between items-center">
-            <div className="text-left font-bold">Unit Stats:</div>
+        <div className="flex flex-row justify-between items-center p-2">
+            <div className="text-left">
+                <CardTitle>Unit Stats</CardTitle>
+                <CardDescription>
+                    Explore detailed unit statistics, from pricing to abilities!
+                </CardDescription>
+            </div>
             <div>{statSelector}</div>
         </div>
 
