@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { LoadingSpinner } from "@/components/ui/loading";
 import Link from "next/link";
 import { getItemData } from "@/lib/ttd-api/client-api";
+import Image from "next/image";
 
 type VisualiserProps = {
     crateId: string,
@@ -36,10 +37,12 @@ async function ItemsList({ crateItems }: { crateItems: CrateContent[] }) {
                 <span key={itemId} className="flex items-center">
                     <span>{chanceText} - {itemDisplay} ({itemData.rarity})</span>
                     {itemData.imageURL && (
-                        <img 
+                        <Image 
                             src={itemData.imageURL} 
                             alt={itemDisplay} 
                             className="w-8 h-8 ml-2"
+                            width={100}
+                            height={100}
                         />
                     )}
                 </span>
