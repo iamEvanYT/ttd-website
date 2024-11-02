@@ -17,6 +17,6 @@ export default async function Redirection({
             <h1 className="w-full text-center my-5 font-bold text-2xl">Redirecting...</h1>
             <LoadingSpinner />
         </div>
-        <meta http-equiv="refresh" content={`0.5; url=${REDIRECT_URL}`} />
+        <meta httpEquiv="refresh" content={`0.5; url=${REDIRECT_URL}`} />
     </>
 }
