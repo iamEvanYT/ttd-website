@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/utility/theme-provider";
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { Toaster } from 'sonner';
 import Script from "next/script";
-import { Umami } from "@/components/utility/umami";
+import { Clarity, Umami } from "@/components/utility/analytics";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -25,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <Umami />
+        <Clarity />
       </head>
       <body className="flex flex-col min-h-screen">
         <ThemeProvider
