@@ -18,7 +18,7 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params } : { params: URLParams }) {
+export async function generateMetadata({ params }: { params: URLParams }) {
   const post = await getSinglePost(params.slug);
   if (!post) {
     return []
@@ -68,6 +68,7 @@ export default async function BlogPostPage({
   params: URLParams
 }) {
   return <>
+    <meta name="robots" content="all" />
     <GhostBlogPost slug={slug} />
   </>
 }
