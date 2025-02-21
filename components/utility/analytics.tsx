@@ -2,7 +2,16 @@
 
 import dynamic from "next/dynamic";
 import Script from "next/script";
-import Head from "next/head";
+
+export function GoogleAnalytics() {
+  return (
+    <meta
+      key="google-site-verification"
+      name="google-site-verification"
+      content="_T_uCzHE2rHJXjbxQsykmoh8UOcKZipZSQKm9mKHa5g"
+    />
+  );
+}
 
 function RawUmami() {
   const isJavaScriptEnabled = typeof window !== "undefined";
@@ -12,13 +21,6 @@ function RawUmami() {
 
   return (
     <>
-      <Head>
-        <meta
-          key="google-site-verification"
-          name="google-site-verification"
-          content="_T_uCzHE2rHJXjbxQsykmoh8UOcKZipZSQKm9mKHa5g"
-        />
-      </Head>
       <Script
         async
         src="https://umami.iamevan.dev/script.js"

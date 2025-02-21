@@ -5,7 +5,11 @@ import { Footer } from "@/components/custom/footer";
 import { ThemeProvider } from "@/components/utility/theme-provider";
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { Toaster } from "sonner";
-import { Clarity, Umami } from "@/components/utility/analytics";
+import {
+  Clarity,
+  GoogleAnalytics,
+  Umami,
+} from "@/components/utility/analytics";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -23,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <GoogleAnalytics />
         <Umami />
         <Clarity />
       </head>
