@@ -7,10 +7,10 @@ WORKDIR /app
 # Copy dependency manifests
 COPY package.json bun.lockb ./
 
-# Install dependencies using Bun (only production dependencies)
-RUN bun install --frozen-lockfile --production
+# Install ALL dependencies (including dev dependencies)
+RUN bun install --frozen-lockfile
 
-# Stage 2: Build the Application with Bun
+# Stage 3: Build the Application with Bun
 FROM oven/bun:latest AS builder
 
 # Set working directory
@@ -28,7 +28,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Build the application using Bun
 RUN bun run build
 
-# Stage 3: Create Production Image with Bun (smaller than Node)
+# Stage 4: Create Production Image with Bun (smaller than Node)
 FROM oven/bun:latest AS runner
 
 # Set working directory
