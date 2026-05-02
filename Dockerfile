@@ -43,17 +43,7 @@ RUN bun run build
 # Stage 4: Create Production Image with Bun (smaller than Node)
 FROM oven/bun:latest AS runner
 
-# Define build arguments for runtime (need to be redefined in each stage)
-ARG BASE_URL
-ARG GHOST_API_KEY
-ARG GHOST_URL
-ARG TTD_API_KEY
-
-# Set environment variables from build arguments for runtime
-ENV BASE_URL=${BASE_URL}
-ENV GHOST_API_KEY=${GHOST_API_KEY}
-ENV GHOST_URL=${GHOST_URL}
-ENV TTD_API_KEY=${TTD_API_KEY}
+# BASE_URL, GHOST_*, TTD_API_KEY: inject at runtime (Coolify env). Omitting ARG/ENV keeps secrets out of image config/layers.
 
 # Set working directory
 WORKDIR /app
