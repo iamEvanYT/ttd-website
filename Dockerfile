@@ -62,9 +62,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Create a non-root user and group for running the application
-RUN addgroup --system --gid 1001 bunjs \
-    && adduser --system --uid 1001 nextjs
+# Non-root user (Debian slim omits addgroup/adduser; use shadow-utils instead)
+RUN groupadd --system --gid 1001 bunjs \
+    && useradd --system --uid 1001 --gid bunjs nextjs
 
 # Copy only the necessary files from the builder stage
 COPY --from=builder --chown=nextjs:bunjs /app/public ./public
