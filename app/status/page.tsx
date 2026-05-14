@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     }
 };
 
-const targetURL = "https://status.toilettowerdefense.com/status/ttd"
+const targetURL = "https://status.toilettowerdefense.com"
 export default async function Redirection() {
     return <>
         <embed src={targetURL} className="h-[100vh] w-full mx-0 p-0 overflow-hidden border-none" />
