@@ -18,8 +18,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: { params: URLParams }) {
-  const post = await getSinglePost(params.slug);
+export async function generateMetadata({ params }: { params: Promise<URLParams> }) {
+  const { slug } = await params;
+  const post = await getSinglePost(slug);
   if (!post) {
     return []
   }
@@ -61,12 +62,11 @@ export async function generateMetadata({ params }: { params: URLParams }) {
 export const revalidate = 60;
 
 export default async function BlogPostPage({
-  params: {
-    slug
-  }
+  params
 }: {
-  params: URLParams
+  params: Promise<URLParams>
 }) {
+  const { slug } = await params;
   return <>
     <meta name="robots" content="all" />
     <GhostBlogPost slug={slug} />

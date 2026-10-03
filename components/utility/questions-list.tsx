@@ -70,12 +70,11 @@ export function QuestionsList({
                 )}
               </button>
               {openQuestion === index && (
-                <ReactMarkdown
-                  className="mt-2 text-muted-foreground space-y-2"
-                  components={renderers}
-                >
-                  {item.answer}
-                </ReactMarkdown>
+                <div className="mt-2 text-muted-foreground space-y-2">
+                  <ReactMarkdown components={renderers}>
+                    {item.answer}
+                  </ReactMarkdown>
+                </div>
               )}
             </div>
           ))}

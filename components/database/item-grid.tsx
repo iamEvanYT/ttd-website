@@ -4,10 +4,10 @@ import { ItemCard, SkeletonItemCard } from "@/components/database/item-card";
 import { DATABASE_PAGE_SIZE } from "@/configuration";
 import { getItemsPage } from "@/lib/ttd-api/client-api";
 
-import { SortingOptions, SortingOrder, type ExtendedItemData, type FetchOptions, type ItemTypes } from "@/lib/ttd-api/types";
+import { SortingOptions, SortingOrder, type FetchOptions, type ItemTypes } from "@/lib/ttd-api/types";
 
 import { useSearchParams } from "next/navigation";
-import { useReducer, useRef, useState } from "react";
+import { useState } from "react";
 import ItemSearchBar from "./item-search-bar";
 import { PaginationComponent } from "./item-pagination";
 import Link from "next/link";
@@ -35,18 +35,13 @@ type ItemGridProps = {
 function RawItemGrid({
     type
 }: ItemGridProps) {
-    const itemsRef = useRef<ExtendedItemData[]>([]);
-
-    const pageRef = useRef(1);
-    const maxPagesRef = useRef(1);
+    const [requestedPage, setPage] = useState(1);
 
     const [sortingOrder, setSortingOrder] = useState<SortingOrder>(defaultSortOrder);
     const [sortingOption, setSortingOption] = useState<SortingOptions>(defaultSortOption);
 
     const searchParams = useSearchParams();
     const searchQuery = searchParams.get("q");
-
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     const options: FetchOptions = {
         SortBy: sortingOption,
@@ -55,32 +50,15 @@ function RawItemGrid({
         name: searchQuery || undefined,
     };
     const { isPending, error, data } = useQuery({
-        queryKey: ["getItemsPage", type, pageRef.current, options],
+        queryKey: ["getItemsPage", type, requestedPage, options],
         queryFn: async () => {
-            return await getItemsPage(type, pageRef.current, options);
+            return await getItemsPage(type, requestedPage, options);
         },
     });
 
-    if (data) {
-        const {
-            items,
-            page,
-            totalPages
-        } = data;
-
-        itemsRef.current = items;
-        pageRef.current = page;
-        maxPagesRef.current = totalPages;
-    }
-
-    const items = itemsRef.current;
-    const page = pageRef.current;
-    const maxPages = maxPagesRef.current;
-
-    function setPage(newPage: number) {
-        pageRef.current = newPage;
-        forceUpdate();
-    }
+    const items = data?.items ?? [];
+    const page = data?.page ?? requestedPage;
+    const maxPages = data?.totalPages ?? 1;
 
     return (
         <div className="container mx-auto p-4">

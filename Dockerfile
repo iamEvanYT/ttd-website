@@ -1,17 +1,17 @@
 # Stage 1: Install Dependencies with Bun
-FROM oven/bun:latest AS deps
+FROM oven/bun:1.4.2 AS deps
 
 # Set working directory
 WORKDIR /app
 
 # Copy dependency manifests
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 
 # Install ALL dependencies (including dev dependencies)
 RUN bun install --frozen-lockfile
 
 # Stage 3: Build the Application with Bun
-FROM oven/bun:latest AS builder
+FROM oven/bun:1.4.2 AS builder
 
 # Define build arguments
 ARG BASE_URL
@@ -41,7 +41,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN bun run build
 
 # Stage 4: Create Production Image with Bun (smaller than Node)
-FROM oven/bun:latest AS runner
+FROM oven/bun:1.4.2 AS runner
 
 # BASE_URL, GHOST_*, TTD_API_KEY: inject at runtime (Coolify env). Omitting ARG/ENV keeps secrets out of image config/layers.
 

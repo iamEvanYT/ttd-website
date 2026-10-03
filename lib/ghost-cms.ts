@@ -40,7 +40,10 @@ const api = new GhostContentAPI({
         );
 
         try {
-            const response = await fetch(apiUrl.toString(), { method, headers });
+            const response = await fetch(apiUrl.toString(), { method, headers, next: { revalidate: 60 } });
+            if (!response.ok) {
+                throw new Error(`Ghost API request failed with status ${response.status}`);
+            }
             const data = await response.json();
             return { data };
         } catch (error) {

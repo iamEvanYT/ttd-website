@@ -3,14 +3,14 @@
 import { useEffect } from "react";
 import { LoadingSpinner } from "../ui/loading";
 
-export default async function Redirection({
+export default function Redirection({
     url: REDIRECT_URL
 }: {
     url: string,
 }) {
     useEffect(() => {
         window.location.replace(REDIRECT_URL)
-    }, [])
+    }, [REDIRECT_URL])
 
     return <>
         <div className="flex flex-col items-center">

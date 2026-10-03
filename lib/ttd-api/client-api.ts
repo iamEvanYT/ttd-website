@@ -18,26 +18,12 @@ function filterResults<ItemDataType>(results: (ItemDataType & ExtendedItemData)[
     return results
 }
 
-function paginateResults(results: any[], page: number) {
-    // Ensure the page number is at least 1
-    const currentPage = Math.max(1, page);
-
-    // Calculate the starting index
-    const start = (currentPage - 1) * DATABASE_PAGE_SIZE;
-
-    // Calculate the ending index
-    const end = start + DATABASE_PAGE_SIZE;
-
-    // Slice the data to get items for the current page
-    const items = results.slice(start, end);
-
-    // Calculate the total number of pages
-    // Ensure that totalPages is at least 1
-    const calculatedTotalPages = Math.ceil(results.length / DATABASE_PAGE_SIZE);
-    const totalPages = Math.max(1, calculatedTotalPages);
-
-    // Ensure the current page does not exceed totalPages
-    const validatedPage = Math.min(currentPage, totalPages);
+function paginateResults<T>(results: T[], page: number) {
+    const totalPages = Math.max(1, Math.ceil(results.length / DATABASE_PAGE_SIZE));
+    const currentPage = Number.isFinite(page) ? Math.trunc(page) : 1;
+    const validatedPage = Math.min(Math.max(1, currentPage), totalPages);
+    const start = (validatedPage - 1) * DATABASE_PAGE_SIZE;
+    const items = results.slice(start, start + DATABASE_PAGE_SIZE);
 
     return {
         items,

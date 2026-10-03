@@ -20,8 +20,9 @@ export async function generateStaticParams() {
     }))
 }
 
-export async function generateMetadata({ params }: { params: URLParams }) {
-    const itemData = await getCrateData(params.item);
+export async function generateMetadata({ params }: { params: Promise<URLParams> }) {
+    const { item } = await params;
+    const itemData = await getCrateData(item);
     if (!itemData) {
         return []
     }
@@ -60,11 +61,10 @@ export async function generateMetadata({ params }: { params: URLParams }) {
 }
 
 export default async function ItemPage({
-    params: {
-        item
-    }
+    params
 }: {
-    params: URLParams
+    params: Promise<URLParams>
 }) {
+    const { item } = await params;
     return <DatabaseItemPage type="Crates" id={item} />
 }

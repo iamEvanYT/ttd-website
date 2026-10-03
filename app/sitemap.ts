@@ -10,11 +10,9 @@ const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 const pages = [
     {
         url: '/',
-        lastModified: new Date("2024-09-00:00:10.000Z"),
     },
     {
         url: '/blog',
-        lastModified: new Date("2024-09-00:00:10.000Z"),
     },
     {
         url: '/faq',
@@ -22,7 +20,6 @@ const pages = [
     },
     {
         url: '/status',
-        lastModified: new Date("2024-09-00:00:10.000Z"),
     },
 
     // Database
@@ -44,11 +41,7 @@ const pages = [
     },
 ]
 
-export default async function sitemap({
-    id,
-}: {
-    id: string
-}): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const sitemap: MetadataRoute.Sitemap = []
 
     // Pages

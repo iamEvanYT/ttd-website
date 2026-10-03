@@ -18,7 +18,7 @@ export default function NotFound() {
             404 - Page Not Found
           </h1>
           <p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-            Oops! Looks like this page got flushed. Don't worry, our plumbers are on it!
+            Oops! Looks like this page got flushed. Don&apos;t worry, our plumbers are on it!
           </p>
           <div className="flex justify-center">
             <Link href="/">

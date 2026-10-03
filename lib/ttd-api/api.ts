@@ -6,6 +6,12 @@ const imageBasePath = "https://api.toilettowerdefense.com/image"
 
 const rarities = Object.values(Rarity);
 
+async function fetchInBatches(ids: string[], fetchItem: (id: string) => Promise<unknown>) {
+    for (let offset = 0; offset < ids.length; offset += 10) {
+        await Promise.all(ids.slice(offset, offset + 10).map(fetchItem));
+    }
+}
+
 const AvalibleSummonBanners = [
     {
         id: "BasicCrate",
@@ -36,7 +42,7 @@ type ttdAPIData = {
     crateDatas: ExtendedCrateData[] | null;
     summonDatas: SummonBannerData[] | null;
 
-    refreshIntervalID: any | null;
+    refreshIntervalID: ReturnType<typeof setInterval> | null;
 }
 
 const ttdAPIData: ttdAPIData = {
@@ -83,7 +89,7 @@ async function refreshTroops() {
 
         const newTroopDatas: ExtendedTroopData[] = []
 
-        const promises = Object.keys(troopDisplays).map((troopId: string) => {
+        await fetchInBatches(Object.keys(troopDisplays), (troopId: string) => {
             return getTroopData(troopId).then((troopData) => {
                 if (!troopData) {
                     return
@@ -108,8 +114,6 @@ async function refreshTroops() {
                 newTroopDatas.push(extendedTroopData)
             }).catch(() => null);
         });
-
-        await Promise.all(promises);
 
         newTroopDatas.sort((a, b) => {
             const aRarity = rarities.indexOf(a.rarity) + 1;
@@ -142,7 +146,7 @@ async function refreshCrates() {
 
         const newCrateDatas: ExtendedCrateData[] = []
 
-        const promises = Object.keys(crateDisplays).map((crateId: string) => {
+        await fetchInBatches(Object.keys(crateDisplays), (crateId: string) => {
             return getCrateData(crateId).then((crateData) => {
                 if (!crateData) {
                     return
@@ -182,8 +186,6 @@ async function refreshCrates() {
             }).catch(() => null);
         });
 
-        await Promise.all(promises);
-
         newCrateDatas.sort((a, b) => {
             const aRarity = rarities.indexOf(a.rarity) + 1;
             const bRarity = rarities.indexOf(b.rarity) + 1;
@@ -218,7 +220,7 @@ async function refreshSummons() {
         AvalibleSummonBanners.forEach((bannerData) => {
             const bannerItems = rawBannerData[bannerData.id];
 
-            const extendedBannerItems: ExtendedSummonItem[] = bannerItems?.map(({ id, chance }) => {
+            const extendedBannerItems: ExtendedSummonItem[] = (bannerItems ?? []).map(({ id, chance }) => {
                 const itemData = ttdAPIData.troopDatas?.find((item) => {
                     if (item.id === id) {
                         return true
@@ -279,16 +281,17 @@ export function refreshCache() {
             return false
         }
 
-        refreshPromise = null
         return true
-    })()
+    })().finally(() => {
+        refreshPromise = null;
+    })
 
     return refreshPromise
 }
 
 if (!ttdAPIData.refreshIntervalID) {
-    refreshCache()
     ttdAPIData.refreshIntervalID = setInterval(refreshCache, REFRESH_INTERVAL);
+    ttdAPIData.refreshIntervalID.unref();
 }
 
 // Grabber //

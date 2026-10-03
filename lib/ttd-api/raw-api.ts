@@ -24,6 +24,13 @@ type AdditionalFetchOptions = {
  * @returns The parsed JSON response or null in case of failure.
  */
 async function fetchApi<T>(endpoint: string, options?: RequestInit, additionalOptions?: AdditionalFetchOptions): Promise<T | null> {
+    options = {
+        ...options,
+        next: {
+            ...options?.next,
+            revalidate: options?.next?.revalidate ?? 60,
+        },
+    };
     // Retrieve the API key from environment variables
     const apiKey = process.env.TTD_API_KEY;
     if (apiKey) {
@@ -37,9 +44,6 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit, additionalOp
         const updatedOptions: RequestInit = {
             ...options,
             headers,
-            next: {
-                revalidate: options?.next?.revalidate || 60 // Predefined or 60 seconds
-            },
         };
 
         options = updatedOptions;
