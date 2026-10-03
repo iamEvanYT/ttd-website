@@ -1,9 +1,7 @@
 import { GameFeatureCard } from "@/components/custom/game-feature-card"
 import { HomeBanner } from "@/components/custom/home-banner";
-import { LatestBlogPost } from "@/components/ghost/latest-blog-post"
+import { LatestBlogPost } from "@/components/blog/latest-blog-post"
 import { Shield, Trophy, Sparkles, Castle, Handshake, Gamepad2Icon } from "lucide-react"
-
-export const revalidate = 60;
 
 function GameFeaturesSection() {
   return (
@@ -36,7 +34,7 @@ function GameFeaturesSection() {
   )
 }
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="flex flex-col min-h-screen text-gray-900">
       <main className="flex-1">

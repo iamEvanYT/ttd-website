@@ -1,38 +1,31 @@
-import { getPosts, getSinglePost } from '@/lib/ghost-cms';
-import { PostOrPage } from '@tryghost/content-api';
-import { GhostBlogPost } from '@/components/ghost/post';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import { getPosts, getSinglePost } from '@/lib/blog';
+import { BlogPost } from '@/components/blog/post';
 import { OPENGRAPH_SITE_NAME } from '@/configuration';
 
 type URLParams = {
   slug: string
 }
 
-export async function generateStaticParams() {
-  const posts = await getPosts();
-  if (!posts) {
-    return []
-  }
+export const dynamicParams = false;
 
-  return posts.map((post: PostOrPage) => ({
+export function generateStaticParams(): URLParams[] {
+  return getPosts().map((post) => ({
     slug: post.slug,
   }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<URLParams> }) {
+export async function generateMetadata({ params }: { params: Promise<URLParams> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getSinglePost(slug);
+  const post = getSinglePost(slug);
   if (!post) {
-    return []
+    return {}
   }
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-
-  const {
-    title,
-    meta_description: description,
-    published_at: publishedTime,
-    feature_image,
-  } = post
+  const { title, description, publishedAt: publishedTime, image } = post
+  const images = image ? [`${baseUrl}${image}`] : undefined
 
   return {
     title,
@@ -44,22 +37,16 @@ export async function generateMetadata({ params }: { params: Promise<URLParams> 
       type: 'article',
       publishedTime,
       url: `${baseUrl}/post/${post.slug}`,
-      images: [
-        {
-          url: feature_image,
-        },
-      ],
+      images,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [feature_image],
+      images,
     },
   }
 }
-
-export const revalidate = 60;
 
 export default async function BlogPostPage({
   params
@@ -67,8 +54,13 @@ export default async function BlogPostPage({
   params: Promise<URLParams>
 }) {
   const { slug } = await params;
+  const post = getSinglePost(slug);
+  if (!post) {
+    notFound()
+  }
+
   return <>
     <meta name="robots" content="all" />
-    <GhostBlogPost slug={slug} />
+    <BlogPost post={post} />
   </>
 }

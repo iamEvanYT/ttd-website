@@ -1,6 +1,5 @@
-import { getPosts } from '@/lib/ghost-cms';
+import { getPosts } from '@/lib/blog';
 import { getCrateDatas, getTroopDatas } from '@/lib/ttd-api/api';
-import { PostOrPage } from '@tryghost/content-api';
 import type { MetadataRoute } from 'next'
 
 export const revalidate = 60;
@@ -53,20 +52,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
 
     // Posts
-    const posts = await getPosts();
-    if (posts) {
-        posts.forEach((post: PostOrPage) => {
-            let updateDate: Date | undefined;
-            if (post.updated_at) {
-                updateDate = new Date(post.updated_at)
-            }
-
-            sitemap.push({
-                url: `${baseUrl}/post/${post.slug}`,
-                lastModified: updateDate
-            })
+    getPosts().forEach((post) => {
+        sitemap.push({
+            url: `${baseUrl}/post/${post.slug}`,
+            lastModified: post.updatedAt ? new Date(post.updatedAt) : undefined
         })
-    }
+    })
 
     // Units
     const units = await getTroopDatas();

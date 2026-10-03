@@ -1,4 +1,4 @@
-import { Posts } from "@/components/ghost/posts";
+import { Posts } from "@/components/blog/posts";
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { Metadata } from "next";
 
@@ -9,8 +9,6 @@ export const metadata: Metadata = {
         siteName: OPENGRAPH_SITE_NAME
     }
 };
-
-export const revalidate = 60;
 
 export default function Page() {
     return <>

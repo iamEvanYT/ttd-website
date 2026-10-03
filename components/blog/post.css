@@ -1,0 +1,325 @@
+/*
+ * Blog post styles, ported from the Ghost (Casper) theme the blog used to be rendered with.
+ * Ghost sizes were in rem with a 10px root, so they are written out in px here.
+ */
+
+.gh-article {
+    --gh-text: #15171a;
+    --gh-heading: #15171a;
+    --gh-caption: rgba(0, 0, 0, .5);
+    --gh-link: #017a39;
+    --gh-hr: #f0f0f0;
+    --gh-card-bg: #fff;
+    --gh-card-text: #222;
+    --gh-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    --gh-font-serif: Georgia, Times, serif;
+
+    color: var(--gh-text);
+    font-family: var(--gh-font-sans);
+    font-size: 16px;
+    line-height: 1.6em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    word-break: break-word;
+
+    max-width: calc(720px + 2 * 32.5px);
+    margin: 0 auto;
+    padding: 25px 32.5px;
+}
+
+.dark .gh-article {
+    --gh-text: rgba(255, 255, 255, .75);
+    --gh-heading: rgba(255, 255, 255, .9);
+    --gh-caption: rgba(255, 255, 255, .6);
+    --gh-link: #fff;
+    --gh-hr: #282b2f;
+    --gh-card-bg: #151719;
+    --gh-card-text: #fff;
+}
+
+.dark .gh-article img {
+    opacity: .9;
+}
+
+/* Full-width background the old Ghost iframe had */
+.gh-page {
+    background: #fff;
+}
+
+.dark .gh-page {
+    background: #151719;
+}
+
+/* Header */
+
+.gh-article .article-title {
+    color: var(--gh-heading);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -.015em;
+    line-height: 1.05;
+    margin-bottom: .5em;
+    padding-bottom: 25px;
+}
+
+.dark .gh-article .article-title {
+    color: #fff;
+}
+
+.gh-article .article-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Content */
+
+.gh-content > * {
+    margin-top: 32px;
+    margin-bottom: 0;
+}
+
+.gh-content :is(h1, h2, h3, h4, h5, h6) {
+    font-weight: 600;
+    letter-spacing: -.01em;
+    line-height: 1.15;
+    text-rendering: optimizeLegibility;
+}
+
+.gh-content h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -.015em;
+}
+
+.gh-content h2 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.gh-content h3 {
+    font-size: 24px;
+}
+
+.gh-content h4,
+.gh-content h5 {
+    font-size: 20px;
+}
+
+.gh-content h6 {
+    font-size: 18px;
+}
+
+@media (max-width: 600px) {
+    .gh-content h1 {
+        font-size: 28px;
+    }
+
+    .gh-content h2 {
+        font-size: 23px;
+    }
+
+    .gh-content h3,
+    .gh-content h4,
+    .gh-content h5 {
+        font-size: 17px;
+    }
+}
+
+/* Ghost gives section headings (not the HTML-card "Odds:" h6) tighter spacing to what follows */
+.gh-content > :is(h1, h2, h3, h4, h5) {
+    color: var(--gh-heading);
+}
+
+.gh-content > :is(h1, h2, h3, h4, h5) + * {
+    margin-top: 15px;
+}
+
+.gh-content > :is(p, ul, ol, blockquote) {
+    font-family: var(--gh-font-serif);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.6em;
+}
+
+@media (max-width: 650px) {
+    .gh-content > :is(p, ul, ol, blockquote) {
+        font-size: 18px;
+    }
+}
+
+.gh-content strong {
+    font-weight: 700;
+}
+
+.gh-content em {
+    font-style: italic;
+}
+
+.gh-content a {
+    color: var(--gh-link);
+    text-decoration: underline;
+    word-break: break-word;
+}
+
+.gh-content ul,
+.gh-content ol {
+    padding-left: 1.9em;
+    padding-right: 1.5em;
+}
+
+.gh-content ul {
+    list-style: disc;
+}
+
+.gh-content ol {
+    list-style: decimal;
+}
+
+.gh-content ul ul {
+    list-style: circle;
+}
+
+.gh-content :is(ul, ol) :is(ul, ol) {
+    margin: .5em 0;
+    padding-left: 1.3em;
+}
+
+.gh-content li {
+    line-height: 1.6em;
+    padding-left: .3em;
+}
+
+.gh-content li + li {
+    margin-top: .5em;
+}
+
+.gh-content blockquote {
+    font-style: italic;
+    position: relative;
+}
+
+.gh-content blockquote::before {
+    background: #017a39;
+    bottom: 0;
+    content: "";
+    left: -1.5em;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
+
+.gh-content hr {
+    border: 0;
+    border-top: 1px solid var(--gh-hr);
+    height: 1px;
+    width: 100%;
+}
+
+/* Images */
+
+.gh-content figure img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    cursor: zoom-in;
+}
+
+.gh-content figcaption {
+    color: var(--gh-caption);
+    font-size: 13px;
+    line-height: 1.4em;
+    padding: 15px 15px 0;
+    text-align: center;
+}
+
+.gh-content .gallery-row {
+    --gap: 12px;
+    display: flex;
+    gap: var(--gap);
+}
+
+.gh-content .gallery-row + .gallery-row {
+    margin-top: var(--gap);
+}
+
+.gh-content .gallery-row > * {
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.gh-content .gallery-row img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: zoom-in;
+}
+
+@media (max-width: 600px) {
+    .gh-content .gallery-row {
+        --gap: 6px;
+    }
+}
+
+/* Bookmark cards */
+
+.gh-content a.bookmark {
+    display: flex;
+    background: var(--gh-card-bg);
+    color: var(--gh-card-text);
+    text-decoration: none;
+    border-radius: 6px;
+    border: 1px solid rgb(124 139 154 / 25%);
+    overflow: hidden;
+    font-family: var(--gh-font-sans);
+}
+
+.gh-content .bookmark-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: flex-start;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.gh-content .bookmark-title {
+    font-size: 15px;
+    line-height: 1.4em;
+    font-weight: 600;
+}
+
+.gh-content .bookmark-description {
+    display: -webkit-box;
+    font-size: 14px;
+    line-height: 1.5em;
+    margin-top: 3px;
+    max-height: 44px;
+    overflow-y: hidden;
+    opacity: .7;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.gh-content .bookmark-metadata {
+    display: flex;
+    align-items: center;
+    margin-top: 22px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: .7;
+}
+
+.gh-content .bookmark-metadata > span + span {
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gh-content .bookmark-metadata > span + span::before {
+    content: "•";
+    margin: 0 6px;
+}

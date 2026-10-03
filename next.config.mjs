@@ -29,15 +29,13 @@ const nextConfig = {
         port: "",
         pathname: "/image/*",
       },
-      {
-        protocol: "https",
-        hostname: "blog.toilettowerdefense.com",
-        port: "",
-        pathname: "/content/images/**",
-      },
     ],
   },
   output: "standalone",
+  // Blog posts are read from disk at runtime by ISR routes (e.g. sitemap)
+  outputFileTracingIncludes: {
+    "/*": ["./content/posts/**/*"],
+  },
   async redirects() {
     const redirects = [];
 

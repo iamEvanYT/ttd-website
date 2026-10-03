@@ -14,7 +14,36 @@ bun run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Set `BASE_URL` to the site's public URL, `GHOST_URL` and `GHOST_API_KEY` to the Ghost Content API credentials, and `TTD_API_KEY` to enable authenticated game API endpoints. Blog and database generation contact these services during builds.
+Set `BASE_URL` to the site's public URL and `TTD_API_KEY` to enable authenticated game API endpoints. Database generation contacts the game API during builds.
+
+## Blog posts
+
+Blog posts are Markdown files in `content/posts/`, named `<slug>.md` and served at `/post/<slug>`. Each file starts with frontmatter:
+
+```md
+---
+title: "Classic Update"
+publishedAt: "2025-08-16T18:18:54.000+01:00"
+updatedAt: "2025-08-16T18:18:53.000+01:00" # optional
+author: "iamEvan" # optional
+image: "/blog/images/2025/08/thumbnail.webp" # optional, falls back to the site banner
+imageAlt: "..." # optional
+description: "..." # optional, used for SEO/OpenGraph
+tags: ["Updates"] # optional
+---
+```
+
+Put post images in `public/blog/images/`. Posts are styled to match the old Ghost theme (`components/blog/post.css`), and a few extras are supported:
+
+- `![](/blog/images/x.webp "Caption")`: an image's title is shown as its caption.
+- Images on consecutive lines (no blank line between them) form a gallery row. Separate rows with a blank line.
+- `<u>Heading</u>` underlines text, as used for section headings.
+- Link cards:
+
+  ```html
+  <bookmark href="https://..." title="..." description="..." author="..." publisher="...">
+  </bookmark>
+  ```
 
 ## Checks
 
