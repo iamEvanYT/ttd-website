@@ -3,6 +3,8 @@ title: "Carnival Update"
 publishedAt: "2025-08-06T15:15:37.000+01:00"
 updatedAt: "2025-08-06T15:15:37.000+01:00"
 author: "iamEvan"
+image: "/blog/images/2025/08/CarnivalUpdate-v2.webp"
+imageAlt: "Ringmaster Cameraman and Balloon Pop TV Man in front of a carnival tent"
 ---
 
 Hello everyone, the Carnival Update is here in Toilet Tower Defense!

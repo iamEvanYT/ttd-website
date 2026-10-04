@@ -3,6 +3,8 @@ title: "Futuristic Update"
 publishedAt: "2025-07-26T18:00:27.000+01:00"
 updatedAt: "2025-07-26T18:38:09.000+01:00"
 author: "iamEvan"
+image: "/blog/images/2025/07/FuturisticUpdate-v2.webp"
+imageAlt: "Futuristic Titan Cameraman with an orange turbine core and glowing armor"
 ---
 
 Hello everyone, the Futuristic Update is here in Toilet Tower Defense!

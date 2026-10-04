@@ -3,6 +3,8 @@ title: "Classic Update"
 publishedAt: "2025-08-16T18:18:54.000+01:00"
 updatedAt: "2025-08-16T18:18:53.000+01:00"
 author: "iamEvan"
+image: "/blog/images/2025/08/ClassicUpdate-v2.webp"
+imageAlt: "Titan Plunger Cameraman holding two red plungers in the classic toilet city"
 ---
 
 Hello everyone, the Classic Update is here in Toilet Tower Defense!
