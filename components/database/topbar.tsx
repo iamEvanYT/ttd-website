@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { Cross1Icon } from '@radix-ui/react-icons';
-import { Ghost, Home, Package, Shield, Sparkle } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Ghost, Home, Package, Sparkle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const navItems = {
   '/database': {
-    name: 'Home',
+    name: 'Overview',
     icon: <Home />,
     newTab: false,
   },
@@ -35,76 +35,35 @@ const navItems = {
   */
 };
 
-export function DatabaseTopbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+function isActivePath(pathname: string, path: string) {
+  if (path === '/database') return pathname === path;
+  return pathname === path || pathname.startsWith(`${path}/`);
+}
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+export function DatabaseTopbar() {
+  const pathname = usePathname();
 
   return (
-    <div className="pt-2 px-5">
-      <div className="sticky top-0 rounded-3xl bg-gradient-to-b from-green-700 to-green-500 text-gray-900 dark:text-gray-100">
-        <header className="px-4 lg:px-6 h-14 flex items-center justify-center relative">
-          {/* Hamburger Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="absolute sm:hidden focus:outline-none text-white font-semibold hover:underline underline-offset-4"
-            aria-label="Toggle Menu"
+    <div className="container mx-auto px-4 md:px-6 pt-4">
+      <nav className="mx-auto flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border bg-card p-1 shadow-sm [scrollbar-width:none]">
+        {Object.entries(navItems).map(([path, { name, icon, newTab }]) => (
+          <Link
+            key={path}
+            href={path}
+            target={newTab ? '_blank' : undefined}
+            rel={newTab ? 'noopener noreferrer' : undefined}
+            className={cn(
+              "flex shrink-0 items-center gap-1.5 rounded-full px-3 sm:px-4 py-2 text-sm font-medium transition-colors [&_svg]:size-4",
+              isActivePath(pathname, path)
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:bg-accent hover:text-foreground"
+            )}
           >
-            Open Database Navigation
-          </button>
-
-          {/* Navigation Menu */}
-          <nav className="hidden sm:flex gap-4 sm:gap-6">
-            {Object.entries(navItems).map(([path, { name, icon, newTab }]) => (
-              <Link
-                key={path}
-                href={path}
-                target={newTab ? '_blank' : undefined}
-                rel={newTab ? 'noopener noreferrer' : undefined}
-                className="text-white font-medium hover:underline underline-offset-4 flex gap-1.5"
-              >
-                {icon}
-                {name}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="hidden sm:block w-6" /> {/* Adjust width as needed */}
-        </header>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="relative inset-0 bg-black bg-opacity-50 z-50">
-            <div className="bg-ghost-accent-color h-full w-full p-4">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-white font-bold">Menu</span>
-                <button
-                  onClick={toggleMenu}
-                  className="focus:outline-none"
-                  aria-label="Close Menu"
-                >
-                  <Cross1Icon className="h-6 w-6 text-white" />
-                </button>
-              </div>
-              <nav className="flex flex-col gap-4">
-                {Object.entries(navItems).map(([path, { name, icon, newTab }]) => (
-                  <Link
-                    key={path}
-                    href={path}
-                    target={newTab ? '_blank' : undefined}
-                    rel={newTab ? 'noopener noreferrer' : undefined}
-                    onClick={toggleMenu}
-                    className="text-white font-medium hover:underline underline-offset-4 flex flex-row gap-2"
-                  >
-                    {icon}
-                    {name}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </div>
-        )}
-      </div>
+            {icon}
+            {name}
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }

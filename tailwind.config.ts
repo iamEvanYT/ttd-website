@@ -6,11 +6,16 @@ const config: Config = {
 		"./pages/**/*.{js,ts,jsx,tsx,mdx}",
 		"./components/**/*.{js,ts,jsx,tsx,mdx}",
 		"./app/**/*.{js,ts,jsx,tsx,mdx}",
+		"./lib/**/*.{js,ts,jsx,tsx}",
 	],
 	theme: {
     	extend: {
+    		fontFamily: {
+    			sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    			display: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif']
+    		},
     		colors: {
-    			'ghost-accent-color': '#017a39',
+    			brand: '#017a39',
     			background: 'hsl(var(--background))',
     			foreground: 'hsl(var(--foreground))',
     			card: {
@@ -53,6 +58,8 @@ const config: Config = {
     			}
     		},
     		borderRadius: {
+    			'2xl': 'calc(var(--radius) + 8px)',
+    			xl: 'calc(var(--radius) + 4px)',
     			lg: 'var(--radius)',
     			md: 'calc(var(--radius) - 2px)',
     			sm: 'calc(var(--radius) - 4px)'

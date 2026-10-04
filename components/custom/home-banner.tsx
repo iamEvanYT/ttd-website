@@ -1,77 +1,79 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { BANNER_IMAGE } from "@/configuration"
 import Link from "next/link"
 import * as motion from "framer-motion/client"
 import Image from "next/image"
+import { ArrowRight, Play } from "lucide-react"
 
 export function HomeBanner() {
-    const cardInitialState = { y: 10, opacity: 0 }
+    const cardInitialState = { y: 16, opacity: 0 }
     const cardAnimateState = { y: 0, opacity: 1 }
 
     const isJavaScriptEnabled = typeof window !== "undefined";
 
+    const transition = (delay: number) => ({
+        type: "spring" as const,
+        stiffness: 150,
+        damping: 20,
+        delay,
+    })
+
     return (
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative bg-ghost-accent-color">
-            <div className="absolute inset-0 z-0">
+        <section className="px-3 md:px-4">
+            <div className="relative isolate overflow-hidden rounded-[2rem] bg-brand min-h-[560px] md:min-h-[640px] flex items-end">
                 <Image
                     src={BANNER_IMAGE}
                     alt="Banner background"
                     fill={true}
-                    className="object-cover object-top"
+                    className="-z-20 object-cover object-top"
                     priority
                 />
-            </div>
-            <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
+                <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/90 via-black/55 to-black/10 md:via-black/40" />
+                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
 
-            <div className="container mx-auto px-4 md:px-6 relative z-20">
-                <div className="flex flex-col items-center space-y-4 text-center">
-                    <div className="space-y-2">
+                <div className="container mx-auto px-6 md:px-12 pb-12 md:pb-16">
+                    <div className="max-w-2xl space-y-6">
                         <motion.div
                             initial={isJavaScriptEnabled && cardInitialState || cardAnimateState}
                             animate={cardAnimateState}
-                            transition={{
-                                type: "spring",
-                                stiffness: 150,
-                                damping: 20,
-                            }}
+                            transition={transition(0)}
                         >
-                            <h1 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-6xl/none">
+                            <h1 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tighter text-white sm:text-6xl lg:text-7xl">
                                 Toilet Tower Defense
                             </h1>
                         </motion.div>
-                        <br />
                         <motion.div
                             initial={isJavaScriptEnabled && cardInitialState || cardAnimateState}
                             animate={cardAnimateState}
-                            transition={{
-                                type: "spring",
-                                stiffness: 150,
-                                damping: 20,
-                                delay: 0.05,
-                            }}
+                            transition={transition(0.05)}
                         >
-                            <p className="mx-auto max-w-[700px] text-white md:text-xl">
-                                Place cameramen and other units to fight back against the invading toilets!
-                                <br />
+                            <p className="max-w-xl text-lg text-white/80 md:text-xl">
+                                Place cameramen and other units to fight back against the invading toilets.
                                 Beat waves to win, or play in the endless game mode!
                             </p>
                         </motion.div>
-                    </div>
-                    <div className="space-x-4">
                         <motion.div
+                            className="flex flex-wrap gap-3"
                             initial={isJavaScriptEnabled && cardInitialState || cardAnimateState}
                             animate={cardAnimateState}
-                            transition={{
-                                type: "spring",
-                                stiffness: 150,
-                                damping: 20,
-                                delay: 0.10,
-                            }}
+                            transition={transition(0.1)}
                         >
-                            <Link href="/game" target="_blank" rel="noopener noreferrer">
-                                <Button variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700 rounded-full px-8 py-3 h-10 text-lg font-semibold transition duration-500 ease-in-out transform hover:-translate-y-px hover:scale-110">Play Now on Roblox</Button>
+                            <Link
+                                href="/game"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-base font-semibold text-black shadow-lg shadow-black/20 transition-transform hover:-translate-y-0.5"
+                            >
+                                <Play className="h-4 w-4 fill-current" />
+                                Play Now on Roblox
+                            </Link>
+                            <Link
+                                href="/database"
+                                className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 text-base font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                            >
+                                Explore the Database
+                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                             </Link>
                         </motion.div>
                     </div>

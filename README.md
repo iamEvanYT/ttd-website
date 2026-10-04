@@ -33,7 +33,7 @@ tags: ["Updates"] # optional
 ---
 ```
 
-Put post images in `public/blog/images/`. Posts are styled to match the old Ghost theme (`components/blog/post.css`), and a few extras are supported:
+Put post images in `public/blog/images/`. Posts keep the old Ghost theme's layout, styled with the site's theme (`components/blog/post.css`), and a few extras are supported:
 
 - `![](/blog/images/x.webp "Caption")`: an image's title is shown as its caption.
 - Images on consecutive lines (no blank line between them) form a gallery row. Separate rows with a blank line.

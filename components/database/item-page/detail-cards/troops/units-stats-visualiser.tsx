@@ -173,8 +173,8 @@ export function UnitStatsVisualiser({ unitId, itemData }: VisualiserProps) {
         </Select>
     )
 
-    return <div className="w-[95%] h-full p-5 border rounded-xl shadow-lg text-center text-xl">
-        <div className="flex flex-row justify-between items-center p-2">
+    return <div className="rounded-2xl border bg-card p-4 md:p-6 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center p-2">
             <div className="text-left">
                 <CardTitle>Unit Stats</CardTitle>
                 <CardDescription>
@@ -184,8 +184,8 @@ export function UnitStatsVisualiser({ unitId, itemData }: VisualiserProps) {
             <div>{statSelector}</div>
         </div>
 
-        {!statViewing && "Select a stat to get started!"}
+        {!statViewing && <p className="mt-4 rounded-xl border border-dashed py-10 text-center text-muted-foreground">Select a stat to get started!</p>}
         {statViewing && viewingStatData && <QuestionsList items={viewingStatData} />}
-        {statViewing && !viewingStatData && "No data found!"}
+        {statViewing && !viewingStatData && <p className="mt-4 rounded-xl border border-dashed py-10 text-center text-muted-foreground">No data found!</p>}
     </div>
 }

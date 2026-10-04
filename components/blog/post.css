@@ -1,18 +1,18 @@
 /*
- * Blog post styles, ported from the Ghost (Casper) theme the blog used to be rendered with.
+ * Blog post styles. The layout is ported from the Ghost (Casper) theme the blog used to be rendered with,
+ * and the colors and fonts come from the site's theme tokens.
  * Ghost sizes were in rem with a 10px root, so they are written out in px here.
  */
 
 .gh-article {
-    --gh-text: #15171a;
-    --gh-heading: #15171a;
-    --gh-caption: rgba(0, 0, 0, .5);
-    --gh-link: #017a39;
-    --gh-hr: #f0f0f0;
-    --gh-card-bg: #fff;
-    --gh-card-text: #222;
-    --gh-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    --gh-font-serif: Georgia, Times, serif;
+    --gh-text: hsl(var(--foreground) / .85);
+    --gh-heading: hsl(var(--foreground));
+    --gh-caption: hsl(var(--muted-foreground));
+    --gh-link: hsl(var(--primary));
+    --gh-hr: hsl(var(--border));
+    --gh-card-bg: hsl(var(--card));
+    --gh-card-text: hsl(var(--card-foreground));
+    --gh-font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 
     color: var(--gh-text);
     font-family: var(--gh-font-sans);
@@ -24,52 +24,31 @@
 
     max-width: calc(720px + 2 * 32.5px);
     margin: 0 auto;
-    padding: 25px 32.5px;
-}
-
-.dark .gh-article {
-    --gh-text: rgba(255, 255, 255, .75);
-    --gh-heading: rgba(255, 255, 255, .9);
-    --gh-caption: rgba(255, 255, 255, .6);
-    --gh-link: #fff;
-    --gh-hr: #282b2f;
-    --gh-card-bg: #151719;
-    --gh-card-text: #fff;
+    padding: 48px 20px 96px;
 }
 
 .dark .gh-article img {
     opacity: .9;
 }
 
-/* Full-width background the old Ghost iframe had */
-.gh-page {
-    background: #fff;
-}
-
-.dark .gh-page {
-    background: #151719;
-}
-
 /* Header */
 
 .gh-article .article-title {
     color: var(--gh-heading);
-    font-size: clamp(32px, 5vw, 52px);
+    font-family: var(--gh-font-sans);
+    font-size: clamp(36px, 6vw, 60px);
     font-weight: 800;
-    letter-spacing: -.015em;
-    line-height: 1.05;
-    margin-bottom: .5em;
-    padding-bottom: 25px;
-}
-
-.dark .gh-article .article-title {
-    color: #fff;
+    letter-spacing: -.025em;
+    line-height: 1;
+    margin-bottom: 20px;
 }
 
 .gh-article .article-image {
     display: block;
     width: 100%;
     height: auto;
+    margin-top: 40px;
+    border-radius: 24px;
 }
 
 /* Content */
@@ -80,7 +59,8 @@
 }
 
 .gh-content :is(h1, h2, h3, h4, h5, h6) {
-    font-weight: 600;
+    font-family: var(--gh-font-sans);
+    font-weight: 700;
     letter-spacing: -.01em;
     line-height: 1.15;
     text-rendering: optimizeLegibility;
@@ -136,15 +116,14 @@
 }
 
 .gh-content > :is(p, ul, ol, blockquote) {
-    font-family: var(--gh-font-serif);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
-    line-height: 1.6em;
+    line-height: 1.7em;
 }
 
 @media (max-width: 650px) {
     .gh-content > :is(p, ul, ol, blockquote) {
-        font-size: 18px;
+        font-size: 17px;
     }
 }
 
@@ -159,6 +138,7 @@
 .gh-content a {
     color: var(--gh-link);
     text-decoration: underline;
+    text-underline-offset: 3px;
     word-break: break-word;
 }
 
@@ -200,7 +180,8 @@
 }
 
 .gh-content blockquote::before {
-    background: #017a39;
+    background: hsl(var(--primary));
+    border-radius: 3px;
     bottom: 0;
     content: "";
     left: -1.5em;
@@ -224,6 +205,7 @@
     max-width: 100%;
     height: auto;
     cursor: zoom-in;
+    border-radius: 16px;
 }
 
 .gh-content figcaption {
@@ -251,6 +233,8 @@
 
 .gh-content .gallery-row img {
     display: block;
+    border-radius: 12px;
+    object-fit: cover;
     width: 100%;
     height: 100%;
     cursor: zoom-in;
@@ -269,10 +253,15 @@
     background: var(--gh-card-bg);
     color: var(--gh-card-text);
     text-decoration: none;
-    border-radius: 6px;
-    border: 1px solid rgb(124 139 154 / 25%);
+    border-radius: 16px;
+    border: 1px solid hsl(var(--border));
+    transition: border-color .2s;
     overflow: hidden;
     font-family: var(--gh-font-sans);
+}
+
+.gh-content a.bookmark:hover {
+    border-color: hsl(var(--primary) / .4);
 }
 
 .gh-content .bookmark-content {

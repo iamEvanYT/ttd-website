@@ -13,10 +13,10 @@ export default function Redirection({
     }, [REDIRECT_URL])
 
     return <>
-        <div className="flex flex-col items-center">
-            <h1 className="w-full text-center my-5 font-bold text-2xl">Redirecting...</h1>
-            <LoadingSpinner />
-        </div>
+        <main className="flex flex-1 flex-col items-center justify-center gap-4 py-24">
+            <LoadingSpinner className="size-8 text-primary" />
+            <h1 className="font-display text-2xl font-bold">Redirecting...</h1>
+        </main>
         <meta httpEquiv="refresh" content={`0.5; url=${REDIRECT_URL}`} />
     </>
 }

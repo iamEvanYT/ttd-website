@@ -1,6 +1,6 @@
-import Redirection from "@/components/utility/redirection"
+import Redirection from "@/components/utility/redirection";
 
-const REDIRECT_URL = "https://discord.com/invite/SrnQt2yDeZ"
+const REDIRECT_URL = "https://discord.com/invite/SrnQt2yDeZ";
 export default async function Redirect() {
-    return <Redirection url={REDIRECT_URL}/>;
+  return <Redirection url={REDIRECT_URL} />;
 }

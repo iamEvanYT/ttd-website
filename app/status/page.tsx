@@ -11,7 +11,10 @@ export const metadata: Metadata = {
 
 const targetURL = "https://status.toilettowerdefense.com"
 export default async function Redirection() {
-    return <>
-        <embed src={targetURL} className="h-[100vh] w-full mx-0 p-0 overflow-hidden border-none" />
-    </>
+    // The embedded page scrolls itself, so `.status-page` stops the outer page from scrolling too (see globals.css)
+    return (
+        <main className="status-page flex flex-1 flex-col">
+            <embed src={targetURL} className="block w-full flex-1 border-none" />
+        </main>
+    )
 }

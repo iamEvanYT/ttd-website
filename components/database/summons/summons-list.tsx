@@ -11,14 +11,14 @@ import Link from "next/link";
 export async function SummonsList() {
     const summons = await getSummons();
     if (!summons) {
-        return <div className="text-center">
+        return <div className="container mx-auto px-4 md:px-6 pb-20 text-center text-muted-foreground">
             No Summons Found!
         </div>;
     }
 
     return (
-        <div className="align-baseline flex justify-center p-10">
-            <Accordion type="single" collapsible className="w-full">
+        <div className="container mx-auto max-w-3xl px-4 md:px-6 pb-20">
+            <Accordion type="single" collapsible className="w-full space-y-3">
                 {
                     summons.map(summon => {
                         const {
@@ -29,28 +29,32 @@ export async function SummonsList() {
                         } = summon;
 
                         return (
-                            <AccordionItem key={id} value={id}>
-                                <AccordionTrigger className="font-bold">{displayName}</AccordionTrigger>
-                                <AccordionContent className="flex flex-col">
-                                    <span className="flex flex-row gap-1">
-                                        <div className="font-bold">Cost:</div>
+                            <AccordionItem key={id} value={id} className="rounded-2xl border bg-card px-5 data-[state=open]:border-primary/40">
+                                <AccordionTrigger className="font-display text-lg font-bold hover:no-underline">{displayName}</AccordionTrigger>
+                                <AccordionContent className="flex flex-col gap-4">
+                                    <span className="inline-flex w-fit items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
+                                        <span className="font-semibold">Cost</span>
                                         {displayPrice}
                                     </span>
-                                    <div className="py-2" />
 
-                                    <span className="flex flex-col gap-1">
-                                        <div className="font-bold text-lg">Items:</div>
-                                        <div className="flex flex-col gap-2">
+                                    <span className="flex flex-col gap-2">
+                                        <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Items</div>
+                                        <div className="flex flex-col divide-y rounded-xl border">
                                             {items && items.map((item) => {
                                                 const chanceText = `${item.chance}%`
 
                                                 const itemId = (item as ExtendedItemData).id || item.chance
                                                 const itemDisplay = (item as ExtendedItemData).display || "???"
 
-                                                const lineElement = <span key={itemId}>{chanceText} - {itemDisplay}</span>
+                                                const lineElement = (
+                                                    <span key={itemId} className="flex items-center justify-between gap-4 px-4 py-2.5">
+                                                        <span>{itemDisplay}</span>
+                                                        <span className="font-semibold tabular-nums">{chanceText}</span>
+                                                    </span>
+                                                )
                                                 if ((item as ExtendedItemData).id) {
                                                     return (
-                                                        <Link href={`/database/units/${itemId}`} key={itemId} className="hover:underline underline-offset-4">
+                                                        <Link href={`/database/units/${itemId}`} key={itemId} className="transition-colors first:rounded-t-xl last:rounded-b-xl hover:bg-accent">
                                                             {lineElement}
                                                         </Link>
                                                     )

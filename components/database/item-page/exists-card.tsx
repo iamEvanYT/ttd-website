@@ -1,7 +1,7 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import React, { useState } from "react";
 import { ItemExistsChart } from "./item-exists-chart";
 import { RetrievalMode } from "@/lib/ttd-api/types";
@@ -54,24 +54,29 @@ export function ItemExistsCard({
     const [historyMode, setHistoryMode] = useState<RetrievalMode>(existDataModes[0].id)
 
     return (
-        <Card className={`w-[95%] h-full p-5 border rounded-xl shadow-lg ${cardClassName}`}>
+        <Card className={cn("w-full p-4 md:p-6", cardClassName)}>
             <CardHeader className="p-2">
                 <CardTitle>{cardTitle || "Exists Chart"}</CardTitle>
                 <CardDescription>
                     {cardDescription || "Showing the exists history."}
                 </CardDescription>
 
-                <div className="flex justify-start items-center gap-2">
+                <div className="!mt-4 flex w-fit items-center gap-1 rounded-full border bg-muted/50 p-1">
                     {
                         existDataModes.map(mode => {
                             return (
-                                <Button
+                                <button
                                     key={mode.id}
-                                    variant={`${mode.id === historyMode ? "default" : "outline"}`}
+                                    className={cn(
+                                        "rounded-full px-3.5 py-1 text-sm font-medium transition-colors",
+                                        mode.id === historyMode
+                                            ? "bg-background text-foreground shadow-sm"
+                                            : "text-muted-foreground hover:text-foreground"
+                                    )}
                                     onClick={() => {
                                         setHistoryMode(mode.id);
                                     }}
-                                >{mode.name}</Button>
+                                >{mode.name}</button>
                             );
                         })
                     }

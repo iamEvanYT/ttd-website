@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Components } from 'react-markdown'
 
@@ -26,7 +26,7 @@ export function QuestionsList({
     a: ({ node, href, children, ...props }) => (
       <a
         href={href}
-        className="underline text-blue-600 hover:text-blue-800"
+        className="font-medium text-primary underline underline-offset-4 hover:opacity-80"
         target="_blank"
         rel="noopener noreferrer"
         {...props}
@@ -35,7 +35,7 @@ export function QuestionsList({
       </a>
     ),
     strong: ({ node, children, ...props }) => (
-      <strong className="font-bold" {...props}>
+      <strong className="font-bold text-foreground" {...props}>
         {children}
       </strong>
     ),
@@ -52,34 +52,34 @@ export function QuestionsList({
   }
 
   return (
-    <section className="w-full pt-7 pb-12">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="space-y-4">
-          {items.map((item, index) => (
-            <div key={index} className="border-b border-gray-200 pb-4">
-              <button
-                className="flex justify-between items-center w-full text-left focus:outline-none"
-                onClick={() => toggleQuestion(index)}
-                aria-expanded={openQuestion === index}
-              >
-                <span className="text-lg font-semibold text-gray-900 dark:text-white/90">{item.question}</span>
-                {openQuestion === index ? (
-                  <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                )}
-              </button>
-              {openQuestion === index && (
-                <div className="mt-2 text-muted-foreground space-y-2">
-                  <ReactMarkdown components={renderers}>
-                    {item.answer}
-                  </ReactMarkdown>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div className="mt-4 space-y-3">
+      {items.map((item, index) => {
+        const isOpen = openQuestion === index
+        return (
+          <div
+            key={index}
+            className={`rounded-2xl border bg-card text-left transition-colors ${isOpen ? "border-primary/40" : "hover:border-foreground/20"}`}
+          >
+            <button
+              className="flex w-full items-center justify-between gap-4 p-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-2xl"
+              onClick={() => toggleQuestion(index)}
+              aria-expanded={isOpen}
+            >
+              <span className="text-base font-semibold md:text-lg">{item.question}</span>
+              <span className={`grid size-8 shrink-0 place-items-center rounded-full border transition-all ${isOpen ? "rotate-180 border-primary bg-primary text-primary-foreground" : "text-muted-foreground"}`}>
+                <ChevronDown className="h-4 w-4" />
+              </span>
+            </button>
+            {isOpen && (
+              <div className="space-y-2 px-5 pb-5 text-muted-foreground [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5 animate-in fade-in slide-in-from-top-1">
+                <ReactMarkdown components={renderers}>
+                  {item.answer}
+                </ReactMarkdown>
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </div>
   )
 }

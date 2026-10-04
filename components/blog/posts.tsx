@@ -2,43 +2,52 @@ import { formatISODate, getPosts, type Post } from "@/lib/blog";
 import { BANNER_IMAGE } from "@/configuration";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
+
+function PostMeta({ post, className }: { post: Post, className?: string }) {
+  return (
+    <p className={className}>
+      <time dateTime={post.publishedAt}>{formatISODate(post.publishedAt)}</time>
+      <span className="mx-2 opacity-50">·</span>
+      <span className="inline-flex items-center gap-1">
+        <Clock className="h-3.5 w-3.5" />
+        {post.readingTime} min read
+      </span>
+    </p>
+  )
+}
 
 export function GiantPostCard({ post }: { post: Post }) {
   const postUrl = `/post/${post.slug}`
 
   return (
-    <Link href={postUrl}>
-      <div className="max-w-full mx-auto">
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl">
-          <div className="relative aspect-[16/9] md:aspect-[21/9]">
-            <Image
-              src={post.image ?? BANNER_IMAGE}
-              alt={post.imageAlt ?? post.title}
-              fill={true}
-              className="transition-opacity duration-300 ease-in-out group-hover:opacity-75 object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-transparent dark:from-black" />
-            <div className="absolute inset-0 p-6 md:p-8 lg:p-12 flex flex-col justify-between">
-              <div className="max-w-lg">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 md:mb-4">
-                  {post.title}
-                </h2>
-                <p className="text-gray-300 dark:text-gray-400 text-xs md:text-sm">
-                  {formatISODate(post.publishedAt)} · {post.readingTime} min read
-                </p>
-              </div>
-              <div>
-                <Button className="group" variant="secondary" size="xl">
-                  Read Post
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={3} />
-                </Button>
-              </div>
-            </div>
+    <Link href={postUrl} className="group block">
+      <article className="relative isolate overflow-hidden rounded-[2rem] bg-black aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/9]">
+        <Image
+          src={post.image ?? BANNER_IMAGE}
+          alt={post.imageAlt ?? post.title}
+          fill={true}
+          className="-z-10 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            {post.tags?.[0] && (
+              <span className="mb-3 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md">
+                {post.tags[0]}
+              </span>
+            )}
+            <h3 className="font-display text-3xl font-extrabold tracking-tight text-white md:text-5xl">
+              {post.title}
+            </h3>
+            <PostMeta post={post} className="mt-3 flex items-center text-sm text-white/70" />
           </div>
+          <span className="inline-flex h-12 shrink-0 items-center gap-2 self-start rounded-full bg-white px-6 font-semibold text-black transition-transform group-hover:-translate-y-0.5 sm:self-auto">
+            Read post
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </span>
         </div>
-      </div>
+      </article>
     </Link>
   )
 }
@@ -47,29 +56,28 @@ export function PostCard({ post }: { post: Post }) {
   const postUrl = `/post/${post.slug}`;
 
   return (
-    <Link href={postUrl}>
-      <div className={`bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg`}>
-        <Image
-          src={post.image ?? BANNER_IMAGE}
-          alt={post.imageAlt ?? post.title}
-          width={600}
-          height={400}
-          className="w-full h-max object-cover"
-        />
-        <div className="p-6 relative bottom-0 left-0 right-0">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{post.title}</h2>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-500 dark:text-gray-400 text-xs">
-              {formatISODate(post.publishedAt)} · {post.readingTime} min read
-            </span>
-
-            <Button className="group" size="m">
-              Read Post
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+    <Link href={postUrl} className="group block h-full">
+      <article className="flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5">
+        <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+          <Image
+            src={post.image ?? BANNER_IMAGE}
+            alt={post.imageAlt ?? post.title}
+            fill={true}
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+        <div className="flex flex-1 flex-col p-5">
+          <h3 className="font-display text-xl font-bold tracking-tight">{post.title}</h3>
+          {post.description && (
+            <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{post.description}</p>
+          )}
+          <div className="mt-auto pt-4 flex items-center justify-between">
+            <PostMeta post={post} className="flex items-center text-xs text-muted-foreground" />
+            <ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
           </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }
@@ -78,30 +86,17 @@ export function Posts() {
   const posts = getPosts();
 
   if (posts.length === 0) {
-    return <div className="p-8">No posts found</div>;
+    return <div className="py-16 text-center text-muted-foreground">No posts found</div>;
   }
 
   return (
-    <div className="min-h-screen p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* First row - 1 column */}
-        <div className="mb-8">
-          <GiantPostCard post={posts[0]} />
-        </div>
+    <div className="space-y-6">
+      <GiantPostCard post={posts[0]} />
 
-        {/* Second row - 2 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          {posts.slice(1, 3).map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
-        </div>
-
-        {/* Remaining rows - 3 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.slice(3).map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.slice(1).map((post) => (
+          <PostCard key={post.slug} post={post} />
+        ))}
       </div>
     </div>
   )

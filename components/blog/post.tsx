@@ -4,7 +4,9 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import Zoom from "react-medium-image-zoom";
 import type { Element, ElementContent } from "hast";
-import type { Post } from "@/lib/blog";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { formatISODate, type Post } from "@/lib/blog";
 import "@/components/blog/image-zoom.css";
 import "@/components/blog/post.css";
 
@@ -82,10 +84,20 @@ const components = {
 
 export function BlogPost({ post }: { post: Post }) {
     return (
-        <div className="gh-page">
+        <main className="flex-1">
             <article className="gh-article">
                 <header>
+                    <Link href="/blog" className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+                        <ArrowLeft className="h-4 w-4" />
+                        Dev Blog
+                    </Link>
                     <h1 className="article-title">{post.title}</h1>
+                    <p className="text-sm text-muted-foreground">
+                        {post.author && <><span className="font-medium text-foreground">{post.author}</span><span className="mx-2 opacity-50">·</span></>}
+                        <time dateTime={post.publishedAt}>{formatISODate(post.publishedAt)}</time>
+                        <span className="mx-2 opacity-50">·</span>
+                        {post.readingTime} min read
+                    </p>
                     {post.image && (
                         <Image
                             src={post.image}
@@ -103,6 +115,6 @@ export function BlogPost({ post }: { post: Post }) {
                     </ReactMarkdown>
                 </section>
             </article>
-        </div>
+        </main>
     );
 }

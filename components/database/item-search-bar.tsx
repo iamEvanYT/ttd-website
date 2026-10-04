@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
-import { FilterIcon } from "lucide-react";
+import { FilterIcon, SearchIcon } from "lucide-react";
 import ItemSortingDropdown from "./item-sorting-dropdown";
 import { SortingOptions, SortingOrder } from "@/lib/ttd-api/types";
 
@@ -60,20 +60,23 @@ export default function ItemSearchBar({
   };
 
   return (
-    <div className={cn("flex flex-row h-10", className)}>
-      <Input
-        className="p-5 px-4 h-full"
-        placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
-        value={query}
-        onChange={handleChange}
-      />
+    <div className={cn("flex flex-row h-12 gap-2", className)}>
+      <div className="relative flex-1">
+        <SearchIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          className="h-full rounded-full bg-card pl-11 pr-4 text-base shadow-sm"
+          placeholder={`Search for ${typeDisplays[type] || fallbackTypeDisplay}...`}
+          value={query}
+          onChange={handleChange}
+        />
+      </div>
 
-      <div className="ml-2">
+      <div>
         <ItemSortingDropdown SortingOptionsState={SortingOptionsState} SortingOrderState={SortingOrderState}>
           <Button
             variant="outline"
             size="icon"
-            className="h-10 w-10"
+            className="h-12 w-12 rounded-full bg-card"
             aria-label="Filter"
           >
             <FilterIcon className="h-4 w-4" />

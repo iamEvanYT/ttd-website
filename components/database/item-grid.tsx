@@ -61,29 +61,29 @@ function RawItemGrid({
     const maxPages = data?.totalPages ?? 1;
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto px-4 md:px-6 pb-20">
             <ItemSearchBar
                 SortingOptionsState={[sortingOption, setSortingOption]}
                 SortingOrderState={[sortingOrder, setSortingOrder]}
-                type={type} className="mb-4"
+                type={type} className="mb-6"
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 pb-8">
                 {isPending && ((items.length > 0 && items) || new Array(DATABASE_PAGE_SIZE).fill("")).map((_, index) => {
                     return <SkeletonItemCard key={`skeleton-${index}`} />
                 })}
                 {!isPending && items.map((item, index) => (
-                    <Link href={`/database/${databaseItemTypes[type]}/${item.id}`} key={item.id || index}>
+                    <Link href={`/database/${databaseItemTypes[type]}/${item.id}`} key={item.id || index} className="block h-full">
                         <ItemCard {...item} />
                     </Link>
                 ))}
             </div>
 
-            {(!isPending && !error && items.length < 1) && <div className="align-baseline flex justify-center py-10">
+            {(!isPending && !error && items.length < 1) && <div className="flex justify-center rounded-2xl border border-dashed py-16 text-muted-foreground">
                 No items found.
             </div>}
 
-            {(!isPending && error) && <div className="align-baseline flex justify-center py-10">
+            {(!isPending && error) && <div className="flex justify-center rounded-2xl border border-dashed py-16 text-muted-foreground">
                 Error occurred when fetching items.
             </div>}
 

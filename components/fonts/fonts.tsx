@@ -1,5 +1,7 @@
-import { Fredoka } from 'next/font/google'
+import { Geist } from 'next/font/google'
 
-export const FredokaOne = Fredoka({
-    weight: "600",
+// Used for body text and, at heavier weights, for headings (`font-display`)
+export const SansFont = Geist({
+    subsets: ["latin"],
+    variable: "--font-sans",
 })

@@ -1,9 +1,10 @@
 import { Metadata } from 'next'
 import { OPENGRAPH_SITE_NAME } from '@/configuration'
+import { PageHeader } from '@/components/custom/page-header'
 import { QuestionListItem, QuestionsList } from '@/components/utility/questions-list'
 
 export const metadata: Metadata = {
-    title: "Fequently Asked Questions",
+    title: "Frequently Asked Questions",
     description: "Answers to Frequently Asked Questions about Toilet Tower Defense here!",
     openGraph: {
         siteName: OPENGRAPH_SITE_NAME
@@ -35,19 +36,15 @@ const faqData: QuestionListItem[] = [
 
 export default function FAQPage() {
     return (
-        <div className="flex flex-col min-h-screen text-white">
-            <main className="flex-1">
-                <div className="pt-10">
-                    <h1 className="text-3xl font-bold tracking-tighter text-black lg:text-6xl/none text-center dark:text-white">
-                        Frequently Asked Questions
-                    </h1>
-                    <br />
-                    <p className="mx-auto max-w-[700px] text-black md:text-xl text-center dark:text-white">
-                        You can find answers to a lot of the frequently asked questions here.
-                    </p>
-                </div>
-                <QuestionsList items={faqData}/>
-            </main>
-        </div>
+        <main className="flex-1">
+            <PageHeader
+                eyebrow="Help"
+                title="Frequently Asked Questions"
+                description="You can find answers to a lot of the frequently asked questions here."
+            />
+            <div className="container mx-auto max-w-3xl px-4 md:px-6 pb-20">
+                <QuestionsList items={faqData} />
+            </div>
+        </main>
     )
 }

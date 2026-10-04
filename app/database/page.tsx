@@ -1,7 +1,7 @@
 import { ItemExistsCard } from "@/components/database/item-page/exists-card";
 import { TotalExistsChart } from "@/components/database/item-page/total-exists-chart";
 import { DatabaseTopbar } from "@/components/database/topbar";
-import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/custom/page-header";
 import { OPENGRAPH_SITE_NAME } from "@/configuration";
 import { ArrowRight } from "lucide-react";
 import { Metadata } from "next";
@@ -19,91 +19,73 @@ export const metadata: Metadata = {
 interface PromoCardProps {
     title: string
     description: string
-    image?: string
-    link?: string
+    image: string
+    link: string
 }
 function PromoCard({ title, description, image, link }: PromoCardProps) {
     return (
-        <div className="w-full my-4 sm:my-5 px-5">
-            <div className="border w-full rounded-xl shadow-lg p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-center">
-                <div className="flex-1 flex flex-col gap-2 text-center sm:text-left mb-4 sm:mb-0">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{title}</h1>
-                    <span className="text-base sm:text-lg md:text-xl">{description}</span>
-                    {link && (
-                        <div className="py-3 sm:py-5">
-                            <Link href={link} passHref>
-                                <Button className="group w-full sm:w-auto" variant="default" size="lg">
-                                    Open
-                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={3} />
-                                </Button>
-                            </Link>
-                        </div>
-                    )}
+        <Link href={link} className="group block">
+            <div className="relative h-full overflow-hidden rounded-2xl border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5">
+                <div className="relative mb-6 grid aspect-[4/3] place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-primary/15 via-primary/5 to-transparent">
+                    <Image
+                        src={image}
+                        alt=""
+                        className="h-4/5 w-auto object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-2"
+                        width={250}
+                        height={250}
+                    />
                 </div>
-                {image && (
-                    <div className="w-full sm:w-auto">
-                        <Image
-                            src={image}
-                            alt="Promo Image"
-                            className="object-contain w-full h-auto sm:h-48 md:h-56 lg:h-64"
-                            width={250}
-                            height={250}
-                        />
+                <div className="flex items-end justify-between gap-4">
+                    <div>
+                        <h2 className="font-display text-2xl font-bold tracking-tight">{title}</h2>
+                        <p className="mt-1 text-muted-foreground">{description}</p>
                     </div>
-                )}
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full border bg-background transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
+                        <ArrowRight className="h-4 w-4" />
+                    </span>
+                </div>
             </div>
-        </div>
+        </Link>
     )
 }
 
 export default function DatabaseHomePage() {
-    return <>
+    return <main className="flex-1">
         <DatabaseTopbar />
 
-        <div className="pt-10 pb-2 px-5">
-            <h1 className="text-3xl font-bold tracking-tighter text-black lg:text-6xl/none text-center dark:text-white">
-                Database
-            </h1>
-            <br />
-            <p className="mx-auto max-w-[700px] text-black md:text-xl text-center dark:text-white">
-                Explore data & statistics collected by the game here!
-            </p>
-        </div>
+        <PageHeader eyebrow="Game Data" title="Database" description="Explore data & statistics collected by the game here!" />
 
-        <PromoCard
-            title="Units Database"
-            description="Discover all units here!"
-            image="/images/database/unit-card.png"
-            link="/database/units"
-        />
+        <div className="container mx-auto px-4 md:px-6 pb-20 space-y-6">
+            <div className="grid gap-6 md:grid-cols-3">
+                <PromoCard
+                    title="Units"
+                    description="Discover all units here!"
+                    image="/images/database/unit-card.png"
+                    link="/database/units"
+                />
+                <PromoCard
+                    title="Crates"
+                    description="Discover all crates here!"
+                    image="/images/database/crate-card.png"
+                    link="/database/crates"
+                />
+                <PromoCard
+                    title="Summons"
+                    description="Explore the currently available summons here!"
+                    image="/images/database/summon-card.png"
+                    link="/database/summons"
+                />
+            </div>
 
-        <PromoCard
-            title="Crates Database"
-            description="Discover all crates here!"
-            image="/images/database/crate-card.png"
-            link="/database/crates"
-        />
-
-        <PromoCard
-            title="Summons Database"
-            description="Explore the currently avalible summons here!"
-            image="/images/database/summon-card.png"
-            link="/database/summons"
-        />
-
-        <div className="w-full my-4 sm:my-5 px-5">
             <ItemExistsCard
                 type="Special"
                 id="Special"
 
-                cardClassName="w-full"
                 cardTitle="Total Exists Chart"
                 cardDescription="Showing the exists history of all items."
 
                 Chart={TotalExistsChart}
             />
         </div>
-
-        <div className="pb-5" />
-    </>;
+    </main>;
 }
