@@ -4,7 +4,7 @@ This is Toilet Tower Defense's Official Website built with Next.js!
 
 ## Local development
 
-Use Bun 1.4.2 and Node.js 22 or newer. Install dependencies using the committed text lockfile:
+Use Bun 1.4.4 and Node.js 22 or newer with current security patches. Install dependencies using the committed text lockfile:
 
 ```bash
 bun install --frozen-lockfile
@@ -56,7 +56,7 @@ bun audit
 
 Docker uses Next.js standalone output and the same pinned Bun version. Pass the environment variables above as build arguments and configure them again at runtime.
 
-Tailwind CSS and tailwind-merge stay on v3 and v2 respectively to preserve the existing styles. `bun audit` currently reports an unpatched, build-tool-only advisory in `braces`, GHSA-vfj7-8cjw-p6xm.
+Tailwind CSS and tailwind-merge stay on v3 and v2 respectively to preserve the existing styles. The `postcss-selector-parser` override keeps Tailwind's selector parsing on the patched v7 release line.
 
 ## Learn More
 
